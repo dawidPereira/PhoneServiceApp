@@ -9,7 +9,7 @@ namespace PhoneService.Domain
         public int CustomerAddresId { get; set; }
         public string City { get; set; }
         public string Adress { get; set; }
-        public PostalCode PostCode { get; set; }
+        public string PostCode { get; set; }
 
         public Customer Customer { get; set; }
 

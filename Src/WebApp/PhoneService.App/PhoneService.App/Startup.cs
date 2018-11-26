@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PhoneService.Persistance;
 
 namespace PhoneService.App
 {
@@ -31,8 +33,16 @@ namespace PhoneService.App
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDbContext<PhoneServiceDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("PhoneServiceDatabase")));
+            services.AddScoped<DbContext, PhoneServiceDbContext>();
+            services
+                .AddMvc();
+                //.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSingleton(_ => Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

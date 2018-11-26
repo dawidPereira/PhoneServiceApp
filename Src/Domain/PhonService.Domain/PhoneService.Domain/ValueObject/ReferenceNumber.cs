@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PhoneService.Domain
 {
-    public class ReferenceNumber
+    public class ReferenceNumber : ValueObject
     {
         public string ReferenceNum { get; set; }
     }

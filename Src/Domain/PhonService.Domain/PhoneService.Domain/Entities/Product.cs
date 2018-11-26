@@ -11,7 +11,7 @@ namespace PhoneService.Domain
         public string Model { get; set; }
         public string Description { get; set; }
 
-        public ICollection<SaparePart> SaparePart { get; set; }
+        public ICollection<ProductSaparePart> ProductSapareParts { get; set; }
 
     }
 }

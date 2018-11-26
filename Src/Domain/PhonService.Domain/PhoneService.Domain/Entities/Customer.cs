@@ -10,9 +10,9 @@ namespace PhoneService.Domain
         public string Name { get; set; }
         public string LastName { get; set; }
 
-        public EmailAddres Email { get; set; }
-        public PhoneNumber PhoneNum { get; set; }
-        public TaxNumber TaxNum { get; set; }
+        public string Email { get; set; }
+        public string PhoneNum { get; set; }
+        public string TaxNum { get; set; }
 
         public CustomerAddres Addres { get; set; }
 

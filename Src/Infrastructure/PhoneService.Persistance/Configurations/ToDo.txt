@@ -1,0 +1,1 @@
+﻿We need add validation configuration in this folder
