@@ -44,6 +44,8 @@ namespace PhoneService.Persistance
 
             SeedRepairs(context);
 
+            context.SaveChanges();
+
         }
 
         public void SeedCustomerAddres(PhoneServiceDbContext context)

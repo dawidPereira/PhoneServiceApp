@@ -11,9 +11,12 @@ namespace PhoneService.Persistance
 {
     public class PhoneServiceDbContext : DbContext
     {
+        
+
         public PhoneServiceDbContext(DbContextOptions<PhoneServiceDbContext> options)
             : base(options)
         {
+            
         }
 
         public DbSet<Customer> Customers { get; set; }
@@ -27,7 +30,13 @@ namespace PhoneService.Persistance
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+           
             modelBuilder.ApplyAllConfigurations();
+
+            //############################################
+            // Product - SaparePart Join Table Connection
+            //############################################
             modelBuilder.Entity<ProductSaparePart>()
                 .HasKey(p => new
                 {
@@ -38,19 +47,91 @@ namespace PhoneService.Persistance
                 .HasOne<Product>(p => p.Product)
                 .WithMany(psp => psp.ProductSapareParts)
                 .HasForeignKey(p => p.ProductId);
+
             modelBuilder.Entity<ProductSaparePart>()
                 .HasOne<SaparePart>(sp => sp.SaparePart)
                 .WithMany(psp => psp.ProductSapareParts)
                 .HasForeignKey(sp => sp.SaparePartId);
 
-            modelBuilder.Entity<SaparePartItem>()
-                .HasMany(c => c.SapareParts)
-                .WithOne(e => e.SaparePartItems);
+            //############################################
+            // Product - Repair Join Table Connection
+            //############################################
+            modelBuilder.Entity<RepairProduct>()
+                .HasKey(p => new
+                {
+                    p.RepairId,
+                    p.ProductId
+                });
+            modelBuilder.Entity<RepairProduct>()
+                .HasOne<Product>(p => p.Product)
+                .WithMany(rp => rp.RepairProducts)
+                .HasForeignKey(p => p.ProductId);
 
+            modelBuilder.Entity<RepairProduct>()
+                .HasOne<Repair>(r => r.Repair)
+                .WithMany(rp => rp.RepairProducts)
+                .HasForeignKey(r => r.RepairId);
+
+            //############################################
+            // Customer - Repair Join Table Connection
+            //############################################
+            modelBuilder.Entity<CustomerRepair>()
+                .HasKey(p => new
+                {
+                    p.RepairId,
+                    p.CustomerId
+                });
+            modelBuilder.Entity<CustomerRepair>()
+                .HasOne<Customer>(c => c.Customer)
+                .WithMany(cr => cr.CustomerRepairs)
+                .HasForeignKey(c => c.CustomerId);
+
+            modelBuilder.Entity<CustomerRepair>()
+                .HasOne<Repair>(r => r.Repair)
+                .WithMany(ce => ce.CustomerRepairs)
+                .HasForeignKey(r => r.RepairId);
+
+            //############################################
+            // SaparePart - SaparePartItem Join Table Connection
+            //############################################
+            modelBuilder.Entity<SaparePartSaparePartItem>()
+                .HasKey(p => new
+                {
+                    p.SaparePartId,
+                    p.SaparePartItemId
+                });
+            modelBuilder.Entity<SaparePartSaparePartItem>()
+                .HasOne<SaparePart>(sp => sp.SaparePart)
+                .WithMany(spspi => spspi.SaparePartSaparePartItems)
+                .HasForeignKey(sp => sp.SaparePartId);
+
+            modelBuilder.Entity<SaparePartSaparePartItem>()
+                .HasOne<SaparePartItem>(spi => spi.SaparePartItem)
+                .WithMany(spspi => spspi.SaparePartSaparePartItems)
+                .HasForeignKey(spi => spi.SaparePartItemId);
+
+            //############################################
+            // Customer - Customer Addres One To One
+            //############################################
             modelBuilder.Entity<Customer>()
                 .HasOne(c => c.Addres)
                 .WithOne(e => e.Customer)
                 .HasForeignKey<CustomerAddres>(cb => cb.CustomerAddresId);
+
+
+            //############################################
+            // Repair - RepairStatus Many To One
+            //############################################
+            modelBuilder.Entity<RepairStatus>()
+                .HasMany(r => r.Repairs)
+                .WithOne(rs => rs.RepairStatus);
+
+            //############################################
+            // Repair - RepairStatus Many To One
+            //############################################
+            modelBuilder.Entity<Repair>()
+                .HasMany(r => r.SaparePartItems)
+                .WithOne(rs => rs.Repair);
 
 
 
@@ -58,5 +139,5 @@ namespace PhoneService.Persistance
         }
 
 
-}
+    }
 }

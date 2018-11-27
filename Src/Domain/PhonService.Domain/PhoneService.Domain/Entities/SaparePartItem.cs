@@ -6,10 +6,11 @@ namespace PhoneService.Domain
 {
     public class SaparePartItem
     {
-        public int SaparePArtItemId { get; set; }
-        public SaparePart SeparePart { get; set; }
+        public int SaparePartItemId { get; set; }
         public int Quantity { get; set; }
 
-        public ICollection<SaparePart> SapareParts { get; set; }
+        public ICollection<SaparePartSaparePartItem> SaparePartSaparePartItems { get; set; }
+        public Repair Repair { get; set; }
+
     }
 }
