@@ -10,7 +10,7 @@ using PhoneService.Persistance;
 namespace PhoneService.Persistance.Migrations
 {
     [DbContext(typeof(PhoneServiceDbContext))]
-    [Migration("20181127081651_InitialCreate")]
+    [Migration("20181127132430_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,15 +45,22 @@ namespace PhoneService.Persistance.Migrations
 
             modelBuilder.Entity("PhoneService.Domain.CustomerAddres", b =>
                 {
-                    b.Property<int>("CustomerAddresId");
+                    b.Property<int>("CustomerAddresId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Adress");
 
                     b.Property<string>("City");
 
+                    b.Property<int>("CustomerId");
+
                     b.Property<string>("PostCode");
 
                     b.HasKey("CustomerAddresId");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
 
                     b.ToTable("CustomerAddres");
                 });
@@ -199,7 +206,7 @@ namespace PhoneService.Persistance.Migrations
                 {
                     b.HasOne("PhoneService.Domain.Customer", "Customer")
                         .WithOne("Addres")
-                        .HasForeignKey("PhoneService.Domain.CustomerAddres", "CustomerAddresId")
+                        .HasForeignKey("PhoneService.Domain.CustomerAddres", "CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

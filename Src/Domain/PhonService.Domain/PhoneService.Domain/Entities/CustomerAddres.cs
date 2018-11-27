@@ -11,6 +11,7 @@ namespace PhoneService.Domain
         public string Adress { get; set; }
         public string PostCode { get; set; }
 
+        public int CustomerId { get; set; }
         public Customer Customer { get; set; }
 
     }

@@ -116,7 +116,7 @@ namespace PhoneService.Persistance
             modelBuilder.Entity<Customer>()
                 .HasOne(c => c.Addres)
                 .WithOne(e => e.Customer)
-                .HasForeignKey<CustomerAddres>(cb => cb.CustomerAddresId);
+                .HasForeignKey<CustomerAddres>(cb => cb.CustomerId);
 
 
             //############################################

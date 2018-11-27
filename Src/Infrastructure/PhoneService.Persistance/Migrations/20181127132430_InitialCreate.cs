@@ -71,17 +71,19 @@ namespace PhoneService.Persistance.Migrations
                 name: "CustomerAddres",
                 columns: table => new
                 {
-                    CustomerAddresId = table.Column<int>(nullable: false),
+                    CustomerAddresId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     City = table.Column<string>(nullable: true),
                     Adress = table.Column<string>(nullable: true),
-                    PostCode = table.Column<string>(nullable: true)
+                    PostCode = table.Column<string>(nullable: true),
+                    CustomerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CustomerAddres", x => x.CustomerAddresId);
                     table.ForeignKey(
-                        name: "FK_CustomerAddres_Customers_CustomerAddresId",
-                        column: x => x.CustomerAddresId,
+                        name: "FK_CustomerAddres_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
@@ -229,6 +231,12 @@ namespace PhoneService.Persistance.Migrations
                         principalColumn: "SaparePartItemId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomerAddres_CustomerId",
+                table: "CustomerAddres",
+                column: "CustomerId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerRepair_CustomerId",

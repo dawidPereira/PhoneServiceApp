@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using PhoneService.Core;
 using PhoneService.Persistance;
 using System.Reflection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace PhoneService.App
 {
@@ -35,7 +37,9 @@ namespace PhoneService.App
                 options.UseSqlServer(Configuration.GetConnectionString("PhoneServiceDatabase")));
             services.AddScoped<DbContext, PhoneServiceDbContext>();
             services
-                .AddMvc();
+                .AddMvc()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerCommandValidator>());
+
 
             //.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

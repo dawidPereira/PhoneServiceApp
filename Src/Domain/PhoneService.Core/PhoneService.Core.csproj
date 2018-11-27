@@ -10,8 +10,4 @@
     <ProjectReference Include="..\..\Infrastructure\PhoneService.Persistance\PhoneService.Persistance.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Customer\Commands\" />
-  </ItemGroup>
-
 </Project>

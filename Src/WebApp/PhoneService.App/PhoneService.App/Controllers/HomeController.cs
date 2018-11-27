@@ -20,7 +20,12 @@ namespace PhoneService.App
         //}
         public async Task<ActionResult<CustomersListViewModel>> Index()
         {
-            return Ok(await Mediator.Send(new GetCustomersListQuery()));
+            return  Ok(await Mediator.Send(new GetCustomersListQuery()));
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]CreateCustomerCommand command)
+        {
+            return Ok(await Mediator.Send(command));
         }
 
         public IActionResult About()    
