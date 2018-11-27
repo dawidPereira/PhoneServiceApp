@@ -1,21 +1,29 @@
 ﻿using System;
+using System.Net;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PhoneService.App.Models;
+using PhoneService.Core;
 
-namespace PhoneService.App.Controllers
+namespace PhoneService.App
 {
-    public class HomeController : Controller
+
+    public class HomeController : BaseController
     {
-        public IActionResult Index()
+
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
+        public async Task<ActionResult<CustomersListViewModel>> Index()
         {
-            return View();
+            return Ok(await Mediator.Send(new GetCustomersListQuery()));
         }
 
-        public IActionResult About()
+        public IActionResult About()    
         {
             ViewData["Message"] = "Your application description page.";
 

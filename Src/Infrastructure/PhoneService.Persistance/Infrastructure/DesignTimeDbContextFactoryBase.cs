@@ -11,7 +11,6 @@ namespace PhoneService.Domain
     //########################################
     //TODO:
     //Learn more about this!!!
-    //Then fix it!!!
     //######################################
 
     public abstract class DesignTimeDbContextFactoryBase<TContext> :

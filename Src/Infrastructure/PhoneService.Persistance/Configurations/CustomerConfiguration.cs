@@ -19,7 +19,7 @@ namespace PhoneService.Persistance
         {
 
             builder.Property(e => e.CustomerId).HasColumnName("CustomerId");
-
+            
         }
     }
 }
