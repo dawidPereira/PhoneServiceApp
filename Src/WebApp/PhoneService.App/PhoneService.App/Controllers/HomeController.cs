@@ -6,26 +6,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PhoneService.App.Models;
-using PhoneService.Core;
+using PhoneService.Persistance;
+using System.Threading;
+using PhoneService.Core.Repository;
+using PhoneService.Domain.Repository.IUnitOfWork;
 
 namespace PhoneService.App
 {
 
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-        public async Task<ActionResult<CustomersListViewModel>> Index()
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            return  Ok(await Mediator.Send(new GetCustomersListQuery()));
+            _unitOfWork = unitOfWork;
         }
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreateCustomerCommand command)
+
+        public async Task<IActionResult> Index()
         {
-            return Ok(await Mediator.Send(command));
+
+            return Ok(await _unitOfWork.Customers.GetAllCustomersAsync());
         }
 
         public IActionResult About()    

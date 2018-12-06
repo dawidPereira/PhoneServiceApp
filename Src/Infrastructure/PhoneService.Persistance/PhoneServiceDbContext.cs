@@ -6,17 +6,17 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PhoneService.Persistance
 {
     public class PhoneServiceDbContext : DbContext
     {
-        
 
         public PhoneServiceDbContext(DbContextOptions<PhoneServiceDbContext> options)
             : base(options)
         {
-            
+
         }
 
         public DbSet<Customer> Customers { get; set; }
@@ -28,11 +28,18 @@ namespace PhoneService.Persistance
         public DbSet<SaparePartItem> SaparePartItems { get; set; }
         public DbSet<ProductSaparePart> ProductSapareParts { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // Set SQL Conenction
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=PhoneService;Trusted_Connection=True;Application Name=PhoneServiceDatabase;");
+            
+        }
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-           
             modelBuilder.ApplyAllConfigurations();
+
+            #region Setting entities relationships
 
             //############################################
             // Product - SaparePart Join Table Connection
@@ -132,7 +139,7 @@ namespace PhoneService.Persistance
             modelBuilder.Entity<Repair>()
                 .HasMany(r => r.SaparePartItems)
                 .WithOne(rs => rs.Repair);
-
+            #endregion
 
 
 

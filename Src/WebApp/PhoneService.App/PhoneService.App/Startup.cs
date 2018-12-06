@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PhoneService.Core;
 using PhoneService.Persistance;
 using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using PhoneService.Domain.Repository.IUnitOfWork;
+using PhoneService.Core.Repository.UnitOfWork;
 
 namespace PhoneService.App
 {
@@ -31,24 +32,22 @@ namespace PhoneService.App
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+
             });
 
-            services.AddDbContext<PhoneServiceDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("PhoneServiceDatabase")));
-            services.AddScoped<DbContext, PhoneServiceDbContext>();
             services
-                .AddMvc()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateCustomerCommandValidator>());
+                .AddDbContext<PhoneServiceDbContext>()
+                .AddDbContext<PhoneServiceDbContext>(options =>
+                    options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=PhoneService;Trusted_Connection=True;Application Name=PhoneServiceDatabase;", 
+                    b => b.MigrationsAssembly("PhoneService.App")
+                    ));
 
+            services
+                .AddMvc();
 
-            //.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            //Add MediatR
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
-            services.AddMediatR(typeof(GetCustomersListQueryHandler).GetTypeInfo().Assembly);
-
-
-
+            services
+                .AddTransient<IUnitOfWork, UnitOfWork>();
+                
             services.AddSingleton(_ => Configuration);
         }
 

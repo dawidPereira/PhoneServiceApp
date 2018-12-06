@@ -10,7 +10,7 @@ using PhoneService.Persistance;
 namespace PhoneService.Persistance.Migrations
 {
     [DbContext(typeof(PhoneServiceDbContext))]
-    [Migration("20181127132430_InitialCreate")]
+    [Migration("20181206163953_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
