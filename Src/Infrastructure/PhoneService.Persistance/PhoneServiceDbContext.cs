@@ -140,9 +140,6 @@ namespace PhoneService.Persistance
                 .HasMany(r => r.SaparePartItems)
                 .WithOne(rs => rs.Repair);
             #endregion
-
-
-
         }
 
 

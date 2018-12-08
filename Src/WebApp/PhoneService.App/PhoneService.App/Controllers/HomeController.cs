@@ -23,10 +23,16 @@ namespace PhoneService.App
             _unitOfWork = unitOfWork;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-
             return Ok(await _unitOfWork.Customers.GetAllCustomersAsync());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCustomerDetails(int id)
+        {
+            return Ok(await _unitOfWork.Customers.GetCustomerByIdAsync(id));
         }
 
         public IActionResult About()    
