@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using PhoneService.Core.Models;
+using PhoneService.Core.Models.Customer;
 using PhoneService.Domain;
 using PhoneService.Domain.Repository.IUnitOfWork;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,23 +21,41 @@ namespace PhoneService.Core.Services
         {
             var customers = await _unitOfWork.Customers.GetAllCustomersAsync();
 
-            if (customers == null)
+            if (!customers.Any())
                 throw new ArgumentNullException("Customer List is Empty");
-            var x = Mapper.Map<IEnumerable<CustomerResponse>>(customers);
-            return x;
+
+            var customersResponse = Mapper.Map<IEnumerable<CustomerResponse>>(customers);
+            return customersResponse;
         }
 
-        public async Task<CustomerDetailsResponse> GetCustomerByIdAsync()
+        public async Task<CustomerDetailsResponse> GetCustomerByIdAsync(int customerId)
         {
-            throw new NotImplementedException();
+            var customer = await _unitOfWork.Customers.GetCustomerByIdAsync(customerId);
+
+            if (customer == null)
+                throw new ArgumentNullException("Customr does not exist");
+
+            var customerResponse = Mapper.Map<CustomerDetailsResponse>(customer);
+            return customerResponse;
         }
 
-        public async Task AddCustomerAsync()
+        public async Task AddCustomerAsync(CustomerRequest customerRequest)
         {
-            throw new NotImplementedException();
+            if (customerRequest == null)
+                throw new ArgumentNullException("Customer can not be empty");
+
+            var customer = await _unitOfWork.Customers.GetCustomerByEmail(customerRequest.Email);
+
+            if (customer != null)
+                throw new ArgumentException("User with this email already exist");
+
+            var _customerRequest = Mapper.Map<Customer>(customerRequest);
+
+            _unitOfWork.Customers.AddCustomer(_customerRequest);
+            await _unitOfWork.CompleteAsync();
         }
 
-        public async Task UpdateCustomerAsync()
+        public async Task UpdateCustomerAsync(CustomerRequest customerRequest)
         {
             throw new NotImplementedException();
         }

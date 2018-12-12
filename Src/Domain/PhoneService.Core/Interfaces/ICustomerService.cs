@@ -1,4 +1,5 @@
 ﻿using PhoneService.Core.Models;
+using PhoneService.Core.Models.Customer;
 using PhoneService.Domain;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,11 @@ namespace PhoneService.Core.Services
     {
         Task<IEnumerable<CustomerResponse>> GetAllCustomersAsync();
 
-        Task<CustomerDetailsResponse> GetCustomerByIdAsync();
+        Task<CustomerDetailsResponse> GetCustomerByIdAsync(int customerId);
 
-        Task AddCustomerAsync();
+        Task AddCustomerAsync(CustomerRequest customerRequest);
 
-        Task UpdateCustomerAsync();
+        Task UpdateCustomerAsync(CustomerRequest customerRequest);
 
         Task RemoveCustomerAsync();
 

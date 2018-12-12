@@ -29,7 +29,7 @@ namespace PhoneService.App
             return Ok(await _unitOfWork.Customers.GetAllCustomersAsync());
         }
 
-        [HttpGet]
+        [HttpGet("Customer/{id}")]
         public async Task<IActionResult> GetCustomerDetails(int id)
         {
             return Ok(await _unitOfWork.Customers.GetCustomerByIdAsync(id));

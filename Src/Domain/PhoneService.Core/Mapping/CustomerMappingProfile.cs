@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PhoneService.Core.Models;
+using PhoneService.Core.Models.Customer;
 using PhoneService.Domain;
 using System;
 using System.Collections.Generic;
@@ -26,16 +27,22 @@ namespace PhoneService.Core.Mapping
                 });
 
             CreateMap<Customer, CustomerResponse>();
-                //.ConvertUsing(x => new CustomerResponse
-                //{
-                //    CustomerId = x.CustomerId,
-                //    Name = x.Name,
-                //    LastName = x.LastName,
-                //    Email = x.Email,
-                //    TaxNum = x.TaxNum,
-                //    PhoneNum = x.PhoneNum
-                //});
 
+            CreateMap<CustomerRequest, Customer>()
+                .ConvertUsing(x => new Customer
+                {
+                    Name = x.Name,
+                    LastName = x.LastName,
+                    Email = x.Email,
+                    TaxNum = x.TaxNum,
+                    PhoneNum = x.PhoneNum,
+                    Addres = new CustomerAddres()
+                    {
+                        City = x.City,
+                        Adress = x.Adress,
+                        PostCode = x.PostCode
+                    }
+                });
         }
     }
 }

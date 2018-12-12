@@ -11,6 +11,10 @@ namespace PhoneService.Domain.Repository
 
         Task<Customer> GetCustomerByIdAsync(int customerId);
 
+        Task<Customer> GetCustomerByCustomerObject(Customer customer);
+
+        Task<Customer> GetCustomerByEmail(string email);
+
         void AddCustomer(Customer customer);
 
         void RemoveCustomer(Customer customer);

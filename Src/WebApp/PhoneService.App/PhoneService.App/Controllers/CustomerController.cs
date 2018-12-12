@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PhoneService.Core.Models.Customer;
 using PhoneService.Core.Services;
 
 namespace PhoneService.App.Controllers
@@ -19,6 +20,14 @@ namespace PhoneService.App.Controllers
         public async Task<IActionResult> Index()
         {
             return Ok(await _customerService.GetAllCustomersAsync());
+        }
+
+        [HttpPost]
+        [Route("[Controller]/Add")]
+        public async Task<IActionResult> Post([FromBody]CustomerRequest customerRequest)
+        {
+            await _customerService.AddCustomerAsync(customerRequest);
+            return Ok();
         }
     }
 }
