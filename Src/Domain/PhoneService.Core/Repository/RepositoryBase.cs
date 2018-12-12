@@ -34,21 +34,9 @@ namespace PhoneService.Core.Repository
             this.context.Set<T>().Add(entity);
         }
 
-        public void Update(T entity)
-        {
-            this.context.Set<T>().Update(entity);
-        }
-
         public void Delete(T entity)
         {
             this.context.Set<T>().Remove(entity);
         }
-
-        public async Task SaveAsync()
-        {
-            await this.context.SaveChangesAsync();
-        }
-
-  
     }
 }

@@ -10,26 +10,30 @@ using System.Threading.Tasks;
 
 namespace PhoneService.Core.Repository
 {
-    public class CustomerRepository : RepositoryBase<Customer>, ICustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
-        public CustomerRepository(PhoneServiceDbContext context)
-        : base(context)
-        {
-        }
+        protected readonly PhoneServiceDbContext _context;
+
+        public CustomerRepository(PhoneServiceDbContext context) => _context = context;
+
 
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
         {
-            var customers = await FindAllAsync();
+            var customers = await _context.Set<Customer>().ToListAsync();
             return customers;
         }
 
-        public async Task<Customer> GetCustomerByIdAsync(int id)
+        public async Task<Customer> GetCustomerByIdAsync(int customerId)
         {
-            var customer = await context.Customers
+            var customer = await _context.Set<Customer>()
                             .Include(c => c.Addres)
-                            .Where(c => c.CustomerId == id)
+                            .Where(c => c.CustomerId == customerId)
                             .FirstOrDefaultAsync();
             return customer;
         }
+
+        public void AddCustomer(Customer customer) => _context.Add(customer);
+
+        public void RemoveCustomer(Customer customer) => _context.Remove(customer);
     }
 }

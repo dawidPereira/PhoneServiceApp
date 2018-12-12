@@ -20,7 +20,7 @@ namespace PhoneService.Core.Repository.UnitOfWork
         
         public ICustomerRepository Customers { get; private set; }
 
-        public async Task<bool> Complete()
+        public async Task<bool> CompleteAsync()
         {
             await _context.SaveChangesAsync();
             return true;

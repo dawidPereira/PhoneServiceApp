@@ -8,6 +8,11 @@ namespace PhoneService.Domain.Repository
     public interface ICustomerRepository
     {
         Task<IEnumerable<Customer>> GetAllCustomersAsync();
-        Task<Customer> GetCustomerByIdAsync(int id);
+
+        Task<Customer> GetCustomerByIdAsync(int customerId);
+
+        void AddCustomer(Customer customer);
+
+        void RemoveCustomer(Customer customer);
     }
 }

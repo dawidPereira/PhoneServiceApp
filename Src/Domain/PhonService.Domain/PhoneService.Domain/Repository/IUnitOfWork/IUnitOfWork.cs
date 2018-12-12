@@ -8,6 +8,6 @@ namespace PhoneService.Domain.Repository.IUnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         ICustomerRepository Customers { get; }
-        Task<bool> Complete();
+        Task<bool> CompleteAsync();
     }
 }

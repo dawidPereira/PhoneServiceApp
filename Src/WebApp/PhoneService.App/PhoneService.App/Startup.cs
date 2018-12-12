@@ -12,6 +12,11 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using PhoneService.Domain.Repository.IUnitOfWork;
 using PhoneService.Core.Repository.UnitOfWork;
+using AutoMapper;
+using PhoneService.Core.Services;
+using PhoneService.Domain.Repository;
+using PhoneService.Core.Mapping;
+using PhoneService.Core.Repository;
 
 namespace PhoneService.App
 {
@@ -46,9 +51,18 @@ namespace PhoneService.App
                 .AddMvc();
 
             services
-                .AddTransient<IUnitOfWork, UnitOfWork>();
-                
+                .AddTransient<IUnitOfWork, UnitOfWork>()
+                .AddTransient<ICustomerRepository, CustomerRepository>();
+               
+            services
+                .AddScoped<ICustomerService, CustomerService>();
+
+
             services.AddSingleton(_ => Configuration);
+
+            services.AddAutoMapper(
+                opt => opt.CreateMissingTypeMaps = true,
+                Assembly.GetEntryAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +81,13 @@ namespace PhoneService.App
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<CustomerMappingProfile>();
+            });
+
+            Mapper.Configuration.AssertConfigurationIsValid();
 
 
             app.UseMvc(routes =>
