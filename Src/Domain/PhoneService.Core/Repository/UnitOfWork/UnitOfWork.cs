@@ -15,10 +15,12 @@ namespace PhoneService.Core.Repository.UnitOfWork
         {
             this._context = context;
             Customers = new CustomerRepository(_context);
+            SapareParts = new SaparePartRepository(_context);
             //TODO: Add rest repo connection
         }
         
         public ICustomerRepository Customers { get; private set; }
+        public ISaparePartRepository SapareParts { get; private set; }
 
         public async Task<bool> CompleteAsync()
         {

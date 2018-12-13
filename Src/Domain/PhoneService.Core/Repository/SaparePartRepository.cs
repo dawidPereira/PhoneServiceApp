@@ -1,0 +1,47 @@
+﻿using Microsoft.EntityFrameworkCore;
+using PhoneService.Domain;
+using PhoneService.Domain.Repository;
+using PhoneService.Persistance;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PhoneService.Core.Repository
+{
+    public class SaparePartRepository : ISaparePartRepository
+    {
+        protected readonly PhoneServiceDbContext _context;
+
+        public SaparePartRepository(PhoneServiceDbContext context) => _context = context;
+
+        public async Task<IEnumerable<SaparePart>> GetAllSaparePartByProductIdAsync(int productId)
+        {
+            var sapareParts = await _context.Set<SaparePart>()
+                                .Include(c => c.ProductSapareParts)
+                                .Where(c => c.ProductSapareParts.Any(x => x.ProductId == productId))
+                                .ToListAsync();
+
+            return sapareParts;
+        }
+
+        public async Task<SaparePart> GetSaparePartByIdAsync(int saparePartId)
+        {
+            var saparePart = await _context.Set<SaparePart>()
+                                .Where(c => c.SaparePartId == saparePartId)
+                                .FirstOrDefaultAsync();
+
+            return saparePart;
+        }
+        public void AddSaparePart(SaparePart saparePart)
+        {
+            _context.SapareParts.Add(saparePart);
+        }
+
+        public void RemoveSaparePart(SaparePart saparePart)
+        {
+            _context.SapareParts.Remove(saparePart);
+        }
+    }
+}

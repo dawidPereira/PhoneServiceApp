@@ -8,32 +8,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PhoneService.Infrastructure.Common;
 
 namespace PhoneService.Core.Services
 {
     public class CustomerService : ICustomerService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly NullCheckMethod _nullCheckMethod;
 
-        public CustomerService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        public CustomerService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod)
+        {
+            _unitOfWork = unitOfWork;
+            _nullCheckMethod = nullCheckMethod;
+        }
 
         public async Task<IEnumerable<CustomerResponse>> GetAllCustomersAsync()
         {
             var customers = await _unitOfWork.Customers.GetAllCustomersAsync();
 
-            if (!customers.Any())
-                throw new ArgumentNullException("Customer List is Empty");
+            _nullCheckMethod.CheckIfResponseListIsEmpty(customers);
 
             var customersResponse = Mapper.Map<IEnumerable<CustomerResponse>>(customers);
             return customersResponse;
         }
-
+        
         public async Task<CustomerDetailsResponse> GetCustomerByIdAsync(int customerId)
         {
+            _nullCheckMethod.CheckIfRequestIsNull(customerId);
+
             var customer = await _unitOfWork.Customers.GetCustomerByIdAsync(customerId);
 
-            if (customer == null)
-                throw new ArgumentNullException("Customr does not exist");
+            _nullCheckMethod.CheckIfResponseIsNull(customer);
 
             var customerResponse = Mapper.Map<CustomerDetailsResponse>(customer);
             return customerResponse;
@@ -41,13 +47,11 @@ namespace PhoneService.Core.Services
 
         public async Task AddCustomerAsync(CustomerRequest customerRequest)
         {
-            if (customerRequest == null)
-                throw new ArgumentNullException("Customer can not be empty");
+            _nullCheckMethod.CheckIfRequestIsNull(customerRequest);
 
             var customer = await _unitOfWork.Customers.GetCustomerByEmail(customerRequest.Email);
 
-            if (customer != null)
-                throw new ArgumentException("User with this email already exist");
+            _nullCheckMethod.CheckIfResponseIsNull(customer);
 
             var _customerRequest = Mapper.Map<Customer>(customerRequest);
 
@@ -59,26 +63,23 @@ namespace PhoneService.Core.Services
 
         public async Task UpdateCustomerAsync(CustomerRequest customerRequest)
         {
-            if (customerRequest == null)
-                throw new ArgumentNullException("Customer can not be empty");
+            _nullCheckMethod.CheckIfRequestIsNull(customerRequest);
 
             var customer = await _unitOfWork.Customers.GetCustomerByEmail(customerRequest.Email);
 
-            if (customer == null)
-                throw new KeyNotFoundException("User does not exist");
+            _nullCheckMethod.CheckIfResponseIsNull(customer);
 
-            Mapper.Map<Customer>(customerRequest);
+            Mapper.Map(customerRequest, customer);
             await _unitOfWork.CompleteAsync();
         }
 
         public async Task RemoveCustomerAsync(int customerId)
         {
-            if (customerId == null)
-                throw new ArgumentNullException("Id can not be empty");
+            _nullCheckMethod.CheckIfRequestIsNull(customerId);
+
             var customer = await _unitOfWork.Customers.GetCustomerByIdAsync(customerId);
 
-            if (customer == null)
-                throw new KeyNotFoundException("This customer does not exist");
+            _nullCheckMethod.CheckIfResponseIsNull(customer);
 
             _unitOfWork.Customers.RemoveCustomer(customer);
             await _unitOfWork.CompleteAsync();

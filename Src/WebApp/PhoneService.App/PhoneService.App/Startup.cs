@@ -52,8 +52,9 @@ namespace PhoneService.App
 
             services
                 .AddTransient<IUnitOfWork, UnitOfWork>()
-                .AddTransient<ICustomerRepository, CustomerRepository>();
-               
+                .AddTransient<ICustomerRepository, CustomerRepository>()
+                .AddTransient<ISaparePartRepository, SaparePartRepository>();
+
             services
                 .AddScoped<ICustomerService, CustomerService>();
 
@@ -85,6 +86,7 @@ namespace PhoneService.App
             Mapper.Initialize(x =>
             {
                 x.AddProfile<CustomerMappingProfile>();
+                x.AddProfile<SaparePartMappingProfile>();
             });
 
             Mapper.Configuration.AssertConfigurationIsValid();
