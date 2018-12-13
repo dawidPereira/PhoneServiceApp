@@ -9,6 +9,7 @@ namespace PhoneService.Domain.Repository.IUnitOfWork
     {
         ICustomerRepository Customers { get; }
         ISaparePartRepository SapareParts { get; }
+        IProductRepository Products { get; }
         Task<bool> CompleteAsync();
     }
 }

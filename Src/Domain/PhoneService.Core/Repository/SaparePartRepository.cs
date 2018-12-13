@@ -29,8 +29,7 @@ namespace PhoneService.Core.Repository
         public async Task<SaparePart> GetSaparePartByIdAsync(int saparePartId)
         {
             var saparePart = await _context.Set<SaparePart>()
-                                .Where(c => c.SaparePartId == saparePartId)
-                                .FirstOrDefaultAsync();
+                                .FirstOrDefaultAsync(c => c.SaparePartId == saparePartId);
 
             return saparePart;
         }
