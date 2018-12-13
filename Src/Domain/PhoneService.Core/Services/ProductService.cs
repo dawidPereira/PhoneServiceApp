@@ -24,7 +24,7 @@ namespace PhoneService.Core.Services
 
         public async Task<IEnumerable<ProductResponse>> GetAllProductAsync()
         {
-             var products = await _unitOfWork.Products.GetAllCProductsAsync();
+             var products = await _unitOfWork.Products.GetAllProductsAsync();
 
             _nullCheckMethod.CheckIfResponseListIsEmpty(products);
 

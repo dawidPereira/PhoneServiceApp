@@ -16,7 +16,7 @@ namespace PhoneService.Core.Repository
 
         public ProductRepository(PhoneServiceDbContext context) => _context = context;
 
-        public async Task<IEnumerable<Product>> GetAllCProductsAsync()
+        public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             var products = await _context.Set<Product>().ToListAsync();
             return products;
