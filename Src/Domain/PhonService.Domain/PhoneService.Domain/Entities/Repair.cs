@@ -8,12 +8,16 @@ namespace PhoneService.Domain
     {
         public int RepairId { get; set; }
         public string Description { get; set; }
+
         public RepairStatus RepairStatus { get; set; }
+        public int RepairStatusId { get; set; }
+
         public Customer Customer { get; set; }
+        public int CustomerId { get; set; }
 
+        public Product Product { get; set; }
+        public int ProductId { get; set; }
 
-        public ICollection<CustomerRepair> CustomerRepairs { get; set; }
-        public ICollection<RepairProduct> RepairProducts { get; set; }
         public ICollection<SaparePartItem> SaparePartItems { get; set; }
 
 
