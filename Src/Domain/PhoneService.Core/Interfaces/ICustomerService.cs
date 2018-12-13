@@ -18,7 +18,7 @@ namespace PhoneService.Core.Services
 
         Task UpdateCustomerAsync(CustomerRequest customerRequest);
 
-        Task RemoveCustomerAsync();
+        Task RemoveCustomerAsync(int customerId);
 
     }
 }

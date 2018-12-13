@@ -53,16 +53,35 @@ namespace PhoneService.Core.Services
 
             _unitOfWork.Customers.AddCustomer(_customerRequest);
             await _unitOfWork.CompleteAsync();
+
+            //TODO: Run IEmailService and notifi user
         }
 
         public async Task UpdateCustomerAsync(CustomerRequest customerRequest)
         {
-            throw new NotImplementedException();
+            if (customerRequest == null)
+                throw new ArgumentNullException("Customer can not be empty");
+
+            var customer = await _unitOfWork.Customers.GetCustomerByEmail(customerRequest.Email);
+
+            if (customer == null)
+                throw new KeyNotFoundException("User does not exist");
+
+            Mapper.Map<Customer>(customerRequest);
+            await _unitOfWork.CompleteAsync();
         }
 
-        public async Task RemoveCustomerAsync()
+        public async Task RemoveCustomerAsync(int customerId)
         {
-            throw new NotImplementedException();
+            if (customerId == null)
+                throw new ArgumentNullException("Id can not be empty");
+            var customer = await _unitOfWork.Customers.GetCustomerByIdAsync(customerId);
+
+            if (customer == null)
+                throw new KeyNotFoundException("This customer does not exist");
+
+            _unitOfWork.Customers.RemoveCustomer(customer);
+            await _unitOfWork.CompleteAsync();
         }
     }
 }
