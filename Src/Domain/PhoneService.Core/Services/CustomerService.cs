@@ -49,7 +49,7 @@ namespace PhoneService.Core.Services
         {
             _nullCheckMethod.CheckIfRequestIsNull(customerRequest);
 
-            var customer = await _unitOfWork.Customers.GetCustomerByEmail(customerRequest.Email);
+            var customer = await _unitOfWork.Customers.GetCustomerByEmailAsync(customerRequest.Email);
 
             _nullCheckMethod.CheckIfResponseIsNull(customer);
 
@@ -65,7 +65,7 @@ namespace PhoneService.Core.Services
         {
             _nullCheckMethod.CheckIfRequestIsNull(customerRequest);
 
-            var customer = await _unitOfWork.Customers.GetCustomerByEmail(customerRequest.Email);
+            var customer = await _unitOfWork.Customers.GetCustomerByEmailAsync(customerRequest.Email);
 
             _nullCheckMethod.CheckIfResponseIsNull(customer);
 

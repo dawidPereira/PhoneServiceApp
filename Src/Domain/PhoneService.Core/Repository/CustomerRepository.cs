@@ -27,12 +27,12 @@ namespace PhoneService.Core.Repository
         {
             var customer = await _context.Set<Customer>()
                             .Include(c => c.Addres)
-                            .Where(c => c.CustomerId == customerId)
-                            .FirstOrDefaultAsync();
+                            .FirstOrDefaultAsync(c => c.CustomerId == customerId);
 
             return customer;
         }
 
+        //Dont look at this method ;)
         public async Task<Customer> GetCustomerByCustomerObject(Customer customer)
         {
             var _customer = await _context.Set<Customer>()
@@ -50,15 +50,13 @@ namespace PhoneService.Core.Repository
             return _customer;
         }
 
-        public async Task<Customer> GetCustomerByEmail(string email)
+        public async Task<Customer> GetCustomerByEmailAsync(string email)
         {
             var customer = await _context.Set<Customer>()
-                .Where(c => c.Email == email)
-                .FirstAsync();
+                .FirstAsync(c => c.Email == email);
 
             return customer;
         }
-
 
         public void AddCustomer(Customer customer) => _context.Add(customer);
 

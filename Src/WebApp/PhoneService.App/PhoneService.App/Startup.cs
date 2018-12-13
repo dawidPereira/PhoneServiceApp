@@ -17,6 +17,7 @@ using PhoneService.Core.Services;
 using PhoneService.Domain.Repository;
 using PhoneService.Core.Mapping;
 using PhoneService.Core.Repository;
+using PhoneService.Core.Interfaces;
 
 namespace PhoneService.App
 {
@@ -53,10 +54,14 @@ namespace PhoneService.App
             services
                 .AddTransient<IUnitOfWork, UnitOfWork>()
                 .AddTransient<ICustomerRepository, CustomerRepository>()
-                .AddTransient<ISaparePartRepository, SaparePartRepository>();
+                .AddTransient<ISaparePartRepository, SaparePartRepository>()
+                .AddTransient<IProductRepository, ProductRepository>();
+
 
             services
-                .AddScoped<ICustomerService, CustomerService>();
+                .AddScoped<ICustomerService, CustomerService>()
+                .AddScoped<ISaparePartService, SaparePartService>()
+                .AddScoped<IProductService, ProductService>();
 
 
             services.AddSingleton(_ => Configuration);
@@ -87,6 +92,7 @@ namespace PhoneService.App
             {
                 x.AddProfile<CustomerMappingProfile>();
                 x.AddProfile<SaparePartMappingProfile>();
+                x.AddProfile<ProductMappingProfile>();
             });
 
             Mapper.Configuration.AssertConfigurationIsValid();

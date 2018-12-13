@@ -1,9 +1,6 @@
 ﻿using PhoneService.Core.Models;
 using PhoneService.Core.Models.Customer;
-using PhoneService.Domain;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PhoneService.Core.Services

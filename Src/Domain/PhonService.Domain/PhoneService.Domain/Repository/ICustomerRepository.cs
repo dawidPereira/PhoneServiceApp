@@ -13,7 +13,7 @@ namespace PhoneService.Domain.Repository
 
         Task<Customer> GetCustomerByCustomerObject(Customer customer);
 
-        Task<Customer> GetCustomerByEmail(string email);
+        Task<Customer> GetCustomerByEmailAsync(string email);
 
         void AddCustomer(Customer customer);
 
