@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PhoneService.Persistance.Migrations
+namespace PhoneService.App.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class RebuildDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -96,8 +96,9 @@ namespace PhoneService.Persistance.Migrations
                     RepairId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
-                    RepairStatusId = table.Column<int>(nullable: true),
-                    CustomerId = table.Column<int>(nullable: true)
+                    RepairStatusId = table.Column<int>(nullable: false),
+                    CustomerId = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -107,13 +108,19 @@ namespace PhoneService.Persistance.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Repairs_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Repairs_RepairStatuses_RepairStatusId",
                         column: x => x.RepairStatusId,
                         principalTable: "RepairStatuses",
                         principalColumn: "RepairStatusId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -141,94 +148,29 @@ namespace PhoneService.Persistance.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomerRepair",
-                columns: table => new
-                {
-                    CustomerId = table.Column<int>(nullable: false),
-                    RepairId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomerRepair", x => new { x.RepairId, x.CustomerId });
-                    table.ForeignKey(
-                        name: "FK_CustomerRepair_Customers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CustomerRepair_Repairs_RepairId",
-                        column: x => x.RepairId,
-                        principalTable: "Repairs",
-                        principalColumn: "RepairId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RepairProduct",
-                columns: table => new
-                {
-                    ProductId = table.Column<int>(nullable: false),
-                    RepairId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RepairProduct", x => new { x.RepairId, x.ProductId });
-                    table.ForeignKey(
-                        name: "FK_RepairProduct_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_RepairProduct_Repairs_RepairId",
-                        column: x => x.RepairId,
-                        principalTable: "Repairs",
-                        principalColumn: "RepairId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SaparePartItems",
                 columns: table => new
                 {
-                    SaparePartItemId = table.Column<int>(nullable: false)
+                    RepairItemId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Quantity = table.Column<int>(nullable: false),
+                    SaparePartId = table.Column<int>(nullable: false),
                     RepairId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SaparePartItems", x => x.SaparePartItemId);
+                    table.PrimaryKey("PK_SaparePartItems", x => x.RepairItemId);
                     table.ForeignKey(
                         name: "FK_SaparePartItems_Repairs_RepairId",
                         column: x => x.RepairId,
                         principalTable: "Repairs",
                         principalColumn: "RepairId",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SaparePartSaparePartItem",
-                columns: table => new
-                {
-                    SaparePartItemId = table.Column<int>(nullable: false),
-                    SaparePartId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SaparePartSaparePartItem", x => new { x.SaparePartId, x.SaparePartItemId });
                     table.ForeignKey(
-                        name: "FK_SaparePartSaparePartItem_SapareParts_SaparePartId",
+                        name: "FK_SaparePartItems_SapareParts_SaparePartId",
                         column: x => x.SaparePartId,
                         principalTable: "SapareParts",
                         principalColumn: "SaparePartId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SaparePartSaparePartItem_SaparePartItems_SaparePartItemId",
-                        column: x => x.SaparePartItemId,
-                        principalTable: "SaparePartItems",
-                        principalColumn: "SaparePartItemId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -239,24 +181,19 @@ namespace PhoneService.Persistance.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerRepair_CustomerId",
-                table: "CustomerRepair",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductSapareParts_SaparePartId",
                 table: "ProductSapareParts",
                 column: "SaparePartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RepairProduct_ProductId",
-                table: "RepairProduct",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Repairs_CustomerId",
                 table: "Repairs",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Repairs_ProductId",
+                table: "Repairs",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Repairs_RepairStatusId",
@@ -269,9 +206,9 @@ namespace PhoneService.Persistance.Migrations
                 column: "RepairId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SaparePartSaparePartItem_SaparePartItemId",
-                table: "SaparePartSaparePartItem",
-                column: "SaparePartItemId");
+                name: "IX_SaparePartItems_SaparePartId",
+                table: "SaparePartItems",
+                column: "SaparePartId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -280,22 +217,7 @@ namespace PhoneService.Persistance.Migrations
                 name: "CustomerAddres");
 
             migrationBuilder.DropTable(
-                name: "CustomerRepair");
-
-            migrationBuilder.DropTable(
                 name: "ProductSapareParts");
-
-            migrationBuilder.DropTable(
-                name: "RepairProduct");
-
-            migrationBuilder.DropTable(
-                name: "SaparePartSaparePartItem");
-
-            migrationBuilder.DropTable(
-                name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "SapareParts");
 
             migrationBuilder.DropTable(
                 name: "SaparePartItems");
@@ -304,7 +226,13 @@ namespace PhoneService.Persistance.Migrations
                 name: "Repairs");
 
             migrationBuilder.DropTable(
+                name: "SapareParts");
+
+            migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "RepairStatuses");

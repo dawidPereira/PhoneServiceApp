@@ -41,7 +41,6 @@ namespace PhoneService.App
             });
 
             services
-                .AddDbContext<PhoneServiceDbContext>()
                 .AddDbContext<PhoneServiceDbContext>(options =>
                     options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=PhoneService;Trusted_Connection=True;Application Name=PhoneServiceDatabase;", 
                     b => b.MigrationsAssembly("PhoneService.App")

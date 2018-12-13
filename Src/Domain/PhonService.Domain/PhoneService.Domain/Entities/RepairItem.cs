@@ -4,12 +4,14 @@ using System.Text;
 
 namespace PhoneService.Domain
 {
-    public class SaparePartItem
+    public class RepairItem
     {
-        public int SaparePartItemId { get; set; }
+        public int RepairItemId { get; set; }
         public int Quantity { get; set; }
 
-        public ICollection<SaparePartSaparePartItem> SaparePartSaparePartItems { get; set; }
+        public SaparePart SaparePart { get; set; }
+        public int SaparePartId { get; set; }
+
         public Repair Repair { get; set; }
 
     }

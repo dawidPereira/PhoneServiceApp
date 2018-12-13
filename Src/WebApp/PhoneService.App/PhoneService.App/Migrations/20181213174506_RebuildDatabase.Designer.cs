@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhoneService.Persistance;
 
-namespace PhoneService.Persistance.Migrations
+namespace PhoneService.App.Migrations
 {
     [DbContext(typeof(PhoneServiceDbContext))]
-    partial class PhoneServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181213174506_RebuildDatabase")]
+    partial class RebuildDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,19 +65,6 @@ namespace PhoneService.Persistance.Migrations
                     b.ToTable("CustomerAddres");
                 });
 
-            modelBuilder.Entity("PhoneService.Domain.CustomerRepair", b =>
-                {
-                    b.Property<int>("RepairId");
-
-                    b.Property<int>("CustomerId");
-
-                    b.HasKey("RepairId", "CustomerId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("CustomerRepair");
-                });
-
             modelBuilder.Entity("PhoneService.Domain.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -112,32 +101,44 @@ namespace PhoneService.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CustomerId");
+                    b.Property<int>("CustomerId");
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("RepairStatusId");
+                    b.Property<int>("ProductId");
+
+                    b.Property<int>("RepairStatusId");
 
                     b.HasKey("RepairId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("RepairStatusId");
 
                     b.ToTable("Repairs");
                 });
 
-            modelBuilder.Entity("PhoneService.Domain.RepairProduct", b =>
+            modelBuilder.Entity("PhoneService.Domain.RepairItem", b =>
                 {
-                    b.Property<int>("RepairId");
+                    b.Property<int>("RepairItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ProductId");
+                    b.Property<int>("Quantity");
 
-                    b.HasKey("RepairId", "ProductId");
+                    b.Property<int?>("RepairId");
 
-                    b.HasIndex("ProductId");
+                    b.Property<int>("SaparePartId");
 
-                    b.ToTable("RepairProduct");
+                    b.HasKey("RepairItemId");
+
+                    b.HasIndex("RepairId");
+
+                    b.HasIndex("SaparePartId");
+
+                    b.ToTable("SaparePartItems");
                 });
 
             modelBuilder.Entity("PhoneService.Domain.RepairStatus", b =>
@@ -170,54 +171,11 @@ namespace PhoneService.Persistance.Migrations
                     b.ToTable("SapareParts");
                 });
 
-            modelBuilder.Entity("PhoneService.Domain.SaparePartItem", b =>
-                {
-                    b.Property<int>("SaparePartItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Quantity");
-
-                    b.Property<int?>("RepairId");
-
-                    b.HasKey("SaparePartItemId");
-
-                    b.HasIndex("RepairId");
-
-                    b.ToTable("SaparePartItems");
-                });
-
-            modelBuilder.Entity("PhoneService.Domain.SaparePartSaparePartItem", b =>
-                {
-                    b.Property<int>("SaparePartId");
-
-                    b.Property<int>("SaparePartItemId");
-
-                    b.HasKey("SaparePartId", "SaparePartItemId");
-
-                    b.HasIndex("SaparePartItemId");
-
-                    b.ToTable("SaparePartSaparePartItem");
-                });
-
             modelBuilder.Entity("PhoneService.Domain.CustomerAddres", b =>
                 {
                     b.HasOne("PhoneService.Domain.Customer", "Customer")
                         .WithOne("Addres")
                         .HasForeignKey("PhoneService.Domain.CustomerAddres", "CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PhoneService.Domain.CustomerRepair", b =>
-                {
-                    b.HasOne("PhoneService.Domain.Customer", "Customer")
-                        .WithMany("CustomerRepairs")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("PhoneService.Domain.Repair", "Repair")
-                        .WithMany("CustomerRepairs")
-                        .HasForeignKey("RepairId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -237,44 +195,30 @@ namespace PhoneService.Persistance.Migrations
             modelBuilder.Entity("PhoneService.Domain.Repair", b =>
                 {
                     b.HasOne("PhoneService.Domain.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
-
-                    b.HasOne("PhoneService.Domain.RepairStatus", "RepairStatus")
                         .WithMany("Repairs")
-                        .HasForeignKey("RepairStatusId");
-                });
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity("PhoneService.Domain.RepairProduct", b =>
-                {
                     b.HasOne("PhoneService.Domain.Product", "Product")
-                        .WithMany("RepairProducts")
+                        .WithMany("Repairs")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("PhoneService.Domain.Repair", "Repair")
-                        .WithMany("RepairProducts")
-                        .HasForeignKey("RepairId")
+                    b.HasOne("PhoneService.Domain.RepairStatus", "RepairStatus")
+                        .WithMany("Repairs")
+                        .HasForeignKey("RepairStatusId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("PhoneService.Domain.SaparePartItem", b =>
+            modelBuilder.Entity("PhoneService.Domain.RepairItem", b =>
                 {
                     b.HasOne("PhoneService.Domain.Repair", "Repair")
-                        .WithMany("SaparePartItems")
+                        .WithMany("RepairItems")
                         .HasForeignKey("RepairId");
-                });
 
-            modelBuilder.Entity("PhoneService.Domain.SaparePartSaparePartItem", b =>
-                {
                     b.HasOne("PhoneService.Domain.SaparePart", "SaparePart")
-                        .WithMany("SaparePartSaparePartItems")
+                        .WithMany("RepairItems")
                         .HasForeignKey("SaparePartId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("PhoneService.Domain.SaparePartItem", "SaparePartItem")
-                        .WithMany("SaparePartSaparePartItems")
-                        .HasForeignKey("SaparePartItemId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
