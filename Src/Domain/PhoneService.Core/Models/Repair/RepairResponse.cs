@@ -6,5 +6,13 @@ namespace PhoneService.Core.Models.Repair
 {
     public class RepairResponse
     {
+        public int RepairId { get; set; }
+        public DateTime CreateDate { get; set; }
+        public int ProductId { get; set; }
+        public string Model { get; set; }
+        public string RepairStatusName { get; set; }
+        public int CustomerId { get; set; }
+        public string CustomerName { get; set; }
+        public string LastName { get; set; }
     }
 }

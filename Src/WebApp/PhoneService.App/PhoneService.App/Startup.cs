@@ -55,13 +55,15 @@ namespace PhoneService.App
                 .AddTransient<ICustomerRepository, CustomerRepository>()
                 .AddTransient<ISaparePartRepository, SaparePartRepository>()
                 .AddTransient<IProductRepository, ProductRepository>()
-                .AddTransient<IRepairItemRepository, RepairItemRepository>();
+                .AddTransient<IRepairItemRepository, RepairItemRepository>()
+                .AddTransient<IRepairRepository, RepairRepository>();
 
 
             services
                 .AddScoped<ICustomerService, CustomerService>()
                 .AddScoped<ISaparePartService, SaparePartService>()
-                .AddScoped<IProductService, ProductService>();
+                .AddScoped<IProductService, ProductService>()
+                .AddScoped<IRepairService, RepairService>();
 
 
             services.AddSingleton(_ => Configuration);
@@ -93,6 +95,7 @@ namespace PhoneService.App
                 x.AddProfile<CustomerMappingProfile>();
                 x.AddProfile<SaparePartMappingProfile>();
                 x.AddProfile<ProductMappingProfile>();
+                x.AddProfile<RepairMappingProfile>();
             });
 
             //Mapper.Configuration.AssertConfigurationIsValid();
