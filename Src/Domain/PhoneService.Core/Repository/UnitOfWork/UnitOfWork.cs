@@ -18,6 +18,7 @@ namespace PhoneService.Core.Repository.UnitOfWork
             SapareParts = new SaparePartRepository(_context);
             Products = new ProductRepository(_context);
             Repairs = new RepairRepository(_context);
+            RepairItems = new RepairItemRepository(_context);
             //TODO: Add rest repo connection
         }
         
@@ -25,6 +26,7 @@ namespace PhoneService.Core.Repository.UnitOfWork
         public ISaparePartRepository SapareParts { get; private set; }
         public IProductRepository Products { get; private set; }
         public IRepairRepository Repairs { get; private set; }
+        public IRepairItemRepository RepairItems { get; private set; }
 
 
         public async Task<bool> CompleteAsync()

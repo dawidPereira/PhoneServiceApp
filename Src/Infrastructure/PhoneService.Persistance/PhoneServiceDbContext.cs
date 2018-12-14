@@ -25,7 +25,7 @@ namespace PhoneService.Persistance
         public DbSet<Repair> Repairs { get; set; }
         public DbSet<RepairStatus> RepairStatuses { get; set; }
         public DbSet<SaparePart> SapareParts { get; set; }
-        public DbSet<RepairItem> SaparePartItems { get; set; }
+        public DbSet<RepairItem> RepairItems { get; set; }
         public DbSet<ProductSaparePart> ProductSapareParts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

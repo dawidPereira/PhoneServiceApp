@@ -54,7 +54,8 @@ namespace PhoneService.App
                 .AddTransient<IUnitOfWork, UnitOfWork>()
                 .AddTransient<ICustomerRepository, CustomerRepository>()
                 .AddTransient<ISaparePartRepository, SaparePartRepository>()
-                .AddTransient<IProductRepository, ProductRepository>();
+                .AddTransient<IProductRepository, ProductRepository>()
+                .AddTransient<IRepairItemRepository, RepairItemRepository>();
 
 
             services
