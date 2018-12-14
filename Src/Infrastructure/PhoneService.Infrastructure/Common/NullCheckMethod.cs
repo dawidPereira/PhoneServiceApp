@@ -24,5 +24,11 @@ namespace PhoneService.Infrastructure.Common
             if (!obj.Any())
                 throw new ArgumentNullException("The item list is empty");
         }
+
+        public void CheckIFObjectAlreadyExist(object obj)
+        {
+            if (obj != null)
+                throw new ArgumentException("This object already exist");
+        }
     }
 }
