@@ -39,11 +39,12 @@ namespace PhoneService.Persistance
         {
             modelBuilder.ApplyAllConfigurations();
 
-            //#region Setting entities relationships
+            #region Setting entities relationships
 
             //############################################
             // Product - SaparePart Join Table Connection
             //############################################
+
             modelBuilder.Entity<ProductSaparePart>()
                 .HasKey(p => new
                 {
@@ -60,86 +61,27 @@ namespace PhoneService.Persistance
                 .WithMany(psp => psp.ProductSapareParts)
                 .HasForeignKey(sp => sp.SaparePartId);
 
-            ////############################################
-            //// Product - Repair Join Table Connection
-            ////############################################
-            //modelBuilder.Entity<RepairProduct>()
-            //    .HasKey(p => new
-            //    {
-            //        p.RepairId,
-            //        p.ProductId
-            //    });
-            //modelBuilder.Entity<RepairProduct>()
-            //    .HasOne<Product>(p => p.Product)
-            //    .WithMany(rp => rp.RepairProducts)
-            //    .HasForeignKey(p => p.ProductId);
+            //############################################
+            // RepairItem Join Table Connection
+            //############################################
 
-            //modelBuilder.Entity<RepairProduct>()
-            //    .HasOne<Repair>(r => r.Repair)
-            //    .WithMany(rp => rp.RepairProducts)
-            //    .HasForeignKey(r => r.RepairId);
+            modelBuilder.Entity<RepairItem>()
+                .HasKey(p => new
+                {
+                    p.RepairId,
+                    p.SaparePartId
+                });
+            modelBuilder.Entity<RepairItem>()
+                .HasOne<Repair>(p => p.Repair)
+                .WithMany(psp => psp.RepairItems)
+                .HasForeignKey(p => p.RepairId);
 
-            ////############################################
-            //// Customer - Repair Join Table Connection
-            ////############################################
-            //modelBuilder.Entity<CustomerRepair>()
-            //    .HasKey(p => new
-            //    {
-            //        p.RepairId,
-            //        p.CustomerId
-            //    });
-            //modelBuilder.Entity<CustomerRepair>()
-            //    .HasOne<Customer>(c => c.Customer)
-            //    .WithMany(cr => cr.CustomerRepairs)
-            //    .HasForeignKey(c => c.CustomerId);
+            modelBuilder.Entity<RepairItem>()
+                .HasOne<SaparePart>(sp => sp.SaparePart)
+                .WithMany(psp => psp.RepairItems)
+                .HasForeignKey(sp => sp.SaparePartId);
 
-            //modelBuilder.Entity<CustomerRepair>()
-            //    .HasOne<Repair>(r => r.Repair)
-            //    .WithMany(ce => ce.CustomerRepairs)
-            //    .HasForeignKey(r => r.RepairId);
-
-            ////############################################
-            //// SaparePart - SaparePartItem Join Table Connection
-            ////############################################
-            //modelBuilder.Entity<SaparePartSaparePartItem>()
-            //    .HasKey(p => new
-            //    {
-            //        p.SaparePartId,
-            //        p.SaparePartItemId
-            //    });
-            //modelBuilder.Entity<SaparePartSaparePartItem>()
-            //    .HasOne<SaparePart>(sp => sp.SaparePart)
-            //    .WithMany(spspi => spspi.SaparePartSaparePartItems)
-            //    .HasForeignKey(sp => sp.SaparePartId);
-
-            //modelBuilder.Entity<SaparePartSaparePartItem>()
-            //    .HasOne<RepairItem>(spi => spi.SaparePartItem)
-            //    .WithMany(spspi => spspi.SaparePartSaparePartItems)
-            //    .HasForeignKey(spi => spi.SaparePartItemId);
-
-            ////############################################
-            //// Customer - Customer Addres One To One
-            ////############################################
-            //modelBuilder.Entity<Customer>()
-            //    .HasOne(c => c.Addres)
-            //    .WithOne(e => e.Customer)
-            //    .HasForeignKey<CustomerAddres>(cb => cb.CustomerId);
-
-
-            ////############################################
-            //// Repair - RepairStatus Many To One
-            ////############################################
-            //modelBuilder.Entity<RepairStatus>()
-            //    .HasMany(r => r.Repairs)
-            //    .WithOne(rs => rs.RepairStatus);
-
-            ////############################################
-            //// Repair - RepairStatus Many To One
-            ////############################################
-            //modelBuilder.Entity<Repair>()
-            //    .HasMany(r => r.SaparePartItems)
-            //    .WithOne(rs => rs.Repair);
-            //#endregion
+            #endregion
         }
 
 
