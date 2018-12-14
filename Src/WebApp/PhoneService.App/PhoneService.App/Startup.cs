@@ -95,7 +95,7 @@ namespace PhoneService.App
                 x.AddProfile<ProductMappingProfile>();
             });
 
-            Mapper.Configuration.AssertConfigurationIsValid();
+            //Mapper.Configuration.AssertConfigurationIsValid();
 
 
             app.UseMvc(routes =>
