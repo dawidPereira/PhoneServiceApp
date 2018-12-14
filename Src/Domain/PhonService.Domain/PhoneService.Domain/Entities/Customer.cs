@@ -15,6 +15,6 @@ namespace PhoneService.Domain
 
         public CustomerAddres Addres { get; set; }
 
-        public ICollection<CustomerRepair> CustomerRepairs { get; set; }
+        public ICollection<Repair> Repairs { get; set; }
     }
 }

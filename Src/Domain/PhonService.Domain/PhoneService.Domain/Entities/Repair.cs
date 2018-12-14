@@ -18,7 +18,7 @@ namespace PhoneService.Domain
         public Product Product { get; set; }
         public int ProductId { get; set; }
 
-        public ICollection<SaparePartItem> SaparePartItems { get; set; }
+        public ICollection<RepairItem> RepairItems { get; set; }
 
 
 

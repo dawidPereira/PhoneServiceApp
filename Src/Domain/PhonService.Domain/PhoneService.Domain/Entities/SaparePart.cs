@@ -12,7 +12,7 @@ namespace PhoneService.Domain
         public decimal Price { get; set; }
 
         public ICollection<ProductSaparePart> ProductSapareParts { get; set; }
-        public ICollection<SaparePartSaparePartItem> SaparePartSaparePartItems { get; set; }
+        public ICollection<RepairItem> RepairItems { get; set; }
 
     }
 }
