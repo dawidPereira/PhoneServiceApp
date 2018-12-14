@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using PhoneService.Core.Interfaces;
 using PhoneService.Core.Models.Repair;
+using PhoneService.Domain;
 using PhoneService.Domain.Repository.IUnitOfWork;
 using PhoneService.Infrastructure.Common;
 using System;
@@ -50,11 +51,7 @@ namespace PhoneService.Core.Services
         {
             _nullCheckMethod.CheckIfRequestIsNull(repairAddRequest);
 
-            var repair = await _unitOfWork.Repairs.GetRepairItemByIdAsync(repairAddRequest.RepairId);
-
-            _nullCheckMethod.CheckIFObjectAlreadyExist(repair);
-
-            var _repair = Mapper.Map(repairAddRequest, repair);
+            var _repair = Mapper.Map<Repair>(repairAddRequest);
 
             _unitOfWork.Repairs.AddRepair(_repair);
             await _unitOfWork.CompleteAsync();
