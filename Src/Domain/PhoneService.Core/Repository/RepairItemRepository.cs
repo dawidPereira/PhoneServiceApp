@@ -34,10 +34,10 @@ namespace PhoneService.Core.Repository
             return repairItem;
         }
 
-        public void AddCustomer(RepairItem repairItem) => _context.Add(repairItem);
+        public void AddRepairItem(RepairItem repairItem) => _context.Add(repairItem);
 
-        public void RemoveCustomer(RepairItem repairItem) => _context.Remove(repairItem);
+        public void RemoveRepairItem(RepairItem repairItem) => _context.Remove(repairItem);
 
-        public void RemoveRangeCustomer(IEnumerable<RepairItem> repairItems) => _context.RemoveRange(repairItems);
+        public void RemoveRangeRepairItems(IEnumerable<RepairItem> repairItems) => _context.RemoveRange(repairItems);
     }
 }
