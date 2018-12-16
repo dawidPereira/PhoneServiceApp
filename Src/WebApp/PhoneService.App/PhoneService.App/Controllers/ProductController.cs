@@ -1,42 +1,42 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using PhoneService.Core.Interfaces;
+using PhoneService.Core.Models.Product;
+using PhoneService.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using PhoneService.Core.Models.Customer;
-using PhoneService.Core.Services;
 
 namespace PhoneService.App.Controllers
 {
-
     [Route("[controller]/[action]")]
-    public class CustomerController : Controller
+    public class ProductController : Controller
     {
-        private ICustomerService _customerService;
+        private IProductService _productService;
 
-        public CustomerController(ICustomerService customerService)
+        public ProductController(IProductService productService)
         {
-            _customerService = customerService;
+            _productService = productService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetCustomers()
+        public async Task<IActionResult> GetProducts()
         {
             try
             {
-                return Ok(await _customerService.GetAllCustomersAsync());
+                return Ok(await _productService.GetAllProductAsync());
             }
             catch (ArgumentNullException)
             {
-                return NotFound("Customer List is Empty");
+                return NotFound("Product List is Empty");
             }
         }
 
-        [HttpGet("{customerId}")]
-        public async Task<IActionResult> GetCustomer(int customerId)
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> GetProduct(int productId)
         {
             try
             {
-                return Ok(await _customerService.GetCustomerByIdAsync(customerId));
+                return Ok(await _productService.GetProductByIdAsync(productId));
             }
             catch (ArgumentNullException)
             {
@@ -44,16 +44,16 @@ namespace PhoneService.App.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound("This Customer does not exist");
+                return NotFound("This Product does not exist");
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCustomer([FromBody]CustomerAddRequest customerRequest)
+        public async Task<IActionResult> AddProduct([FromBody]ProductAddRequest productAddRequest)
         {
             try
             {
-                await _customerService.AddCustomerAsync(customerRequest);
+                await _productService.AddCustomerAsync(productAddRequest);
                 return Ok();
             }
             catch (ArgumentNullException)
@@ -62,16 +62,16 @@ namespace PhoneService.App.Controllers
             }
             catch (ArgumentException)
             {
-                return BadRequest("This Customer already exist");
+                return BadRequest("This Product already exist");
             }
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateCustomer([FromBody]CustomerUpdateRequest customerRequest)
+        public async Task<IActionResult> UpdateProduct([FromBody]ProductUpdateRequest productUpdateRequest)
         {
             try
             {
-                await _customerService.UpdateCustomerAsync(customerRequest);
+                await _productService.UpdateCustomerAsync(productUpdateRequest);
                 return Ok(NoContent());
             }
             catch (ArgumentNullException)
@@ -80,16 +80,16 @@ namespace PhoneService.App.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return BadRequest("This Customer does not exist");
+                return BadRequest("This Product does not exist");
             }
         }
 
-        [HttpDelete("{customerId}")]
-        public async Task<IActionResult> RemoveCustomer(int customerId)
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> RemoveCustomer(int productId)
         {
             try
             {
-                await _customerService.RemoveCustomerAsync(customerId);
+                await _productService.RemoveCustomerAsync(productId);
                 return Ok();
             }
             catch (ArgumentNullException)
@@ -98,7 +98,7 @@ namespace PhoneService.App.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return BadRequest("This Customer does not exist");
+                return BadRequest("This Product does not exist");
             }
         }
     }

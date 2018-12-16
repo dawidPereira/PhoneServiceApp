@@ -4,6 +4,7 @@ using PhoneService.Domain.Repository;
 using PhoneService.Persistance;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,7 +35,7 @@ namespace PhoneService.Core.Repository
         public async Task<Customer> GetCustomerByEmailAsync(string email)
         {
             var customer = await _context.Set<Customer>()
-                .FirstOrDefaultAsync(c => c.Email == email);
+                            .FirstOrDefaultAsync(c => c.Email == email);
 
             return customer;
         }

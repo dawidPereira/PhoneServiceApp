@@ -12,7 +12,7 @@ namespace PhoneService.Core.Interfaces
 
         Task<SaparePartResponse> GetSaparePartByIdAsync(int saparePartId);
 
-        Task AddSaparePartAsync(SaparePartRequest saparePartRequest);
+        Task AddSaparePartAsync(SaparePartAddRequest saparePartRequest);
 
         Task UpdateSaparePartAsync(SaparePartUpdateRequest saparePartRequest);
 

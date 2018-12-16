@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PhoneService.Core.Models.Customer
 {
-    public class CustomerRequest
+    public class CustomerAddRequest
     {
         public string Name { get; set; }
         public string LastName { get; set; }

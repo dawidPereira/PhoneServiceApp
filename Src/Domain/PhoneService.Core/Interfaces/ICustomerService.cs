@@ -11,9 +11,9 @@ namespace PhoneService.Core.Services
 
         Task<CustomerDetailsResponse> GetCustomerByIdAsync(int customerId);
 
-        Task AddCustomerAsync(CustomerRequest customerRequest);
+        Task AddCustomerAsync(CustomerAddRequest customerRequest);
 
-        Task UpdateCustomerAsync(CustomerRequest customerRequest);
+        Task UpdateCustomerAsync(CustomerUpdateRequest customerRequest);
 
         Task RemoveCustomerAsync(int customerId);
 

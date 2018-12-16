@@ -45,31 +45,34 @@ namespace PhoneService.Core.Services
             return customerResponse;
         }
 
-        public async Task AddCustomerAsync(CustomerRequest customerRequest)
+        public async Task AddCustomerAsync(CustomerAddRequest customerRequest)
         {
             _nullCheckMethod.CheckIfRequestIsNull(customerRequest);
 
             var customer = await _unitOfWork.Customers.GetCustomerByEmailAsync(customerRequest.Email);
 
-            _nullCheckMethod.CheckIfResponseIsNull(customer);
+            _nullCheckMethod.CheckIFObjectAlreadyExist(customer);
 
             var _customerRequest = Mapper.Map<Customer>(customerRequest);
 
             _unitOfWork.Customers.AddCustomer(_customerRequest);
             await _unitOfWork.CompleteAsync();
+            
 
             //TODO: Run IEmailService and notifi user
         }
 
-        public async Task UpdateCustomerAsync(CustomerRequest customerRequest)
+        public async Task UpdateCustomerAsync(CustomerUpdateRequest customerRequest)
         {
+            
             _nullCheckMethod.CheckIfRequestIsNull(customerRequest);
 
-            var customer = await _unitOfWork.Customers.GetCustomerByEmailAsync(customerRequest.Email);
+            var customer = await _unitOfWork.Customers.GetCustomerByIdAsync(customerRequest.CustomerId);
 
             _nullCheckMethod.CheckIfResponseIsNull(customer);
 
             Mapper.Map(customerRequest, customer);
+
             await _unitOfWork.CompleteAsync();
         }
 

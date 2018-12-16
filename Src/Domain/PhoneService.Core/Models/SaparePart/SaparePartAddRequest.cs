@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PhoneService.Core.Models.SaparePart
 {
-    public class SaparePartRequest
+    public class SaparePartAddRequest
     {
         public string Name { get; set; }
         public string ReferenceNumebr { get; set; }

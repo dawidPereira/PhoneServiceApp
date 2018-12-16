@@ -18,6 +18,7 @@ using PhoneService.Domain.Repository;
 using PhoneService.Core.Mapping;
 using PhoneService.Core.Repository;
 using PhoneService.Core.Interfaces;
+using PhoneService.Infrastructure.Common;
 
 namespace PhoneService.App
 {
@@ -42,35 +43,37 @@ namespace PhoneService.App
             });
 
             services
-                .AddDbContext<PhoneServiceDbContext>(options =>
-                    options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=PhoneService;Trusted_Connection=True;Application Name=PhoneServiceDatabase;", 
-                    b => b.MigrationsAssembly("PhoneService.App")
-                    ));
+                .AddDbContext<PhoneServiceDbContext>(
+                    options =>
+                    options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=PhoneService;Trusted_Connection=True;Application Name=PhoneServiceDatabase;",
+                    b => b.MigrationsAssembly("PhoneService.App")));
 
             services
                 .AddMvc();
 
             services
-                .AddTransient<IUnitOfWork, UnitOfWork>()
-                .AddTransient<ICustomerRepository, CustomerRepository>()
-                .AddTransient<ISaparePartRepository, SaparePartRepository>()
-                .AddTransient<IProductRepository, ProductRepository>()
-                .AddTransient<IRepairItemRepository, RepairItemRepository>()
-                .AddTransient<IRepairRepository, RepairRepository>();
+                .AddScoped<IUnitOfWork, UnitOfWork>()
+                .AddScoped<ICustomerRepository, CustomerRepository>()
+                .AddScoped<ISaparePartRepository, SaparePartRepository>()
+                .AddScoped<IProductRepository, ProductRepository>()
+                .AddScoped<IRepairItemRepository, RepairItemRepository>()
+                .AddScoped<IRepairRepository, RepairRepository>();
+
 
 
             services
                 .AddScoped<ICustomerService, CustomerService>()
                 .AddScoped<ISaparePartService, SaparePartService>()
                 .AddScoped<IProductService, ProductService>()
-                .AddScoped<IRepairService, RepairService>();
+                .AddScoped<IRepairService, RepairService>()
+                .AddScoped<NullCheckMethod>();
 
 
-            services.AddSingleton(_ => Configuration);
+            //services.AddSingleton(_ => Configuration);
 
-            services.AddAutoMapper(
-                opt => opt.CreateMissingTypeMaps = true,
-                Assembly.GetEntryAssembly());
+            //services.AddAutoMapper(
+            //    opt => opt.CreateMissingTypeMaps = true,
+            //    Assembly.GetEntryAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,6 +99,7 @@ namespace PhoneService.App
                 x.AddProfile<SaparePartMappingProfile>();
                 x.AddProfile<ProductMappingProfile>();
                 x.AddProfile<RepairMappingProfile>();
+                x.AddProfile<RepairItemMappingProfile>();
             });
 
             //Mapper.Configuration.AssertConfigurationIsValid();

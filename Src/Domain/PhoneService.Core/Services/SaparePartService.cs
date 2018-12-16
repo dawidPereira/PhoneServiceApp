@@ -48,7 +48,7 @@ namespace PhoneService.Core.Services
             return _sapareParts;
         }
 
-        public async Task AddSaparePartAsync(SaparePartRequest saparePartRequest)
+        public async Task AddSaparePartAsync(SaparePartAddRequest saparePartRequest)
         {
             _nullCheckMethod.CheckIfRequestIsNull(saparePartRequest);
 

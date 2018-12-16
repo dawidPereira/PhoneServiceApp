@@ -12,7 +12,7 @@ namespace PhoneService.Core.Mapping
         public SaparePartMappingProfile()
         {
             CreateMap<SaparePart, SaparePartResponse>();
-            CreateMap<SaparePartRequest, SaparePart>();
+            CreateMap<SaparePartAddRequest, SaparePart>();
             CreateMap<SaparePartUpdateRequest, SaparePart>();
         }
     }
