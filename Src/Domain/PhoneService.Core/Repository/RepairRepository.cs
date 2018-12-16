@@ -4,6 +4,7 @@ using PhoneService.Domain.Repository;
 using PhoneService.Persistance;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,8 +21,8 @@ namespace PhoneService.Core.Repository
         {
             var repairs = await _context.Set<Repair>()
                             .Include(c => c.Product)
-                            .Include(c => c.RepairItems)
                             .Include(c => c.RepairStatus)
+                            .Include(c => c.Customer)
                             .ToListAsync();
 
             return repairs;
@@ -30,7 +31,14 @@ namespace PhoneService.Core.Repository
         public async Task<Repair> GetRepairItemByIdAsync(int repairId)
         {
             var repair = await _context.Set<Repair>()
-                            .FirstOrDefaultAsync(c => c.RepairId == repairId);
+                            .Include(c => c.Customer)
+                                    .ThenInclude(c => c.Addres)
+                            .Include(c => c.Product)
+                                    .ThenInclude(c => c.ProductSapareParts)
+                            .Include(c => c.RepairItems)
+                                    .ThenInclude(c => c.SaparePart)
+                            .Include(c => c.RepairStatus)
+                                .FirstOrDefaultAsync(c => c.RepairId == repairId);
 
             return repair;
         }

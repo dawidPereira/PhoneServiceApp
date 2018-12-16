@@ -13,7 +13,7 @@ namespace PhoneService.Core.Repository.UnitOfWork
         private readonly PhoneServiceDbContext _context;
         public UnitOfWork(PhoneServiceDbContext context)
         {
-            this._context = context;
+            _context = context;
             Customers = new CustomerRepository(_context);
             SapareParts = new SaparePartRepository(_context);
             Products = new ProductRepository(_context);
@@ -29,10 +29,9 @@ namespace PhoneService.Core.Repository.UnitOfWork
         public IRepairItemRepository RepairItems { get; private set; }
 
 
-        public async Task<bool> CompleteAsync()
+        public async Task CompleteAsync()
         {
             await _context.SaveChangesAsync();
-            return true;
         }
 
         public void Dispose()

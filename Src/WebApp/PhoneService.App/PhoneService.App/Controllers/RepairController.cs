@@ -4,40 +4,39 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PhoneService.App.Controllers.Inherit;
-using PhoneService.Core.Models.Customer;
-using PhoneService.Core.Services;
+using PhoneService.Core.Interfaces;
+using PhoneService.Core.Models.Repair;
 
 namespace PhoneService.App.Controllers
 {
-
     [Route("[controller]/[action]")]
-    public class CustomerController : SecureController
+    public class RepairController : SecureController
     {
-        private ICustomerService _customerService;
+        private IRepairService _repairService;
 
-        public CustomerController(ICustomerService customerService)
+        public RepairController(IRepairService repairService)
         {
-            _customerService = customerService;
+            _repairService = repairService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetCustomers()
+        public async Task<IActionResult> GetRepairs()
         {
             try
             {
-                return Ok(await _customerService.GetAllCustomersAsync());
+                return Ok(await _repairService.GetAllRepairsAsync());
             }
             catch (ArgumentNullException)
             {
-                return NotFound("Customer List is Empty");
+                return NotFound("Repair List is Empty");
             }
         }
 
-        [HttpGet("{customerId}")]
-        public async Task<IActionResult> GetCustomer(int customerId)
+        [HttpGet("{repairId}")]
+        public async Task<IActionResult> GetRepair(int repairId)
         {
             try
             {
-                return Ok(await _customerService.GetCustomerByIdAsync(customerId));
+                return Ok(await _repairService.GetRepairByIdAsync(repairId));
             }
             catch (ArgumentNullException)
             {
@@ -45,16 +44,16 @@ namespace PhoneService.App.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound("This Customer does not exist");
+                return NotFound("This Repair does not exist");
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCustomer([FromBody]CustomerAddRequest customerRequest)
+        public async Task<IActionResult> AddRepair([FromBody]RepairAddRequest repairAddRequest)
         {
             try
             {
-                await _customerService.AddCustomerAsync(customerRequest);
+                await _repairService.AddRepairAsync(repairAddRequest);
                 return Ok();
             }
             catch (ArgumentNullException)
@@ -63,16 +62,16 @@ namespace PhoneService.App.Controllers
             }
             catch (ArgumentException)
             {
-                return BadRequest("This Customer already exist");
+                return BadRequest("This Repair already exist");
             }
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateCustomer([FromBody]CustomerUpdateRequest customerRequest)
+        public async Task<IActionResult> UpdateCustomer([FromBody]RepairUpdateRequest repairUpdateRequest)
         {
             try
             {
-                await _customerService.UpdateCustomerAsync(customerRequest);
+                await _repairService.UpdateRepairAsync(repairUpdateRequest);
                 return Ok(NoContent());
             }
             catch (ArgumentNullException)
@@ -81,16 +80,16 @@ namespace PhoneService.App.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return BadRequest("This Customer does not exist");
+                return BadRequest("This Repair does not exist");
             }
         }
 
-        [HttpDelete("{customerId}")]
-        public async Task<IActionResult> RemoveCustomer(int customerId)
+        [HttpDelete("{repairId}")]
+        public async Task<IActionResult> RemoveRepair(int repairId)
         {
             try
             {
-                await _customerService.RemoveCustomerAsync(customerId);
+                await _repairService.RemoveRepairAsync(repairId);
                 return Ok();
             }
             catch (ArgumentNullException)
@@ -99,7 +98,7 @@ namespace PhoneService.App.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return BadRequest("This Customer does not exist");
+                return BadRequest("This Repair does not exist");
             }
         }
     }

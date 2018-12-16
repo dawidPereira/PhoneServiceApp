@@ -12,6 +12,6 @@ namespace PhoneService.Domain.Repository.IUnitOfWork
         IProductRepository Products { get; }
         IRepairRepository Repairs { get; }
         IRepairItemRepository RepairItems { get; }
-        Task<bool> CompleteAsync();
+        Task CompleteAsync();
     }
 }

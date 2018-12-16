@@ -54,6 +54,7 @@ namespace PhoneService.Core.Services
             var _repair = Mapper.Map<Repair>(repairAddRequest);
 
             _unitOfWork.Repairs.AddRepair(_repair);
+            _unitOfWork.RepairItems.AddRangeRepairItem(_repair.RepairItems);
             await _unitOfWork.CompleteAsync();
         }
 

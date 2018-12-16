@@ -51,7 +51,7 @@ namespace PhoneService.Core.Services
 
             _nullCheckMethod.CheckIfResponseIsNull(product);
 
-            var _product = Mapper.Map<Product>(product);
+            var _product = Mapper.Map<Product>(customerRequest);
 
             _unitOfWork.Products.AddProduct(_product);
             await _unitOfWork.CompleteAsync();
