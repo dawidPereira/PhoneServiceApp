@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Models.Customer;
 using PhoneService.Core.Services;
 
@@ -10,7 +11,7 @@ namespace PhoneService.App.Controllers
 {
 
     [Route("[controller]/[action]")]
-    public class CustomerController : Controller
+    public class CustomerController : SecureController
     {
         private ICustomerService _customerService;
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Interfaces;
 using PhoneService.Core.Models.Product;
 using PhoneService.Core.Services;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace PhoneService.App.Controllers
 {
     [Route("[controller]/[action]")]
-    public class ProductController : Controller
+    public class ProductController : SecureController
     {
         private IProductService _productService;
 

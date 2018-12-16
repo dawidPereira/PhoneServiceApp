@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Interfaces;
 using PhoneService.Core.Models.Repair;
 
 namespace PhoneService.App.Controllers
 {
     [Route("[controller]/[action]")]
-    public class RepairController : Controller
+    public class RepairController : SecureController
     {
         private IRepairService _repairService;
 

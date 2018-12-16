@@ -84,11 +84,11 @@ namespace PhoneService.App
                 .AddScoped<IRepairService, RepairService>();
 
 
-            services.AddSingleton(_ => Configuration);
+            //services.AddSingleton(_ => Configuration);
 
-            services.AddAutoMapper(
-                opt => opt.CreateMissingTypeMaps = true,
-                Assembly.GetEntryAssembly());
+            //services.AddAutoMapper(
+            //    opt => opt.CreateMissingTypeMaps = true,
+            //    Assembly.GetEntryAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

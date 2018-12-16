@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Interfaces;
 using PhoneService.Core.Models.SaparePart;
 
 namespace PhoneService.App.Controllers
 {
     [Route("[controller]/[action]")]
-    public class SaparePartController : Controller
+    public class SaparePartController : SecureController
     {
         private ISaparePartService _saparePartService;
 

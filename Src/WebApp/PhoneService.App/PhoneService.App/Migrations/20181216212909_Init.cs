@@ -402,14 +402,14 @@ namespace PhoneService.App.Migrations
                 columns: new[] { "RepairId", "CreateDate", "CustomerId", "Description", "ProductId", "RepairStatusId" },
                 values: new object[,]
                 {
-                    { 5, new DateTime(2018, 12, 16, 18, 33, 59, 358, DateTimeKind.Utc), 3, "Popsuty głośnik", 4, 5 },
-                    { 4, new DateTime(2018, 12, 16, 18, 33, 59, 358, DateTimeKind.Utc), 3, "Klientowi nie działa klawiatura", 3, 4 },
-                    { 3, new DateTime(2018, 12, 16, 18, 33, 59, 358, DateTimeKind.Utc), 2, "Klient nie może dodzwonić się do nikogo - nie opłacił abonamentu", 2, 3 },
-                    { 7, new DateTime(2018, 12, 16, 18, 33, 59, 358, DateTimeKind.Utc), 5, "Coś nie diała", 2, 2 },
-                    { 2, new DateTime(2018, 12, 16, 18, 33, 59, 358, DateTimeKind.Utc), 1, "Opis z produktu dodamu tutaj", 5, 2 },
-                    { 1, new DateTime(2018, 12, 16, 18, 33, 59, 357, DateTimeKind.Utc), 1, "Tutaj powinien być jakiś opis naprawy", 1, 1 },
-                    { 8, new DateTime(2018, 12, 16, 18, 33, 59, 358, DateTimeKind.Utc), 5, "Pan nie był zadowolony", 5, 6 },
-                    { 6, new DateTime(2018, 12, 16, 18, 33, 59, 358, DateTimeKind.Utc), 4, "Klient przyniusł zalany telefon w skarpecie z ryżem", 1, 6 }
+                    { 5, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 3, "Popsuty głośnik", 4, 5 },
+                    { 4, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 3, "Klientowi nie działa klawiatura", 3, 4 },
+                    { 3, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 2, "Klient nie może dodzwonić się do nikogo - nie opłacił abonamentu", 2, 3 },
+                    { 7, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 5, "Coś nie diała", 2, 2 },
+                    { 2, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 1, "Opis z produktu dodamu tutaj", 5, 2 },
+                    { 1, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 1, "Tutaj powinien być jakiś opis naprawy", 1, 1 },
+                    { 8, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 5, "Pan nie był zadowolony", 5, 6 },
+                    { 6, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 4, "Klient przyniusł zalany telefon w skarpecie z ryżem", 1, 6 }
                 });
 
             migrationBuilder.InsertData(
