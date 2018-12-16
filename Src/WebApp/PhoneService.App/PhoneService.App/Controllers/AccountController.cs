@@ -71,5 +71,39 @@ namespace PhoneService.App.Controllers
         {
             return View();
         }
+
+        [Authorize(Roles = "appmaster")]
+        public async Task<IActionResult> CreateUser()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "appmaster")]
+        [HttpPost("account/createuser")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateUser(UserForCreateDto userForCreateDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var userToCreate = new AppUser()
+                {
+                    UserName = userForCreateDto.Username,
+                    Email = userForCreateDto.Email,
+                };
+
+                var result = await _userManager.CreateAsync(userToCreate, userForCreateDto.Password);
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(userToCreate, "user");
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                return BadRequest(ModelState);
+            }
+
+            return View(userForCreateDto);
+        }
     }
 }
