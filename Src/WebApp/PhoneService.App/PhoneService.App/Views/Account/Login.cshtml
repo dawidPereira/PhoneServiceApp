@@ -1,0 +1,32 @@
+﻿@model PhoneService.App.DTO.Account.UserForLoginDto
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Nazwa Serwisu</h2>
+
+<h4>Logowanie do Serwisu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                Nazwa Użytkownika:
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Hasło:
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zaloguj" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+

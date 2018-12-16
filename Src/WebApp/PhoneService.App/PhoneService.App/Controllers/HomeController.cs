@@ -8,13 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 using PhoneService.App.Models;
 using PhoneService.Persistance;
 using System.Threading;
+using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Repository;
 using PhoneService.Domain.Repository.IUnitOfWork;
 
 namespace PhoneService.App
 {
 
-    public class HomeController : Controller
+    public class HomeController : SecureController
     {
         private readonly IUnitOfWork _unitOfWork;
 
