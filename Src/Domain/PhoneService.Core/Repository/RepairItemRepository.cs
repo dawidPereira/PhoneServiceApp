@@ -36,6 +36,8 @@ namespace PhoneService.Core.Repository
 
         public void AddRepairItem(RepairItem repairItem) => _context.Add(repairItem);
 
+        public void AddRangeRepairItem(ICollection<RepairItem> repairItems) => _context.AddRange(repairItems);
+
         public void RemoveRepairItem(RepairItem repairItem) => _context.Remove(repairItem);
 
         public void RemoveRangeRepairItems(IEnumerable<RepairItem> repairItems) => _context.RemoveRange(repairItems);

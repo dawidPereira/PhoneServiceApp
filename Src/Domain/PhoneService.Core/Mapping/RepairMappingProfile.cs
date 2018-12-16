@@ -42,7 +42,16 @@ namespace PhoneService.Core.Mapping
 
 
             
-            CreateMap<RepairAddRequest, Repair>();
+            CreateMap<RepairAddRequest, Repair>()
+                .ConvertUsing(x => new Repair
+                {
+                    Description = x.Description,
+                    RepairStatusId = x.StatusId,
+                    CreateDate = x.CreateTime,
+                    CustomerId = x.CustomerId,
+                    ProductId = x.ProductId,
+                    RepairItems = Mapper.Map<ICollection<RepairItem>>(x.RepairItems)
+                });
             CreateMap<RepairUpdateRequest, Repair>();
 
         }

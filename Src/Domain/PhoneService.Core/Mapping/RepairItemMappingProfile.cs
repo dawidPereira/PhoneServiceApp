@@ -12,6 +12,7 @@ namespace PhoneService.Core.Mapping
         public RepairItemMappingProfile()
         {
             CreateMap<RepairItem, RepairItemResponse>();
+            CreateMap<RepairItemAddRequest, RepairItem>();
         }
     }
 }

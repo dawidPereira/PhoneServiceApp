@@ -10,6 +10,7 @@ namespace PhoneService.Domain.Repository
         Task<IEnumerable<RepairItem>> GetAllRepairItemByRepairIdAsync(int repairId);
         Task<RepairItem> GetRepairItemByIdAsync(int repairId, int saparePartId);
         void AddRepairItem(RepairItem repairItem);
+        void AddRangeRepairItem(ICollection<RepairItem> repairItems);
         void RemoveRepairItem(RepairItem repairItem);
         void RemoveRangeRepairItems(IEnumerable<RepairItem> repairItems);
     }

@@ -36,25 +36,11 @@ namespace PhoneService.Core.Repository
                             .Include(c => c.Product)
                                     .ThenInclude(c => c.ProductSapareParts)
                             .Include(c => c.RepairItems)
-                                    .ThenInclude(c => c.Join(_context.SapareParts,
-                                                (b => b.SaparePart.SaparePartId),
-                                                (cc => cc.SaparePartId),
-                                                (b, cl) => new { RepairItem = b, SaparePart = cl }))
+                                    .ThenInclude(c => c.SaparePart)
                             .Include(c => c.RepairStatus)
-                            
-                            .FirstOrDefaultAsync(c => c.RepairId == repairId);
+                                .FirstOrDefaultAsync(c => c.RepairId == repairId);
 
             return repair;
-
-
-                                //            .Join(_context.ProductSapareParts,
-                                //                (b => b.ProductId),
-                                //                (cc => cc.ProductId),
-                                //                (b, cl) => new { Product = b, ProductSaparePart = cl })
-                                //.Join(_context.SapareParts,
-                                //                (b => b.ProductSaparePart.SaparePartId),
-                                //                (cc => cc.SaparePartId),
-                                //                (b, cl) => new { ProductSaparePart = b, SaparePart = cl })
         }
 
         public void AddRepair(Repair repairItem) => _context.Add(repairItem);
