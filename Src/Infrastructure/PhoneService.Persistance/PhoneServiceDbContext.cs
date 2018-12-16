@@ -6,11 +6,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using PhoneService.Domain.Entities;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PhoneService.Persistance
 {
-    public class PhoneServiceDbContext : DbContext
+    public class PhoneServiceDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
     {
 
         public PhoneServiceDbContext(DbContextOptions<PhoneServiceDbContext> options)
@@ -29,15 +32,13 @@ namespace PhoneService.Persistance
         public DbSet<ProductSaparePart> ProductSapareParts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            // Set SQL Conenction
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=PhoneService;Trusted_Connection=True;Application Name=PhoneServiceDatabase;");
-            
+        {  
         }
        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyAllConfigurations();
+            base.OnModelCreating(modelBuilder);
 
             #region Setting entities relationships
 
