@@ -23,6 +23,7 @@ using PhoneService.Core.Interfaces;
 using PhoneService.Domain.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using PhoneService.App.AppData;
+using PhoneService.Infrastructure.Common;
 
 namespace PhoneService.App
 {
@@ -85,6 +86,7 @@ namespace PhoneService.App
 
 
             //services.AddSingleton(_ => Configuration);
+            services.AddSingleton<NullCheckMethod>();
 
             //services.AddAutoMapper(
             //    opt => opt.CreateMissingTypeMaps = true,
