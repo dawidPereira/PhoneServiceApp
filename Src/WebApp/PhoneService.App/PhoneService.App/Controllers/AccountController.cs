@@ -46,7 +46,8 @@ namespace PhoneService.App.Controllers
                 }
                 else
                 {
-                    throw new Exception("Invalid login attempt");
+                    ModelState.AddModelError(string.Empty, "Dane logowania są błędne!");
+                    return View(userForLoginDto);
                 }
             }
 
