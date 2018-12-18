@@ -10,6 +10,7 @@ using PhoneService.Persistance;
 using System.Threading;
 using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Repository;
+using PhoneService.Domain;
 using PhoneService.Domain.Repository.IUnitOfWork;
 
 namespace PhoneService.App
@@ -27,7 +28,8 @@ namespace PhoneService.App
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return Ok(await _unitOfWork.Customers.GetAllCustomersAsync());
+            var model = await _unitOfWork.Customers.GetAllCustomersAsync();
+            return View(model);
         }
 
         [HttpGet("Customer/{id}")]
