@@ -7,6 +7,7 @@ using PhoneService.Domain;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PhoneService.Core.Models.Customer;
 
 namespace PhoneService.Core.Mapping
 {

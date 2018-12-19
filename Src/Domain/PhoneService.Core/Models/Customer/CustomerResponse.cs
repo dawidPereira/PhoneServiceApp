@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PhoneService.Core.Models
+namespace PhoneService.Core.Models.Customer
 {
     public class CustomerResponse
     {

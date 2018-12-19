@@ -10,6 +10,7 @@ using PhoneService.Persistance;
 using System.Threading;
 using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Repository;
+using PhoneService.Domain;
 using PhoneService.Domain.Repository.IUnitOfWork;
 
 namespace PhoneService.App
@@ -27,7 +28,7 @@ namespace PhoneService.App
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return Ok(await _unitOfWork.Customers.GetAllCustomersAsync());
+            return View();
         }
 
         [HttpGet("Customer/{id}")]
@@ -36,24 +37,6 @@ namespace PhoneService.App
             return Ok(await _unitOfWork.Customers.GetCustomerByIdAsync(id));
         }
 
-        public IActionResult About()    
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

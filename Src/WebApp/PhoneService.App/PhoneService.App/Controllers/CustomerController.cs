@@ -19,17 +19,13 @@ namespace PhoneService.App.Controllers
         {
             _customerService = customerService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetCustomers()
+        public async Task<IActionResult> Index()
         {
-            try
-            {
-                return Ok(await _customerService.GetAllCustomersAsync());
-            }
-            catch (ArgumentNullException)
-            {
-                return NotFound("Customer List is Empty");
-            }
+            var model = await _customerService.GetAllCustomersAsync();
+
+            return View(model);
         }
 
         [HttpGet("{customerId}")]
@@ -49,58 +45,66 @@ namespace PhoneService.App.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddCustomer([FromBody]CustomerAddRequest customerRequest)
+        [HttpGet]
+        public async Task<IActionResult> AddCustomer()
         {
-            try
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddCustomer(CustomerAddRequest customerRequest)
+        {
+            if (ModelState.IsValid)
             {
                 await _customerService.AddCustomerAsync(customerRequest);
-                return Ok();
+                return RedirectToAction("Index", "Customer");
             }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (ArgumentException)
-            {
-                return BadRequest("This Customer already exist");
-            }
+
+            return View(customerRequest);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateCustomer([FromBody]CustomerUpdateRequest customerRequest)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> UpdateCustomer(int? id)
         {
-            try
+            if (id != null)
+            {
+                var customer = await _customerService.GetCustomerByIdAsync(id.Value);
+                var model = AutoMapper.Mapper.Map<CustomerUpdateRequest>(customer);
+
+                if (model != null)
+                {
+                    return View(model);
+                }
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateCustomer(CustomerUpdateRequest customerRequest)
+        {
+            if (ModelState.IsValid)
             {
                 await _customerService.UpdateCustomerAsync(customerRequest);
-                return Ok(NoContent());
+                return RedirectToAction("Index", "Customer");
             }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest("This Customer does not exist");
-            }
+
+            return View(customerRequest);
+
         }
 
-        [HttpDelete("{customerId}")]
-        public async Task<IActionResult> RemoveCustomer(int customerId)
+        [HttpPost("{customerId}")]
+        public async Task<IActionResult> RemoveCustomer(int? customerId)
         {
-            try
+            if (customerId != null)
             {
-                await _customerService.RemoveCustomerAsync(customerId);
-                return Ok();
+                await _customerService.RemoveCustomerAsync(customerId.Value);
+                return RedirectToAction("Index", "Customer");
             }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest("This Customer does not exist");
-            }
+
+            return BadRequest();
         }
     }
 }

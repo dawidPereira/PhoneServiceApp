@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PhoneService.Core.Models
+namespace PhoneService.Core.Models.Customer
 {
     public class CustomerDetailsResponse
     {

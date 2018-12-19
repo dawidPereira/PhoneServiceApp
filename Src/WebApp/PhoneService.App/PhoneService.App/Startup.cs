@@ -86,7 +86,7 @@ namespace PhoneService.App
 
 
             //services.AddSingleton(_ => Configuration);
-            services.AddSingleton<NullCheckMethod>();
+            services.AddScoped<NullCheckMethod>();
 
             //services.AddAutoMapper(
             //    opt => opt.CreateMissingTypeMaps = true,
@@ -126,9 +126,7 @@ namespace PhoneService.App
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
