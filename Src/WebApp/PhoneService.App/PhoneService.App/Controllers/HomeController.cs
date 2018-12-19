@@ -28,8 +28,7 @@ namespace PhoneService.App
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var model = await _unitOfWork.Customers.GetAllCustomersAsync();
-            return View(model);
+            return View();
         }
 
         [HttpGet("Customer/{id}")]
@@ -38,24 +37,6 @@ namespace PhoneService.App
             return Ok(await _unitOfWork.Customers.GetCustomerByIdAsync(id));
         }
 
-        public IActionResult About()    
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
