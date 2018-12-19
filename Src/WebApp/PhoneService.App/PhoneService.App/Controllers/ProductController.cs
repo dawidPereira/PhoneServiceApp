@@ -19,17 +19,14 @@ namespace PhoneService.App.Controllers
         {
             _productService = productService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> Index()
         {
-            try
-            {
-                return Ok(await _productService.GetAllProductAsync());
-            }
-            catch (ArgumentNullException)
-            {
-                return NotFound("Product List is Empty");
-            }
+            var model = await _productService.GetAllProductAsync();
+
+            return View(model);
+
         }
 
         [HttpGet("{productId}")]
@@ -86,7 +83,7 @@ namespace PhoneService.App.Controllers
         }
 
         [HttpDelete("{productId}")]
-        public async Task<IActionResult> RemoveCustomer(int productId)
+        public async Task<IActionResult> RemoveProduct(int productId)
         {
             try
             {
