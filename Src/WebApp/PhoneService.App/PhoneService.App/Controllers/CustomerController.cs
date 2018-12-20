@@ -23,9 +23,16 @@ namespace PhoneService.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var model = await _customerService.GetAllCustomersAsync();
+            try
+            {
+                var model = await _customerService.GetAllCustomersAsync();
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("{customerId}")]
@@ -55,56 +62,84 @@ namespace PhoneService.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCustomer(CustomerAddRequest customerRequest)
         {
-            if (ModelState.IsValid)
+            try
             {
-                await _customerService.AddCustomerAsync(customerRequest);
-                return RedirectToAction("Index", "Customer");
-            }
+                if (ModelState.IsValid)
+                {
+                    await _customerService.AddCustomerAsync(customerRequest);
+                    return RedirectToAction("Index", "Customer");
+                }
 
-            return View(customerRequest);
+                return View(customerRequest);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> UpdateCustomer(int? id)
         {
-            if (id != null)
+            try
             {
-                var customer = await _customerService.GetCustomerByIdAsync(id.Value);
-                var model = AutoMapper.Mapper.Map<CustomerUpdateRequest>(customer);
-
-                if (model != null)
+                if (id != null)
                 {
-                    return View(model);
-                }
-            }
+                    var customer = await _customerService.GetCustomerByIdAsync(id.Value);
+                    var model = AutoMapper.Mapper.Map<CustomerUpdateRequest>(customer);
 
-            return BadRequest();
+                    if (model != null)
+                    {
+                        return View(model);
+                    }
+                }
+
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateCustomer(CustomerUpdateRequest customerRequest)
         {
-            if (ModelState.IsValid)
+            try
             {
-                await _customerService.UpdateCustomerAsync(customerRequest);
-                return RedirectToAction("Index", "Customer");
-            }
+                if (ModelState.IsValid)
+                {
+                    await _customerService.UpdateCustomerAsync(customerRequest);
+                    return RedirectToAction("Index", "Customer");
+                }
 
-            return View(customerRequest);
+                return View(customerRequest);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
 
         }
 
         [HttpPost("{customerId}")]
         public async Task<IActionResult> RemoveCustomer(int? customerId)
         {
-            if (customerId != null)
+            try
             {
-                await _customerService.RemoveCustomerAsync(customerId.Value);
-                return RedirectToAction("Index", "Customer");
-            }
+                if (customerId != null)
+                {
+                    await _customerService.RemoveCustomerAsync(customerId.Value);
+                    return RedirectToAction("Index", "Customer");
+                }
 
-            return BadRequest();
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
