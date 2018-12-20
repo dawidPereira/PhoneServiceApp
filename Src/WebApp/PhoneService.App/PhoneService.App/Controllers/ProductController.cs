@@ -23,80 +23,113 @@ namespace PhoneService.App.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var model = await _productService.GetAllProductAsync();
+            try
+            {
+                var model = await _productService.GetAllProductAsync();
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
 
         }
 
         [HttpGet("{productId}")]
-        public async Task<IActionResult> GetProduct(int productId)
+        public async Task<IActionResult> Details(int productId)
+        {
+            var model = await _productService.GetProductByIdAsync(productId);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddProduct(ProductAddRequest productAddRequest)
         {
             try
             {
-                return Ok(await _productService.GetProductByIdAsync(productId));
+                if (ModelState.IsValid)
+                {
+                    await _productService.AddCustomerAsync(productAddRequest);
+                    return RedirectToAction("Index", "Customer");
+                }
+
+                return View(productAddRequest);
             }
-            catch (ArgumentNullException)
+            catch (Exception e)
             {
-                return BadRequest("Request can not be empty");
+                return BadRequest(e.Message);
             }
-            catch (KeyNotFoundException)
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> UpdateProduct(int? id)
+        {
+            try
             {
-                return NotFound("This Product does not exist");
+                if (id != null)
+                {
+                    var product = await _productService.GetProductByIdAsync(id.Value);
+                    var model = AutoMapper.Mapper.Map<ProductUpdateRequest>(product);
+
+                    if (model != null)
+                    {
+                        return View(model);
+                    }
+                }
+
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProduct([FromBody]ProductAddRequest productAddRequest)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateProduct(ProductUpdateRequest productUpdateRequest)
         {
             try
             {
-                await _productService.AddCustomerAsync(productAddRequest);
-                return Ok();
+                if (ModelState.IsValid)
+                {
+                    await _productService.UpdateCustomerAsync(productUpdateRequest);
+                    return RedirectToAction("Index", "Product");
+                }
+
+                return View(productUpdateRequest);
             }
-            catch (ArgumentNullException)
+            catch (Exception e)
             {
-                return BadRequest("Request can not be empty");
-            }
-            catch (ArgumentException)
-            {
-                return BadRequest("This Product already exist");
+                return BadRequest(e.Message);
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateProduct([FromBody]ProductUpdateRequest productUpdateRequest)
+        [HttpPost("{productId}")]
+        public async Task<IActionResult> RemoveProduct(int? productId)
         {
             try
             {
-                await _productService.UpdateCustomerAsync(productUpdateRequest);
-                return Ok(NoContent());
-            }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest("This Product does not exist");
-            }
-        }
+                if (productId != null)
+                {
+                    await _productService.RemoveCustomerAsync(productId.Value);
+                    return RedirectToAction("Index", "Product");
+                }
 
-        [HttpDelete("{productId}")]
-        public async Task<IActionResult> RemoveProduct(int productId)
-        {
-            try
-            {
-                await _productService.RemoveCustomerAsync(productId);
-                return Ok();
+                return BadRequest();
             }
-            catch (ArgumentNullException)
+            catch (Exception e)
             {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest("This Product does not exist");
+                return BadRequest(e.Message);
             }
         }
     }

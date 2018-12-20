@@ -18,33 +18,24 @@ namespace PhoneService.App.Controllers
         {
             _saparePartService = saparePartService;
         }
-        [HttpGet("{productId}")]
-        public async Task<IActionResult> GetSapareParts(int productId)
-        {
-            try
-            {
-                return Ok(await _saparePartService.GetAllSaparePartByProductIdAsync(productId));
-            }
-            catch (ArgumentNullException)
-            {
-                return NotFound("This product dont't have sapare part ore this product does not exist");
-            }
-        }
 
-        [HttpGet("{saparePartId}")]
-        public async Task<IActionResult> GetSaparePart(int saparePartId)
+
+
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> AddSaparePart(int productId)
         {
             try
             {
-                return Ok(await _saparePartService.GetSaparePartByIdAsync(saparePartId));
+                var model = new SaparePartAddRequest()
+                {
+                    ProductId = productId
+                };
+
+                return View(model);
             }
-            catch (ArgumentNullException)
+            catch (Exception e)
             {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound("This Sapare Part does not exist");
+                return BadRequest(e.Message);
             }
         }
 
@@ -53,52 +44,78 @@ namespace PhoneService.App.Controllers
         {
             try
             {
-                await _saparePartService.AddSaparePartAsync(saparePartAddRequest);
-                return Ok();
+                if (ModelState.IsValid)
+                {
+                    await _saparePartService.AddSaparePartAsync(saparePartAddRequest);
+                    return RedirectToAction("Details", "Product", new { productId = saparePartAddRequest.ProductId });
+                }
+
+                return View(saparePartAddRequest);
             }
-            catch (ArgumentNullException)
+            catch (Exception e)
             {
-                return BadRequest("Request can not be empty");
+                return BadRequest(e.Message);
             }
-            catch (ArgumentException)
+
+        }
+
+        [HttpGet("id")]
+        public async Task<IActionResult> UpdateSaparePart(int id)
+        {
+            try
             {
-                return BadRequest("This Sapare Part already exist");
+                var part = await _saparePartService.GetSaparePartByIdAsync(id);
+                var model = AutoMapper.Mapper.Map<SaparePartUpdateRequest>(part);
+
+                if (model != null)
+                {
+                    return View(model);
+                }
+
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> UpdateSaparePart([FromBody]SaparePartUpdateRequest saparePartUpdateRequest)
         {
             try
             {
-                await _saparePartService.UpdateSaparePartAsync(saparePartUpdateRequest);
-                return Ok(NoContent());
+                if (ModelState.IsValid)
+                {
+                    await _saparePartService.UpdateSaparePartAsync(saparePartUpdateRequest);
+                    return RedirectToAction("Details", "Product", new { productId = saparePartUpdateRequest.ProductId });
+                }
+
+                return View(saparePartUpdateRequest);
             }
-            catch (ArgumentNullException)
+            catch (Exception e)
             {
-                return BadRequest("Request can not be empty");
+                return BadRequest(e.Message);
             }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest("This Sapare Part does not exist");
-            }
+
         }
 
-        [HttpDelete("{saparePartId}")]
-        public async Task<IActionResult> RemoveSaparePart(int saparePartId)
+        [HttpPost("{saparePartId}/{productId}")]
+        public async Task<IActionResult> RemoveSaparePart(int? saparePartId, int? productId)
         {
             try
             {
-                await _saparePartService.RemoveSaparePartAsync(saparePartId);
-                return Ok();
+                if (saparePartId != null && productId != null)
+                {
+                    await _saparePartService.RemoveSaparePartAsync(saparePartId.Value);
+                    return RedirectToAction("Details", "Product", new { productId = productId.Value });
+                }
+
+                return BadRequest();
             }
-            catch (ArgumentNullException)
+            catch (Exception e)
             {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest("This Sapare Part does not exist");
+                return BadRequest(e.Message);
             }
         }
     }
