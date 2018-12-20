@@ -37,20 +37,11 @@ namespace PhoneService.App.Controllers
         }
 
         [HttpGet("{productId}")]
-        public async Task<IActionResult> GetProduct(int productId)
+        public async Task<IActionResult> Details(int productId)
         {
-            try
-            {
-                return Ok(await _productService.GetProductByIdAsync(productId));
-            }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound("This Product does not exist");
-            }
+            var model = await _productService.GetProductByIdAsync(productId);
+
+            return View(model);
         }
 
         [HttpGet]
