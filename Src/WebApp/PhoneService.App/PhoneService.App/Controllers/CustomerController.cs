@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Models.Customer;
@@ -9,7 +10,7 @@ using PhoneService.Core.Services;
 
 namespace PhoneService.App.Controllers
 {
-
+    [AllowAnonymous]
     [Route("[controller]/[action]")]
     public class CustomerController : SecureController
     {
@@ -26,6 +27,14 @@ namespace PhoneService.App.Controllers
             var model = await _customerService.GetAllCustomersAsync();
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Searching([FromBody] CustomerSearchRequest searchRequest)
+        {
+            var model = await _customerService.GetCustomerBySearchTermsAsync(searchRequest);
+
+            return Ok(model);
         }
 
         [HttpGet("{customerId}")]

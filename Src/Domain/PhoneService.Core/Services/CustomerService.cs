@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PhoneService.Infrastructure.Common;
+using PhoneService.Core.Services.Healpers;
 
 namespace PhoneService.Core.Services
 {
@@ -16,11 +17,13 @@ namespace PhoneService.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly NullCheckMethod _nullCheckMethod;
+        private readonly SearchFilterHealpers _searchFilterHealpers;
 
-        public CustomerService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod)
+        public CustomerService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod, SearchFilterHealpers searchFilterHealpers)
         {
             _unitOfWork = unitOfWork;
             _nullCheckMethod = nullCheckMethod;
+            _searchFilterHealpers = searchFilterHealpers;
         }
 
         public async Task<IEnumerable<CustomerResponse>> GetAllCustomersAsync()
@@ -32,7 +35,21 @@ namespace PhoneService.Core.Services
             var customersResponse = Mapper.Map<IEnumerable<CustomerResponse>>(customers);
             return customersResponse;
         }
-        
+
+        public async Task<IEnumerable<CustomerResponse>> GetCustomerBySearchTermsAsync(CustomerSearchRequest searchRequest)
+        {
+            var searchFilter = Mapper.Map<Customer>(searchRequest);
+
+            var customers = await _unitOfWork.Customers.GetCustomerWithAdressAsync(searchFilter);
+
+            _nullCheckMethod.CheckIfResponseListIsEmpty(customers);
+
+            //var customersResponse = _searchFilterHealpers.CustomerSearchFilter(customers, searchRequest);
+            var response = Mapper.Map<IEnumerable<CustomerResponse>>(customers);
+
+            return response;
+        }
+
         public async Task<CustomerDetailsResponse> GetCustomerByIdAsync(int customerId)
         {
             _nullCheckMethod.CheckIfRequestIsNull(customerId);

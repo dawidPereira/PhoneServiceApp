@@ -32,6 +32,32 @@ namespace PhoneService.Core.Repository
             return customer;
         }
 
+        public async Task<IEnumerable<Customer>> GetCustomerWithAdressAsync(Customer customer)
+        {
+            IEnumerable<Customer> customers = _context.Set<Customer>()
+                                .Include(c => c.Addres)
+                                .AsQueryable();
+
+            foreach (var filter in customer.GetType().GetProperties())
+            {
+                var filterValue = filter.GetValue(customer);
+
+                if (filterValue != null)
+                    if (filterValue.ToString() != 0.ToString())
+                {
+                    customers = customers.Where
+                                (p => p.GetType()
+                                .GetProperty(filter.Name)
+                                .GetValue(p).ToString()
+                                .Contains(filterValue.ToString()));
+                }
+            }
+            
+            var response  =  customers.ToAsyncEnumerable().ToList();
+
+            return await response;
+        }
+
         public async Task<Customer> GetCustomerByEmailAsync(string email)
         {
             var customer = await _context.Set<Customer>()
