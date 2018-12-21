@@ -6,17 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Interfaces;
 using PhoneService.Core.Models.Repair;
+using PhoneService.Core.Services;
 
 namespace PhoneService.App.Controllers
 {
     [Route("[controller]/[action]")]
     public class RepairController : SecureController
     {
-        private IRepairService _repairService;
+        private readonly IRepairService _repairService;
+        private readonly ICustomerService _customerService;
+        private readonly IProductService _productService;
 
-        public RepairController(IRepairService repairService)
+        public RepairController(IRepairService repairService,
+            ICustomerService customerService, IProductService productService)
         {
             _repairService = repairService;
+            _customerService = customerService;
+            _productService = productService;
         }
 
         [HttpGet]
@@ -44,10 +50,16 @@ namespace PhoneService.App.Controllers
             if (customerId != null || productId != null || model.ProductId != 0 || model.CustomerId != 0)
             {
                 if (customerId != null)
+                {
                     model.CustomerId = customerId.Value;
+                    model.CustomerDetails = await _customerService.GetCustomerByIdAsync(customerId.Value);
+                }
 
                 if (productId != null)
+                {
                     model.ProductId = productId.Value;
+                    model.Product = await _productService.GetProductByIdAsync(productId.Value);
+                }
 
                 return View(model);
             }
@@ -68,7 +80,7 @@ namespace PhoneService.App.Controllers
             return View(repairAddRequest);
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> UpdateCustomer([FromBody]RepairUpdateRequest repairUpdateRequest)
         {
             try
@@ -86,22 +98,12 @@ namespace PhoneService.App.Controllers
             }
         }
 
-        [HttpDelete("{repairId}")]
+        [HttpPost("{repairId}")]
         public async Task<IActionResult> RemoveRepair(int repairId)
         {
-            try
-            {
-                await _repairService.RemoveRepairAsync(repairId);
-                return Ok();
-            }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest("This Repair does not exist");
-            }
+            await _repairService.RemoveRepairAsync(repairId);
+
+            return RedirectToAction("Index", "Repair");
         }
     }
 }

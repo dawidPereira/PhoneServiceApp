@@ -1,0 +1,42 @@
+﻿@model PhoneService.Core.Models.Repair.RepairDetailsResponse
+
+<h2>Szczegóły naprawy</h2>
+
+<h5>Numer naprawy: <strong>@Model.RepairId</strong> <br />Status: <strong>@Model.StatusName</strong></h5>
+
+<br />
+<h4>Klient</h4>
+<hr />
+<div class="row">
+    <div class="col-sm-6">
+        <p>Nr klienta: <strong>@Model.CustomerDetails.CustomerId </strong> </p>
+        <p>Nazwa klienta: <strong>@Model.CustomerDetails.Name @Model.CustomerDetails.LastName </strong> </p>
+        <p>Miasto: <strong>@Model.CustomerDetails.City </strong> </p>
+        <p>Kod pocztowy: <strong>@Model.CustomerDetails.PostCode </strong> </p>
+    </div>
+    <div class="col-sm-6">
+        <p> Adres: <strong>@Model.CustomerDetails.Adress </strong> </p>
+        <p> Numer telefonu: <strong>@Model.CustomerDetails.PhoneNum </strong> </p>
+        <p> Email: <strong>@Model.CustomerDetails.Email </strong> </p>
+        <p> NIP: <strong>@Model.CustomerDetails.TaxNum </strong> </p>
+    </div>
+</div>
+<br />
+<h4>Produkt</h4>
+<hr />
+<div class="row">
+    <div class="col-sm-6">
+        <p>Numer produktu: <strong>@Model.Product.ProductId</strong></p>
+        <p>Model: <strong>@Model.Product.Model</strong></p>
+    </div>
+    <div class="col-sm-6">
+        <p>Producent: <strong>@Model.Product.Producer</strong></p>
+        <p>Opis: <strong>@Model.Product.Description</strong></p>
+    </div>
+</div>
+<br />
+<h4>Opis usterki</h4>
+<hr />
+<div class="col-sm-12">
+    <p>@Model.Description</p>
+</div>

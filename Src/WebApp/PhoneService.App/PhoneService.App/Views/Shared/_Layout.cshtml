@@ -54,7 +54,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" asp-action="Index" asp-controller="Repair">
                                 <span data-feather="shopping-cart"></span>
                                 Naprawy
                             </a>
@@ -71,18 +71,15 @@
                                 Produkty
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="layers"></span>
-                                Użytkownicy
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span data-feather="layers"></span>
-                                Statystyki
-                            </a>
-                        </li>
+                        @if (User.IsInRole("appmaster"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <span data-feather="layers"></span>
+                                    Użytkownicy
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </nav>
