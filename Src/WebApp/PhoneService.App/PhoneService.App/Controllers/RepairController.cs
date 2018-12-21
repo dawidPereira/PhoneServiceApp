@@ -69,7 +69,7 @@ namespace PhoneService.App.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddRepair([FromBody]RepairAddRequest repairAddRequest)
+        public async Task<IActionResult> AddRepair(RepairAddRequest repairAddRequest)
         {
             if (ModelState.IsValid)
             {
@@ -105,5 +105,6 @@ namespace PhoneService.App.Controllers
 
             return RedirectToAction("Index", "Repair");
         }
+
     }
 }
