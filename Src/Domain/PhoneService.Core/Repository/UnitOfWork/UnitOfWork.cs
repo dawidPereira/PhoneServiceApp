@@ -1,4 +1,5 @@
-﻿using PhoneService.Domain.Repository;
+﻿using PhoneService.Core.Services.Healpers;
+using PhoneService.Domain.Repository;
 using PhoneService.Domain.Repository.IUnitOfWork;
 using PhoneService.Persistance;
 using System;
@@ -11,13 +12,15 @@ namespace PhoneService.Core.Repository.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly PhoneServiceDbContext _context;
-        public UnitOfWork(PhoneServiceDbContext context)
+        private readonly SearchFilterHealpers _searchFilterHealpers;
+        public UnitOfWork(PhoneServiceDbContext context, SearchFilterHealpers searchFilterHealpers)
         {
             _context = context;
-            Customers = new CustomerRepository(_context);
+            _searchFilterHealpers = searchFilterHealpers;
+            Customers = new CustomerRepository(_context, _searchFilterHealpers);
             SapareParts = new SaparePartRepository(_context);
-            Products = new ProductRepository(_context);
-            Repairs = new RepairRepository(_context);
+            Products = new ProductRepository(_context, _searchFilterHealpers);
+            Repairs = new RepairRepository(_context, _searchFilterHealpers);
             RepairItems = new RepairItemRepository(_context);
             //TODO: Add rest repo connection
         }

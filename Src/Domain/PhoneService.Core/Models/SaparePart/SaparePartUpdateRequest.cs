@@ -10,5 +10,6 @@ namespace PhoneService.Core.Models.SaparePart
         public string Name { get; set; }
         public string ReferenceNumebr { get; set; }
         public decimal Price { get; set; }
+        public int ProductId { get; set; }
     }
 }

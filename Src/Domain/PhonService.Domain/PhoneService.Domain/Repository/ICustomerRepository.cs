@@ -10,6 +10,7 @@ namespace PhoneService.Domain.Repository
         Task<IEnumerable<Customer>> GetAllCustomersAsync();
         Task<Customer> GetCustomerByIdAsync(int customerId);
         Task<Customer> GetCustomerByEmailAsync(string email);
+        Task<IEnumerable<Customer>> GetCustomerBySearchTermsAsync(Customer customer);
         void AddCustomer(Customer customer);
         void RemoveCustomer(Customer customer);
     }

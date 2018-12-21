@@ -24,6 +24,7 @@ using PhoneService.Domain.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using PhoneService.App.AppData;
 using PhoneService.Infrastructure.Common;
+using PhoneService.Core.Services.Healpers;
 
 namespace PhoneService.App
 {
@@ -86,7 +87,8 @@ namespace PhoneService.App
 
 
             //services.AddSingleton(_ => Configuration);
-            services.AddSingleton<NullCheckMethod>();
+            services.AddScoped<NullCheckMethod>()
+                .AddScoped<SearchFilterHealpers>();
 
             //services.AddAutoMapper(
             //    opt => opt.CreateMissingTypeMaps = true,
@@ -126,9 +128,7 @@ namespace PhoneService.App
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

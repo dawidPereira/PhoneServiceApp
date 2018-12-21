@@ -15,7 +15,7 @@ namespace PhoneService.Core.Mapping
             CreateMap<Product, ProductResponse>();
             CreateMap<ProductAddRequest, Product>();
             CreateMap<ProductUpdateRequest, Product>();
-
+            CreateMap<ProductSearchRequest, Product>();
         }
 
     }

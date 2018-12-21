@@ -1,0 +1,44 @@
+﻿@model IEnumerable<PhoneService.Core.Models.Customer.CustomerResponse>
+
+<div class="col-sm-12">
+    <a class="btn btn-outline-dark" asp-action="AddCustomer" asp-controller="Customer">Dodaj klienta</a>
+</div>
+<hr />
+<div>
+    <table class="table table-dark">
+        <thead class="tab-pane">
+            <tr>
+                <th>Numer Id</th>
+                <th>Nazwa klienta</th>
+                <th>Nr tel.</th>
+                <th>E-mail</th>
+                <th>NIP</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="tab-content">
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.CustomerId</td>
+                    <td>@customer.Name @customer.LastName</td>
+                    <td>@customer.PhoneNum</td>
+                    <td>@customer.Email</td>
+                    <td>@customer.TaxNum</td>
+                    <td>
+                        <a class="nav-link active" asp-action="UpdateCustomer"
+                           asp-controller="Customer" asp-route-id="@customer.CustomerId">Edytuj</a>
+                    </td>
+                    <td>
+                        <form class="nav-link active" asp-action="RemoveCustomer" method="post"
+                              asp-controller="Customer" asp-route-id="@customer.CustomerId">
+                            <input type="submit" value="Usuń" class="btn btn-sm"
+                                   onclick="return confirm('Czy na pewno chcesz usunać tego klienta?')" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

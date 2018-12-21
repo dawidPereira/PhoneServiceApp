@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PhoneService.Core.Models.SaparePart;
 
 namespace PhoneService.Core.Models.Product
 {
@@ -11,5 +12,8 @@ namespace PhoneService.Core.Models.Product
         public string Producer { get; set; }
         public string Model { get; set; }
         public string Description { get; set; }
+
+        //TODO
+        public IEnumerable<SaparePartResponse> SapareParts { get; set; }
     }
 }

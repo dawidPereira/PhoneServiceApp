@@ -59,6 +59,23 @@ namespace PhoneService.Core.Mapping
                         PostCode = x.PostCode
                     }
                 });
+
+            CreateMap<CustomerSearchRequest, Customer>()
+                .ConvertUsing(x => new Customer
+                {
+                    CustomerId = x.CustomerId,
+                    Name = x.Name,
+                    LastName = x.LastName,
+                    Email = x.Email,
+                    TaxNum = x.TaxNum,
+                    PhoneNum = x.PhoneNum,
+                    Addres = new CustomerAddres()
+                    {
+                        City = x.City,
+                        Adress = x.Adress,
+                        PostCode = x.PostCode
+                    }
+                });
         }
     }
 }

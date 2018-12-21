@@ -9,6 +9,8 @@ namespace PhoneService.Core.Services
     {
         Task<IEnumerable<CustomerResponse>> GetAllCustomersAsync();
 
+        Task<IEnumerable<CustomerResponse>> GetCustomerBySearchTermsAsync(CustomerSearchRequest searchRequest);
+
         Task<CustomerDetailsResponse> GetCustomerByIdAsync(int customerId);
 
         Task AddCustomerAsync(CustomerAddRequest customerRequest);

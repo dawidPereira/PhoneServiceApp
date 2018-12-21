@@ -1,12 +1,17 @@
 ﻿
 @{
     ViewData["Title"] = "LogoutSuccess";
+    Layout = "_LayoutLogin";
 }
 
-<h2>Pomyślnie Wylogowano z Aplikacji</h2>
-<br/>
-<p>Czy chcesz się ponownie zalogowac?</p>
-<br/>
-@Html.ActionLink("Przenieś mnie do strony logowania", "Login", "Account")
+
+<form class="form-signin">
+    <h3>Pomyślnie wylogowano z Aplikacji</h3>
+    <br />
+    <p>Czy chcesz się ponownie zalogowac?</p>
+    <br />
+    @Html.ActionLink("Przenieś mnie do strony logowania", "Login", "Account")
+</form>
+
 
 
