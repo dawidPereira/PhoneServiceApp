@@ -87,8 +87,8 @@ namespace PhoneService.App
 
 
             //services.AddSingleton(_ => Configuration);
-            services.AddScoped<NullCheckMethod>();
-            services.AddScoped<SearchFilterHealpers>();
+            services.AddScoped<NullCheckMethod>()
+                .AddScoped<SearchFilterHealpers>();
 
             //services.AddAutoMapper(
             //    opt => opt.CreateMissingTypeMaps = true,

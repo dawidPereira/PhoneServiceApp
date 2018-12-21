@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using PhoneService.Core.Services.Healpers;
 using PhoneService.Domain;
 using PhoneService.Domain.Repository;
 using PhoneService.Persistance;
@@ -13,9 +15,13 @@ namespace PhoneService.Core.Repository
     public class CustomerRepository : ICustomerRepository
     {
         protected readonly PhoneServiceDbContext _context;
+        protected readonly SearchFilterHealpers _searchFilterHealpers;
 
-        public CustomerRepository(PhoneServiceDbContext context) => _context = context;
-
+        public CustomerRepository(PhoneServiceDbContext context, SearchFilterHealpers searchFilterHealpers)
+        {
+            _context = context;
+            _searchFilterHealpers = searchFilterHealpers;
+        }
 
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
         {
@@ -32,30 +38,16 @@ namespace PhoneService.Core.Repository
             return customer;
         }
 
-        public async Task<IEnumerable<Customer>> GetCustomerWithAdressAsync(Customer customer)
+        public async Task<IEnumerable<Customer>> GetCustomerBySearchTermsAsync(Customer customer)
         {
             IEnumerable<Customer> customers = _context.Set<Customer>()
                                 .Include(c => c.Addres)
                                 .AsQueryable();
 
-            foreach (var filter in customer.GetType().GetProperties())
-            {
-                var filterValue = filter.GetValue(customer);
+            var searchResponse = await _searchFilterHealpers.SearchByContains(customers, customer);
+            var response = Mapper.Map<IEnumerable<Customer>>(searchResponse);
 
-                if (filterValue != null)
-                    if (filterValue.ToString() != 0.ToString())
-                {
-                    customers = customers.Where
-                                (p => p.GetType()
-                                .GetProperty(filter.Name)
-                                .GetValue(p).ToString()
-                                .Contains(filterValue.ToString()));
-                }
-            }
-            
-            var response  =  customers.ToAsyncEnumerable().ToList();
-
-            return await response;
+            return response;
         }
 
         public async Task<Customer> GetCustomerByEmailAsync(string email)

@@ -11,6 +11,8 @@ namespace PhoneService.Core.Interfaces
 
         Task<ProductResponse> GetProductByIdAsync(int productId);
 
+        Task<IEnumerable<ProductResponse>> GetCustomerBySearchTermsAsync(ProductSearchRequest searchRequest);
+
         Task AddCustomerAsync(ProductAddRequest customerRequest);
 
         Task UpdateCustomerAsync(ProductUpdateRequest customerRequest);

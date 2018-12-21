@@ -40,8 +40,6 @@ namespace PhoneService.Core.Mapping
                      Product = Mapper.Map<ProductResponse>(x.Product),
                      RepairItems = Mapper.Map<IEnumerable<RepairItemResponse>>(x.RepairItems)
                  });
-
-
             
             CreateMap<RepairAddRequest, Repair>()
                 .ConvertUsing(x => new Repair
@@ -53,7 +51,30 @@ namespace PhoneService.Core.Mapping
                     ProductId = x.ProductId,
                     RepairItems = Mapper.Map<ICollection<RepairItem>>(x.RepairItems)
                 });
-            CreateMap<RepairUpdateRequest, Repair>();
+
+            CreateMap<RepairUpdateRequest, Repair>()
+                .ConvertUsing(x => new Repair
+                {
+                    RepairId = x.RepairId,
+                    Description = x.Description,
+                    RepairStatusId = x.StatusId,
+                    CreateDate = x.CreateTime,
+                    CustomerId = x.CustomerId,
+                    ProductId = x.ProductId,
+                    RepairItems = Mapper.Map<ICollection<RepairItem>>(x.RepairItems)
+                });
+
+            CreateMap<RepairSearchRequest, Repair>()
+                .ConvertUsing(x => new Repair
+                {
+                    RepairId = x.RepairId,
+                    Description = x.Description,
+                    RepairStatusId = x.StatusId,
+                    CreateDate = x.CreateTime,
+                    CustomerId = x.CustomerId,
+                    ProductId = x.ProductId,
+                    RepairItems = Mapper.Map<ICollection<RepairItem>>(x.RepairItems)
+                });
 
         }
     }

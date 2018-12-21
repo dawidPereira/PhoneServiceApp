@@ -32,6 +32,18 @@ namespace PhoneService.Core.Services
             return customersResponse;
         }
 
+        public async Task<IEnumerable<ProductResponse>> GetCustomerBySearchTermsAsync(ProductSearchRequest searchRequest)
+        {
+            var searchFilter = Mapper.Map<Product>(searchRequest);
+            var product = await _unitOfWork.Products.GetProductBySearchTermsAsync(searchFilter);
+
+            _nullCheckMethod.CheckIfResponseListIsEmpty(product);
+
+            var response = Mapper.Map<IEnumerable<ProductResponse>>(product);
+
+            return response;
+        }
+
         public async Task<ProductResponse> GetProductByIdAsync(int productId)
         {
             _nullCheckMethod.CheckIfRequestIsNull(productId);

@@ -39,12 +39,10 @@ namespace PhoneService.Core.Services
         public async Task<IEnumerable<CustomerResponse>> GetCustomerBySearchTermsAsync(CustomerSearchRequest searchRequest)
         {
             var searchFilter = Mapper.Map<Customer>(searchRequest);
-
-            var customers = await _unitOfWork.Customers.GetCustomerWithAdressAsync(searchFilter);
+            var customers = await _unitOfWork.Customers.GetCustomerBySearchTermsAsync(searchFilter);
 
             _nullCheckMethod.CheckIfResponseListIsEmpty(customers);
 
-            //var customersResponse = _searchFilterHealpers.CustomerSearchFilter(customers, searchRequest);
             var response = Mapper.Map<IEnumerable<CustomerResponse>>(customers);
 
             return response;

@@ -47,6 +47,18 @@ namespace PhoneService.Core.Services
             return repairResponse;
         }
 
+        public async Task<IEnumerable<RepairResponse>> GetCustomerBySearchTermsAsync(RepairSearchRequest searchRequest)
+        {
+            var searchFilter = Mapper.Map<Repair>(searchRequest);
+            var repair = await _unitOfWork.Repairs.GetRepairBySearchTermsAsync(searchFilter);
+
+            _nullCheckMethod.CheckIfResponseListIsEmpty(repair);
+
+            var response = Mapper.Map<IEnumerable<RepairResponse>>(repair);
+
+            return response;
+        }
+
         public async Task AddRepairAsync(RepairAddRequest repairAddRequest)
         {
             _nullCheckMethod.CheckIfRequestIsNull(repairAddRequest);

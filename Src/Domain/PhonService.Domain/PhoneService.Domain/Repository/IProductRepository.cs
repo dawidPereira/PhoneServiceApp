@@ -8,6 +8,7 @@ namespace PhoneService.Domain.Repository
     public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetAllProductsAsync();
+        Task<IEnumerable<Product>> GetProductBySearchTermsAsync(Product product);
         Task<Product> GetProductByIdAsync(int productId);
         Task<Product> GetProductByModelAsync(string model);
         void AddProduct(Product product);

@@ -1,13 +1,13 @@
-﻿using PhoneService.Core.Models.Product;
+﻿using PhoneService.Core.Models.Customer;
+using PhoneService.Core.Models.Product;
 using PhoneService.Core.Models.RepairItem;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using PhoneService.Core.Models.Customer;
 
 namespace PhoneService.Core.Models.Repair
 {
-    public class RepairUpdateRequest
+    public class RepairSearchRequest
     {
         public int RepairId { get; set; }
         public string Description { get; set; }
