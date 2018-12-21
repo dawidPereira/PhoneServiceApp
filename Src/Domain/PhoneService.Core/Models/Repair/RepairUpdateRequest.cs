@@ -11,12 +11,17 @@ namespace PhoneService.Core.Models.Repair
     {
         public int RepairId { get; set; }
         public string Description { get; set; }
-        public DateTime CreateTime { get => DateTime.Now; }
+        public DateTime CreateTime { get; set; }
         public int StatusId { get; set; }
 
         public int CustomerId { get; set; }
         public int ProductId { get; set; }
 
         public ICollection<RepairItemAddRequest> RepairItems { get; set; }
+
+        public RepairUpdateRequest()
+        {
+            CreateTime = DateTime.Now;
+        }
     }
 }

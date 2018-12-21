@@ -18,52 +18,54 @@ namespace PhoneService.App.Controllers
         {
             _repairService = repairService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetRepairs()
+        public async Task<IActionResult> Index()
         {
-            try
-            {
-                return Ok(await _repairService.GetAllRepairsAsync());
-            }
-            catch (ArgumentNullException)
-            {
-                return NotFound("Repair List is Empty");
-            }
+            var model = await _repairService.GetAllRepairsAsync();
+
+            return View(model);
         }
 
         [HttpGet("{repairId}")]
-        public async Task<IActionResult> GetRepair(int repairId)
+        public async Task<IActionResult> Details(int repairId)
         {
-            try
-            {
-                return Ok(await _repairService.GetRepairByIdAsync(repairId));
-            }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound("This Repair does not exist");
-            }
+            var model = await _repairService.GetRepairByIdAsync(repairId);
+
+            return View(model);
         }
+
+
+        [HttpGet("{customerId?}/{productId?}")]
+        public async Task<IActionResult> AddRepair(int? customerId, int? productId)
+        {
+            RepairAddRequest model = new RepairAddRequest();
+
+            if (customerId != null || productId != null || model.ProductId != 0 || model.CustomerId != 0)
+            {
+                if (customerId != null)
+                    model.CustomerId = customerId.Value;
+
+                if (productId != null)
+                    model.ProductId = productId.Value;
+
+                return View(model);
+            }
+
+            return View(model);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> AddRepair([FromBody]RepairAddRequest repairAddRequest)
         {
-            try
+            if (ModelState.IsValid)
             {
                 await _repairService.AddRepairAsync(repairAddRequest);
-                return Ok();
+                return RedirectToAction("Index", "Repair");
             }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (ArgumentException)
-            {
-                return BadRequest("This Repair already exist");
-            }
+
+            return View(repairAddRequest);
         }
 
         [HttpPut]

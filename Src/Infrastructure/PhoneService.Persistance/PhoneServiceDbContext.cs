@@ -131,8 +131,8 @@ namespace PhoneService.Persistance
                 new RepairStatus { RepairStatusId = 2, Name = "Wyceniona" },
                 new RepairStatus { RepairStatusId = 3, Name = "W trakcie realizacji" },
                 new RepairStatus { RepairStatusId = 4, Name = "Zrealizowana" },
-                new RepairStatus { RepairStatusId = 5, Name = "Odrzucona" },
-                new RepairStatus { RepairStatusId = 6, Name = "Będziesz Pan zadowolony" });
+                new RepairStatus { RepairStatusId = 5, Name = "Zakończona" },
+                new RepairStatus { RepairStatusId = 6, Name = "Odrzucona" });
 
             modelBuilder.Entity<Repair>().HasData(
                 new Repair { RepairId = 1, CustomerId = 1, ProductId = 1, RepairStatusId = 1, CreateDate = DateTime.UtcNow, Description = "Tutaj powinien być jakiś opis naprawy" },
