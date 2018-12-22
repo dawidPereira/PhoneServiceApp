@@ -12,7 +12,8 @@ namespace PhoneService.Core.Mapping
     {
         public ProductMappingProfile()
         {
-            CreateMap<Product, ProductResponse>();
+            CreateMap<Product, ProductResponse>()
+                .ForMember(x => x.SapareParts, m => m.MapFrom(src => src.ProductSapareParts));
             CreateMap<ProductAddRequest, Product>();
             CreateMap<ProductUpdateRequest, Product>();
             CreateMap<ProductSearchRequest, Product>();

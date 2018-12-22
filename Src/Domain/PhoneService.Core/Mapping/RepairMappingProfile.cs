@@ -35,6 +35,7 @@ namespace PhoneService.Core.Mapping
                      RepairId = x.RepairId,
                      Description = x.Description,
                      StatusName = x.RepairStatus.Name,
+                     StatusId = x.RepairStatus.RepairStatusId,
                      CreateTime = x.CreateDate,
                      CustomerDetails = Mapper.Map<CustomerDetailsResponse>(x.Customer),
                      Product = Mapper.Map<ProductResponse>(x.Product),
