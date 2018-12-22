@@ -20,12 +20,16 @@
         <div class="col-sm-12">
             <h4>Lista części zamiennych</h4>
             <hr />
-            @if (!Model.SapareParts.Any() || Model.SapareParts == null)
+            @if (Model.SapareParts == null)
             {
                 <p>Brak części zamiennych</p>
             }
             else
             {
+                if (!Model.SapareParts.Any())
+                {
+                    <p>Brak części zamiennych</p>
+                }
                 <table>
                     <thead>
                         <tr>

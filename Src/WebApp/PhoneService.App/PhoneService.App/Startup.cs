@@ -120,6 +120,7 @@ namespace PhoneService.App
                 x.AddProfile<SaparePartMappingProfile>();
                 x.AddProfile<ProductMappingProfile>();
                 x.AddProfile<RepairMappingProfile>();
+                x.AddProfile<RepairItemMappingProfile>();
             });
 
             //Mapper.Configuration.AssertConfigurationIsValid();
