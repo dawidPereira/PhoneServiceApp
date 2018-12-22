@@ -80,22 +80,20 @@ namespace PhoneService.App.Controllers
             return View(repairAddRequest);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> UpdateCustomer([FromBody]RepairUpdateRequest repairUpdateRequest)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateRepair(RepairUpdateRequest repairUpdateRequest)
         {
-            try
+            if (ModelState.IsValid)
             {
                 await _repairService.UpdateRepairAsync(repairUpdateRequest);
-                return Ok(NoContent());
+
+                return RedirectToAction("Details", "Repair", new {repairId = repairUpdateRequest.RepairId});
             }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest("This Repair does not exist");
-            }
+
+            return BadRequest();
+
         }
 
         [HttpPost("{repairId}")]

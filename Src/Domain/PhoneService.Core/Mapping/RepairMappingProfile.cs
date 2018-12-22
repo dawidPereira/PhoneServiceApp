@@ -39,7 +39,7 @@ namespace PhoneService.Core.Mapping
                      CreateTime = x.CreateDate,
                      CustomerDetails = Mapper.Map<CustomerDetailsResponse>(x.Customer),
                      Product = Mapper.Map<ProductResponse>(x.Product),
-                     RepairItems = Mapper.Map<IEnumerable<RepairItemResponse>>(x.RepairItems)
+                     RepairItems = Mapper.Map<List<RepairItemResponse>>(x.RepairItems)
                  });
             
             CreateMap<RepairAddRequest, Repair>()

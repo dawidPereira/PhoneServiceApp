@@ -40,3 +40,62 @@
 <div class="col-sm-12">
     <p>@Model.Description</p>
 </div>
+
+<br />
+<h4>Wycena usterki i zarządzanie naprawą</h4>
+<hr />
+@if (Model.StatusId == 1)
+{
+    <h6>Wyceń naprawę</h6>
+
+    <form asp-action="UpdateRepair" asp-controller="Repair" asp-antiforgery="true">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="CustomerId" />
+        <input type="hidden" asp-for="Description" />
+        <input type="hidden" asp-for="ProductId" />
+        <input type="hidden" asp-for="RepairId" />
+        <input type="hidden" asp-for="CreateTime" value="@DateTime.Now" />
+        <input type="hidden" asp-for="StatusId" value="2" />
+        <div class="form-group">
+            <label asp-for="RepairItems" class="control-label"></label>
+            <input asp-for="RepairItems" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Zapisz wycenę" class="btn btn-default" />
+        </div>
+    </form>
+}
+
+@if (Model.StatusId == 2)
+{
+    <h6>Decyzja klienta</h6>
+    <p>Jeżeli klient nie jest obecny, czekamy na jego decyzję</p>
+}
+
+@if (Model.StatusId == 3)
+{
+    <h6>Produkt w naprawie</h6>
+}
+
+@if (Model.StatusId == 4)
+{
+    <h6>Naprawa zrealizowana</h6>
+    <p>Produkt gotowy do odbioru</p>
+}
+
+@if (Model.StatusId == 5)
+{
+    <h6>Zakończona</h6>
+    <p>Klient odebrał produkt</p>
+}
+
+@if (Model.StatusId == 6)
+{
+    <h6>Wycena odrzucona przez klienta</h6>
+}
+
+@if (Model.StatusId == 7)
+{
+    <h6>Zakończona bez naprawy</h6>
+    <p>Klient odebrał produkt</p>
+}

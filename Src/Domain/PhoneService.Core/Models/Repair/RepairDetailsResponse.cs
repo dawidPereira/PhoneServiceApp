@@ -19,6 +19,6 @@ namespace PhoneService.Core.Models.Repair
 
         public CustomerDetailsResponse CustomerDetails { get; set; }
         public ProductResponse Product { get; set; }
-        public IEnumerable<RepairItemResponse> RepairItems { get; set; }
+        public List<RepairItemResponse> RepairItems { get; set; }
     }
 }
