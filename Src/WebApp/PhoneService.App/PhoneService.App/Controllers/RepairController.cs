@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Interfaces;
 using PhoneService.Core.Models.Repair;
+using PhoneService.Core.Models.RepairItem;
 using PhoneService.Core.Services;
 
 namespace PhoneService.App.Controllers
@@ -80,6 +81,43 @@ namespace PhoneService.App.Controllers
             return View(repairAddRequest);
         }
 
+        [HttpGet("{repairId}")]
+        public async Task<IActionResult> UpdateRepair(int repairId)
+        {
+            var repair = await _repairService.GetRepairByIdAsync(repairId);
+
+            RepairUpdateRequest model = new RepairUpdateRequest();
+
+            model.CustomerId = repair.CustomerId;
+            model.CreateTime = repair.CreateTime;
+            model.Description = repair.Description;
+            model.RepairId = repair.RepairId;
+            model.StatusId = repair.StatusId;
+            model.ProductId = repair.ProductId;
+            if (repair.RepairItems.Any())
+            {
+                model.RepairItems = new List<RepairItemAddRequest>();
+
+                foreach (var item in repair.RepairItems)
+                {
+                    RepairItemAddRequest req = new RepairItemAddRequest()
+                    {
+                        Quantity = item.Quantity,
+                        RepairId = repair.RepairId,
+                        SaparePartId = item.SaparePart.SaparePartId
+
+                    };
+
+                    model.RepairItems.Add(req);
+                }
+            }
+            else
+            {
+                model.RepairItems = new List<RepairItemAddRequest>();
+            }
+
+            return View(model);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -92,7 +130,7 @@ namespace PhoneService.App.Controllers
                 return RedirectToAction("Details", "Repair", new {repairId = repairUpdateRequest.RepairId});
             }
 
-            return BadRequest();
+            return View(repairUpdateRequest);
 
         }
 

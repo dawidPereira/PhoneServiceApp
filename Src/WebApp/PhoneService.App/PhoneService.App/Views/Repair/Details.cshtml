@@ -48,22 +48,9 @@
 {
     <h6>Wyceń naprawę</h6>
 
-    <form asp-action="UpdateRepair" asp-controller="Repair" asp-antiforgery="true">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="CustomerId" />
-        <input type="hidden" asp-for="Description" />
-        <input type="hidden" asp-for="ProductId" />
-        <input type="hidden" asp-for="RepairId" />
-        <input type="hidden" asp-for="CreateTime" value="@DateTime.Now" />
-        <input type="hidden" asp-for="StatusId" value="2" />
-        <div class="form-group">
-            <label asp-for="RepairItems" class="control-label"></label>
-            <input asp-for="RepairItems" class="form-control" />
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Zapisz wycenę" class="btn btn-default" />
-        </div>
-    </form>
+    <a asp-controller="Repair" asp-action="UpdateRepair" asp-route-repairId="@Model.RepairId">
+        <button>Dodaj części zamienne</button>
+    </a>
 }
 
 @if (Model.StatusId == 2)

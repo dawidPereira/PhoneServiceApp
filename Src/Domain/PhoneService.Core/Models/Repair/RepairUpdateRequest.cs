@@ -17,7 +17,7 @@ namespace PhoneService.Core.Models.Repair
         public int CustomerId { get; set; }
         public int ProductId { get; set; }
 
-        public ICollection<RepairItemAddRequest> RepairItems { get; set; }
+        public List<RepairItemAddRequest> RepairItems { get; set; }
 
         public RepairUpdateRequest()
         {
