@@ -145,19 +145,6 @@ namespace PhoneService.Persistance
                 new Repair { RepairId = 7, CustomerId = 5, ProductId = 2, RepairStatusId = 2, CreateDate = DateTime.UtcNow, Description = "Coś nie diała" },
                 new Repair { RepairId = 8, CustomerId = 5, ProductId = 5, RepairStatusId = 6, CreateDate = DateTime.UtcNow, Description = "Pan nie był zadowolony" });
 
-            modelBuilder.Entity<RepairItem>().HasData(
-                new RepairItem { RepairId = 1, SaparePartId = 1, Quantity = 1 },
-                new RepairItem { RepairId = 1, SaparePartId = 2, Quantity = 2 },
-                new RepairItem { RepairId = 2, SaparePartId = 3, Quantity = 1 },
-                new RepairItem { RepairId = 3, SaparePartId = 4, Quantity = 2 },
-                new RepairItem { RepairId = 4, SaparePartId = 5, Quantity = 1 },
-                new RepairItem { RepairId = 5, SaparePartId = 1, Quantity = 1 },
-                new RepairItem { RepairId = 2, SaparePartId = 2, Quantity = 2 },
-                new RepairItem { RepairId = 3, SaparePartId = 3, Quantity = 3 },
-                new RepairItem { RepairId = 4, SaparePartId = 4, Quantity = 1 },
-                new RepairItem { RepairId = 5, SaparePartId = 5, Quantity = 10 },
-                new RepairItem { RepairId = 2, SaparePartId = 1, Quantity = 1 });
-
             #endregion
         }
 

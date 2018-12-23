@@ -94,7 +94,7 @@ namespace PhoneService.App.Controllers
             model.RepairId = repair.RepairId;
             model.StatusId = repair.StatusId;
             model.ProductId = repair.ProductId;
-            if (repair.RepairItems.Any())
+            if (repair.RepairItems.Any() && repair.StatusId != 1)
             {
                 model.RepairItems = new List<RepairItemAddRequest>();
 
@@ -114,6 +114,8 @@ namespace PhoneService.App.Controllers
             else
             {
                 model.RepairItems = new List<RepairItemAddRequest>();
+                var repairItem = new RepairItemAddRequest();
+                model.RepairItems.Add(repairItem);
             }
 
             return View(model);

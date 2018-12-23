@@ -1,4 +1,5 @@
-﻿@model PhoneService.Core.Models.Repair.RepairUpdateRequest
+﻿@using Microsoft.CodeAnalysis
+@model PhoneService.Core.Models.Repair.RepairUpdateRequest
 
 <h2>Dodaj części zamienne dla naprawy</h2>
 
@@ -23,13 +24,14 @@
         <input type="hidden" asp-for="RepairId" />
         <input type="hidden" asp-for="CreateTime" value="@DateTime.Now" />
         <input type="hidden" asp-for="StatusId" value="2" />
-        <div class="form-group">
-            <table id="Table">
-                <tbody>
-                @Html.EditorFor(m => m.RepairItems)
-                </tbody>
-            </table>
-            <button id="AddObject" type="button" class="btn btn-primary">Dodaj część</button>
+        <a href="#" onclick="addItem()">Dodaj kolejną część</a>
+        <br/>
+        <div class="form-group" id="item-list">
+            <div class="items">
+                <input type="hidden" asp-for="RepairItems[0].RepairId" />
+                <input asp-for="RepairItems[0].SaparePartId" />
+                <input asp-for="RepairItems[0].Quantity" />
+            </div>
         </div>
         <div class="form-group">
             <input type="submit" value="Zapisz wycenę" class="btn btn-default" />
@@ -38,16 +40,20 @@
 </div>
 
 <script type="text/javascript">
-    $('#AddObject').click(function () {
-        var i = $(".thingRow").length;
-        $.ajax({
-            url: 'AddObject?index=' + i,
-            success: function (data) {
-                $('#Table > tbody').append(data);
-            },
-            error: function (a, b, c) {
-                console.log(a, b, c);
-            }
-        });
-    });
+
+    function addItem() {
+        var i = $(".items").length;
+        var n = '<div class="items"><input type="hidden" asp-for="RepairItems[' +
+            i +
+            '].RepairId"/> ' +
+            '<input asp-for="RepairItems[' +
+            i +
+            '].SaparePartId"/>' +
+            '<input asp-for="RepairItems[' +
+            i +
+            '].Quantity"/></div>';
+        $("#item-list").append(n);
+    };
+
+
 </script>
