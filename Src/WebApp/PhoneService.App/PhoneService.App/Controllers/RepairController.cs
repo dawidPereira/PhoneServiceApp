@@ -125,6 +125,11 @@ namespace PhoneService.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateRepair(RepairUpdateRequest repairUpdateRequest)
         {
+            foreach (var item in repairUpdateRequest.RepairItems)
+            {
+                item.RepairId = repairUpdateRequest.RepairId;
+            }
+
             if (ModelState.IsValid)
             {
                 await _repairService.UpdateRepairAsync(repairUpdateRequest);
@@ -132,7 +137,7 @@ namespace PhoneService.App.Controllers
                 return RedirectToAction("Details", "Repair", new {repairId = repairUpdateRequest.RepairId});
             }
 
-            return View(repairUpdateRequest);
+            return BadRequest(ModelState);
 
         }
 
