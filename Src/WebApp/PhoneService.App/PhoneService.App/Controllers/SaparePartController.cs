@@ -40,7 +40,8 @@ namespace PhoneService.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddSaparePart([FromBody]SaparePartAddRequest saparePartAddRequest)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddSaparePart(SaparePartAddRequest saparePartAddRequest)
         {
             try
             {
@@ -81,7 +82,8 @@ namespace PhoneService.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateSaparePart([FromBody]SaparePartUpdateRequest saparePartUpdateRequest)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateSaparePart(SaparePartUpdateRequest saparePartUpdateRequest)
         {
             try
             {
