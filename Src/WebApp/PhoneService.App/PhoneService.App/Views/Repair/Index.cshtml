@@ -1,0 +1,59 @@
+﻿@model IEnumerable<PhoneService.Core.Models.Repair.RepairResponse>
+
+<div class="col-sm-12">
+    <a class="btn btn-outline-dark" asp-action="AddRepair" asp-controller="Repair">Zarejestruj naprawę</a>
+</div>
+<hr />
+<div>
+    <table class="table table-dark">
+        <thead class="tab-pane">
+            <tr>
+                <th>Numer Id</th>
+                <th>Data rejestracji</th>
+                <th>Nazwa produktu</th>
+                <th>Id Klienta</th>
+                <th>Nazwa klienta</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="tab-content">
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td>Brak napraw</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var repair in Model)
+                {
+                    <tr>
+
+                        <td>@repair.RepairId</td>
+                        <td>@repair.CreateDate</td>
+                        <td>@repair.Product</td>
+                        <td>@repair.CustomerId</td>
+                        <td>@repair.CustomerName @repair.LastName</td>
+                        <td>@repair.RepairStatusName</td>
+                        <td>
+                            <p>
+                                <a class="active" asp-action="Details" asp-controller="Repair" asp-route-repairId="@repair.RepairId">Szczegóły</a> |
+                            </p>
+                        </td>
+                        <td>
+                            <form class="active" asp-action="RemoveRepair" method="post"
+                                  asp-controller="Repair" asp-route-repairId="@repair.RepairId">
+                                <input type="submit" value="Usuń" class="btn btn-sm"
+                                       onclick="return confirm('Czy na pewno chcesz usunać tę naprawę?')" />
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+

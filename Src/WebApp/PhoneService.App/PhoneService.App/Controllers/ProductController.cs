@@ -58,7 +58,7 @@ namespace PhoneService.App.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _productService.AddCustomerAsync(productAddRequest);
+                    await _productService.AddProductAsync(productAddRequest);
                     return RedirectToAction("Index", "Customer");
                 }
 
@@ -102,7 +102,7 @@ namespace PhoneService.App.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    await _productService.UpdateCustomerAsync(productUpdateRequest);
+                    await _productService.UpdateProductAsync(productUpdateRequest);
                     return RedirectToAction("Index", "Product");
                 }
 
@@ -121,7 +121,7 @@ namespace PhoneService.App.Controllers
             {
                 if (productId != null)
                 {
-                    await _productService.RemoveCustomerAsync(productId.Value);
+                    await _productService.RemoveProductAsync(productId.Value);
                     return RedirectToAction("Index", "Product");
                 }
 

@@ -13,10 +13,10 @@ namespace PhoneService.Core.Interfaces
 
         Task<IEnumerable<ProductResponse>> GetCustomerBySearchTermsAsync(ProductSearchRequest searchRequest);
 
-        Task AddCustomerAsync(ProductAddRequest customerRequest);
+        Task AddProductAsync(ProductAddRequest customerRequest);
 
-        Task UpdateCustomerAsync(ProductUpdateRequest customerRequest);
+        Task UpdateProductAsync(ProductUpdateRequest customerRequest);
 
-        Task RemoveCustomerAsync(int customerId);
+        Task RemoveProductAsync(int customerId);
     }
 }

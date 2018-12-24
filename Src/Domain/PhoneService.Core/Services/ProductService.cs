@@ -55,13 +55,13 @@ namespace PhoneService.Core.Services
             var productResponse = Mapper.Map<ProductResponse> (product);
             return productResponse;
         }
-        public async Task AddCustomerAsync(ProductAddRequest customerRequest)
+        public async Task AddProductAsync(ProductAddRequest customerRequest)
         {
             _nullCheckMethod.CheckIfRequestIsNull(customerRequest);
 
             var product = await _unitOfWork.Products.GetProductByModelAsync(customerRequest.Model);
 
-            _nullCheckMethod.CheckIfResponseIsNull(product);
+            _nullCheckMethod.CheckIFObjectAlreadyExist(product);
 
             var _product = Mapper.Map<Product>(customerRequest);
 
@@ -69,7 +69,7 @@ namespace PhoneService.Core.Services
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task UpdateCustomerAsync(ProductUpdateRequest customerRequest)
+        public async Task UpdateProductAsync(ProductUpdateRequest customerRequest)
         {
             _nullCheckMethod.CheckIfRequestIsNull(customerRequest);
 
@@ -82,7 +82,7 @@ namespace PhoneService.Core.Services
 
         }
 
-        public async Task RemoveCustomerAsync(int productId)
+        public async Task RemoveProductAsync(int productId)
         {
             _nullCheckMethod.CheckIfRequestIsNull(productId);
 
