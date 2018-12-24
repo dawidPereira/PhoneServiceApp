@@ -94,7 +94,7 @@ namespace PhoneService.App.Controllers
             model.RepairId = repair.RepairId;
             model.StatusId = repair.StatusId;
             model.ProductId = repair.ProductId;
-            if (repair.RepairItems.Any())
+            if (repair.RepairItems.Any() && repair.StatusId != 1)
             {
                 model.RepairItems = new List<RepairItemAddRequest>();
 
@@ -114,6 +114,8 @@ namespace PhoneService.App.Controllers
             else
             {
                 model.RepairItems = new List<RepairItemAddRequest>();
+                var repairItem = new RepairItemAddRequest();
+                model.RepairItems.Add(repairItem);
             }
 
             return View(model);
@@ -123,6 +125,11 @@ namespace PhoneService.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateRepair(RepairUpdateRequest repairUpdateRequest)
         {
+            foreach (var item in repairUpdateRequest.RepairItems)
+            {
+                item.RepairId = repairUpdateRequest.RepairId;
+            }
+
             if (ModelState.IsValid)
             {
                 await _repairService.UpdateRepairAsync(repairUpdateRequest);
@@ -130,7 +137,7 @@ namespace PhoneService.App.Controllers
                 return RedirectToAction("Details", "Repair", new {repairId = repairUpdateRequest.RepairId});
             }
 
-            return View(repairUpdateRequest);
+            return BadRequest(ModelState);
 
         }
 

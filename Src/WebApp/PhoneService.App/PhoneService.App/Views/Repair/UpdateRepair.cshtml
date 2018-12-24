@@ -1,4 +1,5 @@
-﻿@model PhoneService.Core.Models.Repair.RepairUpdateRequest
+﻿@using PhoneService.Core.Models.RepairItem
+@model PhoneService.Core.Models.Repair.RepairUpdateRequest
 
 <h2>Dodaj części zamienne dla naprawy</h2>
 
@@ -15,7 +16,7 @@
 <h4>Wycena usterki i zarządzanie naprawą</h4>
 <hr />
 <div>
-    <form asp-controller="Repair" asp-action="UpdateRepair" asp-route-repairId="" method="post" asp-antiforgery="true">
+    <form id="form" asp-controller="Repair" asp-action="UpdateRepair" asp-route-repairId="" method="post" asp-antiforgery="true">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="CustomerId" />
         <input type="hidden" asp-for="Description" />
@@ -23,31 +24,34 @@
         <input type="hidden" asp-for="RepairId" />
         <input type="hidden" asp-for="CreateTime" value="@DateTime.Now" />
         <input type="hidden" asp-for="StatusId" value="2" />
-        <div class="form-group">
-            <table id="Table">
-                <tbody>
-                @Html.EditorFor(m => m.RepairItems)
-                </tbody>
-            </table>
-            <button id="AddObject" type="button" class="btn btn-primary">Dodaj część</button>
+        <button onclick="addItem(form)">Dodaj kolejną część</button>
+        <br />
+        <div class="form-group" id="item-list">
+            @Html.EditorFor(m => m.RepairItems, "RepairItems")
         </div>
         <div class="form-group">
-            <input type="submit" value="Zapisz wycenę" class="btn btn-default" />
+            <input type="submit" value="Zapisz wycenę" onclick="submit()" class="btn btn-default" />
         </div>
     </form>
 </div>
 
 <script type="text/javascript">
-    $('#AddObject').click(function () {
-        var i = $(".thingRow").length;
-        $.ajax({
-            url: 'AddObject?index=' + i,
-            success: function (data) {
-                $('#Table > tbody').append(data);
-            },
-            error: function (a, b, c) {
-                console.log(a, b, c);
-            }
-        });
-    });
+
+    function addItem() {
+        $("form").click(function(event) {
+            event.preventDefault();
+        });  
+        var i = $(".items").length;
+        var n = '<div class="items">' +
+            ' <input type="hidden" data-val="true" data-val-required="The RepairId field is required." id="RepairItems_' + i + '__RepairId" name="RepairItems[' + i + '].RepairId" value="0" /> ' +
+            ' <input type="number" data-val="true" data-val-required="The SaparePartId field is required." id="RepairItems_' + i + '__SaparePartId" name="RepairItems[' + i + '].SaparePartId" value="0" /> ' +
+            ' <input type="number" data-val="true" data-val-required="The Quantity field is required." id="RepairItems_' + i + '__Quantity" name="RepairItems[' + i + '].Quantity" value="0" /> ' +
+            ' </div>';
+        $("#item-list").append(n);
+    };
+
+    function submit() {
+        $("form").submit();
+    };
+
 </script>
