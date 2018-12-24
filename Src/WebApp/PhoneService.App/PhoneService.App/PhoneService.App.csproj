@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\..\Infrastructure\PhoneService.Persistance\PhoneService.Persistance.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Shared\EditorTemplates\" />
+  </ItemGroup>
+
 </Project>

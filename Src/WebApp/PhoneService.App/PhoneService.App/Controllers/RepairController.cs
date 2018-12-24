@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Interfaces;
 using PhoneService.Core.Models.Repair;
@@ -17,13 +19,16 @@ namespace PhoneService.App.Controllers
         private readonly IRepairService _repairService;
         private readonly ICustomerService _customerService;
         private readonly IProductService _productService;
+        private readonly ISaparePartService _saparePartService;
 
         public RepairController(IRepairService repairService,
-            ICustomerService customerService, IProductService productService)
+            ICustomerService customerService, IProductService productService,
+            ISaparePartService saparePartService)
         {
             _repairService = repairService;
             _customerService = customerService;
             _productService = productService;
+            _saparePartService = saparePartService;
         }
 
         [HttpGet]
@@ -81,60 +86,94 @@ namespace PhoneService.App.Controllers
             return View(repairAddRequest);
         }
 
-        [HttpGet("{repairId}")]
-        public async Task<IActionResult> UpdateRepair(int repairId)
-        {
-            var repair = await _repairService.GetRepairByIdAsync(repairId);
 
+        [HttpGet("{repairId?}")]
+        [HttpGet("{quantity?}/{saparePartId?}")]
+        public async Task<IActionResult> UpdateRepair(int? repairId, int? saparepartId, int? quantity)
+        {
+            RepairDetailsResponse repair = new RepairDetailsResponse();
+            if (repairId != null)
+            {
+                repair = await _repairService.GetRepairByIdAsync(repairId.Value);
+            }
+            
             RepairUpdateRequest model = new RepairUpdateRequest();
 
-            model.CustomerId = repair.CustomerId;
-            model.CreateTime = repair.CreateTime;
-            model.Description = repair.Description;
-            model.RepairId = repair.RepairId;
-            model.StatusId = repair.StatusId;
-            model.ProductId = repair.ProductId;
-            if (repair.RepairItems.Any() && repair.StatusId != 1)
+            var str = HttpContext.Session.GetString("repairUpdateRequest");
+
+            if (str != null)
             {
-                model.RepairItems = new List<RepairItemAddRequest>();
-
-                foreach (var item in repair.RepairItems)
-                {
-                    RepairItemAddRequest req = new RepairItemAddRequest()
-                    {
-                        Quantity = item.Quantity,
-                        RepairId = repair.RepairId,
-                        SaparePartId = item.SaparePart.SaparePartId
-
-                    };
-
-                    model.RepairItems.Add(req);
-                }
+                var data = JsonConvert.DeserializeObject<RepairUpdateRequest>(str);
+                model = data;
             }
             else
             {
-                model.RepairItems = new List<RepairItemAddRequest>();
-                var repairItem = new RepairItemAddRequest();
-                model.RepairItems.Add(repairItem);
+                model.CustomerId = repair.CustomerId;
+                model.CreateTime = repair.CreateTime;
+                model.Description = repair.Description;
+                model.RepairId = repair.RepairId;
+                model.StatusId = repair.StatusId;
+                model.ProductId = repair.ProductId;
+
+                if (repair.RepairItems.Any() && repair.StatusId != 1)
+                {
+                    model.RepairItems = new List<RepairItemAddRequest>();
+
+                    foreach (var item in repair.RepairItems)
+                    {
+                        RepairItemAddRequest req = new RepairItemAddRequest()
+                        {
+                            Quantity = item.Quantity,
+                            RepairId = repair.RepairId,
+                            SaparePartId = item.SaparePart.SaparePartId
+                        };
+
+                        model.RepairItems.Add(req);
+                    }
+                }
+                else
+                {
+                    model.RepairItems = new List<RepairItemAddRequest>();
+                }
+
+                var key = "repairUpdateRequest";
+                var data = model;
+                HttpContext.Session.SetString(key, JsonConvert.SerializeObject(data));
+            }
+
+            if (saparepartId != null && quantity != null)
+            {
+                var newRepairItem = new RepairItemAddRequest()
+                {
+                    RepairId = model.RepairId,
+                    SaparePartId = saparepartId.Value,
+                    Quantity = quantity.Value
+                };
+
+                if (model.RepairItems != null)
+                {
+                    model.RepairItems.Add(newRepairItem);
+
+                    var key = "repairUpdateRequest";
+                    var data = model;
+                    HttpContext.Session.SetString(key, JsonConvert.SerializeObject(data));
+                }
+
             }
 
             return View(model);
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateRepair(RepairUpdateRequest repairUpdateRequest)
         {
-            foreach (var item in repairUpdateRequest.RepairItems)
-            {
-                item.RepairId = repairUpdateRequest.RepairId;
-            }
-
             if (ModelState.IsValid)
             {
                 await _repairService.UpdateRepairAsync(repairUpdateRequest);
-
-                return RedirectToAction("Details", "Repair", new {repairId = repairUpdateRequest.RepairId});
+                HttpContext.Session.Clear();
+                return RedirectToAction("Details", "Repair", new { repairId = repairUpdateRequest.RepairId });
             }
 
             return BadRequest(ModelState);

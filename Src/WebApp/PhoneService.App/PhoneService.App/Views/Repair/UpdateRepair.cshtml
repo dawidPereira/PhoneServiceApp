@@ -15,8 +15,49 @@
 <br />
 <h4>Wycena usterki i zarządzanie naprawą</h4>
 <hr />
+<p>Części w Naprawie</p>
+<table>
+    <thead>
+        <tr>
+            <th>Id Części</th>
+            <th>Nazwa części</th>
+            <th>Numer referencyjny</th>
+            <th>Cena jednostkowa</th>
+            <th>Ilość</th>
+            <th>Suma</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.RepairItems != null)
+        {
+            if (Model.RepairItems.Any())
+            {
+                foreach (var item in @Model.RepairItems)
+                {
+                    <tr>
+                        <td>@item.SaparePartId</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>@item.Quantity</td>
+                        <td></td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+<hr />
 <div>
-    <form id="form" asp-controller="Repair" asp-action="UpdateRepair" asp-route-repairId="" method="post" asp-antiforgery="true">
+    <button onclick="showStuff('listItems')">Dodaj kolejną część</button>
+    <br/>
+    <div style="display: none" id="listItems">
+        @await Component.InvokeAsync("RepairForSaparePartSelectComponent",new { productId = @Model.ProductId })
+    </div>
+</div>
+<div>
+    <form id="form" asp-controller="Repair" asp-action="UpdateRepair" asp-route-repairId="" method="post" asp-antiforgery="true"
+          asp-route-quantity="" asp-route-saparepartId="">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="CustomerId" />
         <input type="hidden" asp-for="Description" />
@@ -24,11 +65,19 @@
         <input type="hidden" asp-for="RepairId" />
         <input type="hidden" asp-for="CreateTime" value="@DateTime.Now" />
         <input type="hidden" asp-for="StatusId" value="2" />
-        <button onclick="addItem(form)">Dodaj kolejną część</button>
-        <br />
-        <div class="form-group" id="item-list">
-            @Html.EditorFor(m => m.RepairItems, "RepairItems")
-        </div>
+        @if (Model.RepairItems != null)
+        {
+            if (Model.RepairItems.Any())
+            {
+                foreach (var item in Model.RepairItems)
+                {
+                    <div class="form-group">
+                        <input type="hidden" asp-for="@item.SaparePartId" />
+                        <input type="hidden" asp-for="@item.Quantity" />
+                    </div>
+                }
+            }
+        }
         <div class="form-group">
             <input type="submit" value="Zapisz wycenę" onclick="submit()" class="btn btn-default" />
         </div>
@@ -36,22 +85,7 @@
 </div>
 
 <script type="text/javascript">
-
-    function addItem() {
-        $("form").click(function(event) {
-            event.preventDefault();
-        });  
-        var i = $(".items").length;
-        var n = '<div class="items">' +
-            ' <input type="hidden" data-val="true" data-val-required="The RepairId field is required." id="RepairItems_' + i + '__RepairId" name="RepairItems[' + i + '].RepairId" value="0" /> ' +
-            ' <input type="number" data-val="true" data-val-required="The SaparePartId field is required." id="RepairItems_' + i + '__SaparePartId" name="RepairItems[' + i + '].SaparePartId" value="0" /> ' +
-            ' <input type="number" data-val="true" data-val-required="The Quantity field is required." id="RepairItems_' + i + '__Quantity" name="RepairItems[' + i + '].Quantity" value="0" /> ' +
-            ' </div>';
-        $("#item-list").append(n);
-    };
-
-    function submit() {
-        $("form").submit();
-    };
-
+    function showStuff(id) {
+        document.getElementById(id).style.display = 'block';
+    }
 </script>

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PhoneService.Persistance;
 using System.Reflection;
+using System.Security.Policy;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using PhoneService.Domain.Repository.IUnitOfWork;
@@ -25,6 +26,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using PhoneService.App.AppData;
 using PhoneService.Infrastructure.Common;
 using PhoneService.Core.Services.Healpers;
+using PhoneService.Domain;
 
 namespace PhoneService.App
 {
@@ -66,9 +68,17 @@ namespace PhoneService.App
                 options.LogoutPath = "/logout";
             });
 
+            services.AddSession(opts =>
+            {
+                opts.Cookie.Name = ".NetEscapades.Session";
+                opts.IdleTimeout = TimeSpan.FromMinutes(5);
+            });
 
             services
                 .AddMvc();
+
+            services.AddDistributedMemoryCache();
+            
 
             services
                 .AddScoped<IUnitOfWork, UnitOfWork>()
@@ -89,6 +99,7 @@ namespace PhoneService.App
             //services.AddSingleton(_ => Configuration);
             services.AddScoped<NullCheckMethod>()
                 .AddScoped<SearchFilterHealpers>();
+
 
             //services.AddAutoMapper(
             //    opt => opt.CreateMissingTypeMaps = true,
@@ -113,6 +124,7 @@ namespace PhoneService.App
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseCookiePolicy();
+            app.UseSession();
 
             Mapper.Initialize(x =>
             {
