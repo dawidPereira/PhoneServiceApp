@@ -16,6 +16,7 @@ namespace PhoneService.Core.Mapping
                 .ConvertUsing(x => new CustomerDetailsResponse
                  {
                      CustomerId = x.CustomerId,
+                     CustomerAddresId = x.Addres.CustomerAddresId,
                      Name = x.Name,
                      LastName = x.LastName,
                      Email = x.Email,
@@ -47,6 +48,7 @@ namespace PhoneService.Core.Mapping
             CreateMap<CustomerUpdateRequest, Customer>()
                 .ConvertUsing(x => new Customer
                 {
+                    CustomerId = x.CustomerId,
                     Name = x.Name,
                     LastName = x.LastName,
                     Email = x.Email,
@@ -54,6 +56,8 @@ namespace PhoneService.Core.Mapping
                     PhoneNum = x.PhoneNum,
                     Addres = new CustomerAddres()
                     {
+                        CustomerAddresId = x.CustomerAddresId,
+                        CustomerId = x.CustomerId,
                         City = x.City,
                         Adress = x.Adress,
                         PostCode = x.PostCode
@@ -75,6 +79,16 @@ namespace PhoneService.Core.Mapping
                         Adress = x.Adress,
                         PostCode = x.PostCode
                     }
+                });
+
+            CreateMap<CustomerUpdateRequest, CustomerAddres>()
+                .ConvertUsing(x => new CustomerAddres
+                {
+                    CustomerAddresId = x.CustomerAddresId,
+                    CustomerId = x.CustomerId,
+                    City = x.City,
+                    Adress = x.Adress,
+                    PostCode = x.PostCode,
                 });
         }
     }

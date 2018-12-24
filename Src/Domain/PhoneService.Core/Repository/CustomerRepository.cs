@@ -33,6 +33,7 @@ namespace PhoneService.Core.Repository
         {
             var customer = await _context.Set<Customer>()
                             .Include(c => c.Addres)
+                            .AsNoTracking()
                             .FirstOrDefaultAsync(c => c.CustomerId == customerId);
 
             return customer;
@@ -59,6 +60,8 @@ namespace PhoneService.Core.Repository
         }
 
         public void AddCustomer(Customer customer) => _context.Add(customer);
+        
+        public void UpdateCustomer(Customer customer) => _context.Update(customer);
 
         public void RemoveCustomer(Customer customer) => _context.Remove(customer);
     }

@@ -32,6 +32,8 @@ namespace PhoneService.Core.Repository
         public async Task<Product> GetProductByIdAsync(int productId)
         {
             var products = await _context.Set<Product>()
+                            .Include(c => c.ProductSapareParts)
+                                    .ThenInclude(c => c.SaparePart)
                             .FirstOrDefaultAsync(p => p.ProductId == productId);
 
             return products;

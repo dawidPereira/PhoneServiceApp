@@ -13,7 +13,7 @@ namespace PhoneService.Core.Interfaces
 
         Task<RepairDetailsResponse> GetRepairByIdAsync(int repairID);
 
-        Task<IEnumerable<RepairResponse>> GetCustomerBySearchTermsAsync(RepairSearchRequest searchRequest);
+        Task<IEnumerable<RepairResponse>> GetRepairBySearchTermsAsync(RepairSearchRequest searchRequest);
 
         Task AddRepairAsync(RepairAddRequest repairAddRequest);
 
