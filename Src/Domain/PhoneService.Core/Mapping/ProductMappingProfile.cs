@@ -12,7 +12,16 @@ namespace PhoneService.Core.Mapping
     {
         public ProductMappingProfile()
         {
-            CreateMap<Product, ProductResponse>();
+            CreateMap<Product, ProductResponse>()
+                .ConstructUsing(x => new ProductResponse
+                {
+                    ProductId = x.ProductId,
+                    Producer = x.Producer,
+                    Model = x.Model,
+                    Description = x.Description,
+                    SapareParts = Mapper.Map<IEnumerable<SaparePartResponse>>(x.ProductSapareParts)
+                });
+
             CreateMap<ProductAddRequest, Product>();
             CreateMap<ProductUpdateRequest, Product>();
             CreateMap<ProductSearchRequest, Product>();

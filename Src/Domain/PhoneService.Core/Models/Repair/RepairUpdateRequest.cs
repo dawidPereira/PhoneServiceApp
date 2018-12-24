@@ -18,10 +18,5 @@ namespace PhoneService.Core.Models.Repair
         public int ProductId { get; set; }
 
         public List<RepairItemAddRequest> RepairItems { get; set; }
-
-        public RepairUpdateRequest()
-        {
-            CreateTime = DateTime.Now;
-        }
     }
 }

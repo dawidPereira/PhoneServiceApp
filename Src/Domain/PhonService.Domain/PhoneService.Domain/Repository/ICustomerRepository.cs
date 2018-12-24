@@ -12,6 +12,7 @@ namespace PhoneService.Domain.Repository
         Task<Customer> GetCustomerByEmailAsync(string email);
         Task<IEnumerable<Customer>> GetCustomerBySearchTermsAsync(Customer customer);
         void AddCustomer(Customer customer);
+        void UpdateCustomer(Customer customer);
         void RemoveCustomer(Customer customer);
     }
 }

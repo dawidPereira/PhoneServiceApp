@@ -41,6 +41,7 @@ namespace PhoneService.Core.Repository
                                     .ThenInclude(c => c.Addres)
                             .Include(c => c.Product)
                                     .ThenInclude(c => c.ProductSapareParts)
+                                            .ThenInclude(c => c.SaparePart)
                             .Include(c => c.RepairItems)
                                     .ThenInclude(c => c.SaparePart)
                             .Include(c => c.RepairStatus)

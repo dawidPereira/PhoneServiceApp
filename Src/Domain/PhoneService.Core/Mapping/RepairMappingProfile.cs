@@ -31,7 +31,7 @@ namespace PhoneService.Core.Mapping
 
             CreateMap<Repair, RepairDetailsResponse>()
                  .ConvertUsing(x => new RepairDetailsResponse
-                 {
+                 {                                                                                                          
                      RepairId = x.RepairId,
                      Description = x.Description,
                      StatusName = x.RepairStatus.Name,
@@ -51,8 +51,7 @@ namespace PhoneService.Core.Mapping
                     RepairStatusId = x.StatusId,
                     CreateDate = x.CreateTime,
                     CustomerId = x.CustomerId,
-                    ProductId = x.ProductId,
-                    RepairItems = Mapper.Map<ICollection<RepairItem>>(x.RepairItems)
+                    ProductId = x.ProductId
                 });
 
             CreateMap<RepairUpdateRequest, Repair>()
@@ -61,7 +60,6 @@ namespace PhoneService.Core.Mapping
                     RepairId = x.RepairId,
                     Description = x.Description,
                     RepairStatusId = x.StatusId,
-                    CreateDate = x.CreateTime,
                     CustomerId = x.CustomerId,
                     ProductId = x.ProductId,
                     RepairItems = Mapper.Map<ICollection<RepairItem>>(x.RepairItems)

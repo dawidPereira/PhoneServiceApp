@@ -13,7 +13,6 @@ namespace PhoneService.Core.Models.Product
         public string Model { get; set; }
         public string Description { get; set; }
 
-        //TODO
         public IEnumerable<SaparePartResponse> SapareParts { get; set; }
     }
 }

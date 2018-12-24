@@ -18,11 +18,11 @@ namespace PhoneService.Core.Models.Repair
 
         public CustomerDetailsResponse CustomerDetails { get; set; }
         public ProductResponse Product { get; set; }
-        public ICollection<RepairItemAddRequest> RepairItems { get; set; }
 
         public RepairAddRequest()
         {
             CreateTime = DateTime.Now;
+            StatusId = 1;
         }
     }
 }
