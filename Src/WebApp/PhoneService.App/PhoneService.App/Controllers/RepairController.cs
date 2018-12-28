@@ -180,6 +180,44 @@ namespace PhoneService.App.Controllers
 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateRepairStatus(int repairId, int statusId)
+        {
+            var repair = await _repairService.GetRepairByIdAsync(repairId);
+
+            if (repair != null)
+            {
+                RepairUpdateRequest model = new RepairUpdateRequest();
+
+                model.CustomerId = repair.CustomerId;
+                model.CreateTime = repair.CreateTime;
+                model.Description = repair.Description;
+                model.RepairId = repair.RepairId;
+                model.StatusId = statusId;
+                model.ProductId = repair.ProductId;
+
+                model.RepairItems = new List<RepairItemAddRequest>();
+
+                foreach (var item in repair.RepairItems)
+                {
+                    RepairItemAddRequest req = new RepairItemAddRequest()
+                    {
+                        Quantity = item.Quantity,
+                        RepairId = repair.RepairId,
+                        SaparePartId = item.SaparePart.SaparePartId
+                    };
+
+                    model.RepairItems.Add(req);
+                }
+
+                return await UpdateRepair(model);
+            }
+
+            return BadRequest();
+        }
+
+
         [HttpPost("{repairId}")]
         public async Task<IActionResult> RemoveRepair(int repairId)
         {
