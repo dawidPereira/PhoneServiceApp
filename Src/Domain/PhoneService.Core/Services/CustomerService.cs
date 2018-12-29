@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using PhoneService.Infrastructure.Common;
 using PhoneService.Core.Services.Healpers;
 using PhoneService.Core.Interfaces;
+using PhoneService.Core.Models.Repair;
 
 namespace PhoneService.Core.Services
 {
@@ -75,7 +76,6 @@ namespace PhoneService.Core.Services
 
             _unitOfWork.Customers.AddCustomer(_customerRequest);
             await _unitOfWork.CompleteAsync();
-            
 
             //TODO: Run IEmailService and notifi user
         }
@@ -88,6 +88,7 @@ namespace PhoneService.Core.Services
 
             _nullCheckMethod.CheckIfResponseIsNull(customer);
 
+            //TODO: Add CustomerAddresId in Request
             var customerAddresId = customer.Addres.CustomerAddresId;
 
             customer = Mapper.Map<CustomerUpdateRequest, Customer>(customerRequest);
@@ -96,10 +97,6 @@ namespace PhoneService.Core.Services
 
             _unitOfWork.Customers.UpdateCustomer(customer);
             await _unitOfWork.CompleteAsync();
-
-            var repair = await _unitOfWork.Repairs.GetRepairItemByIdAsync(1);
-
-            await _emailSender.SendRepairStatusChangeEmailAsync("StatusChangeTemplate.html", repair);
         }
 
         public async Task RemoveCustomerAsync(int customerId)

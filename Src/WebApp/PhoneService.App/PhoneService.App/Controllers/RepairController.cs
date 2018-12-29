@@ -89,7 +89,6 @@ namespace PhoneService.App.Controllers
             RepairUpdateRequest model = new RepairUpdateRequest();
 
             model.CustomerId = repair.CustomerId;
-            model.CreateTime = repair.CreateTime;
             model.Description = repair.Description;
             model.RepairId = repair.RepairId;
             model.StatusId = repair.StatusId;

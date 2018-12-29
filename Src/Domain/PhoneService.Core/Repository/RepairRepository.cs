@@ -45,7 +45,7 @@ namespace PhoneService.Core.Repository
                             .Include(c => c.RepairItems)
                                     .ThenInclude(c => c.SaparePart)
                             .Include(c => c.RepairStatus)
-                                .FirstOrDefaultAsync(c => c.RepairId == repairId);
+                                    .FirstOrDefaultAsync(c => c.RepairId == repairId);
 
             return repair;
         }
@@ -69,6 +69,8 @@ namespace PhoneService.Core.Repository
         }
 
         public void AddRepair(Repair repairItem) => _context.Add(repairItem);
+
+        public void UpdateRepair(Repair repairItem) => _context.Update(repairItem);
 
         public void RemoveRepair(Repair repairItem) => _context.Remove(repairItem);
     }

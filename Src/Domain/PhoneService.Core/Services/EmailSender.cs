@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MimeKit;
 using PhoneService.Domain;
+using PhoneService.Core.Models.Repair;
 
 namespace PhoneService.Core.Services
 {
@@ -25,7 +26,9 @@ namespace PhoneService.Core.Services
 
             public EmailSettings _emailSettings { get; }
 
-            public Task SendEmailAsync(string email, string subject, string message)
+        #region Send Email
+
+        public Task SendEmailAsync(string email, string subject, string message)
             {
 
                 Execute(email, subject, message).Wait();
@@ -69,7 +72,9 @@ namespace PhoneService.Core.Services
                 }
             }
 
-        public async Task SendRepairStatusChangeEmailAsync(string templateName, string subject, Repair repair)
+        #endregion
+
+        public async Task SendRepairStatusChangeEmailAsync(string templateName, string subject, RepairDetailsResponse repair)
         {
             var builder = new BodyBuilder();
 
@@ -80,25 +85,27 @@ namespace PhoneService.Core.Services
                 builder.HtmlBody = SourceReader.ReadToEnd();
             }
 
-            var email = repair.Customer.Email;
+            var email = repair.CustomerDetails.Email;
 
             //{0} : Customer.Name  
             //{1} : RepairStatus.name
             
             string messageBody = string.Format(builder.HtmlBody,
-                        repair.Customer.Name,
-                        repair.RepairStatus.Name
+                        repair.CustomerDetails.Name,
+                        repair.StatusName
                         );
 
             await SendEmailAsync(email, subject, messageBody);
         }
+
+        #region Healpers
 
         public string GetTemplateFilePathAsync(string templateName)
         {
             var webRootPath = _hostingEnvironment.WebRootPath;
             var pathToFile = webRootPath
                             + Path.DirectorySeparatorChar.ToString()
-                            + "Templates"
+                            + "Template"
                             + Path.DirectorySeparatorChar.ToString()
                             + "EmailTemplate"
                             + Path.DirectorySeparatorChar.ToString()
@@ -107,8 +114,7 @@ namespace PhoneService.Core.Services
             return pathToFile;
         }
 
-
-
-        }
+        #endregion
     }
+}
 

@@ -149,9 +149,10 @@ namespace PhoneService.Persistance
 
             modelBuilder.Entity<EmailSubject>().HasData(
                 new EmailSubject { EmailSubjectId = 1, Subject = "Twoja naprawa została wyceniona"},
-                new EmailSubject { EmailSubjectId = 1, Subject = "Status Twojej naprawy został zmieniony"},
-                new EmailSubject { EmailSubjectId = 1, Subject = "Twoja naprawa została przekazana do realizacji"},
-                new EmailSubject { EmailSubjectId = 1, Subject = "Twój telefon jest gotowy do odbioru"});
+                new EmailSubject { EmailSubjectId = 2, Subject = "Twoja naprawa została przekazana do realizacji" },
+                new EmailSubject { EmailSubjectId = 3, Subject = "Status Twojej naprawy został zmieniony"},
+                new EmailSubject { EmailSubjectId = 4, Subject = "Twój telefon jest gotowy do odbioru"}
+                );
 
             modelBuilder.Entity<EmailTemplate>().HasData(
                 new EmailTemplate { EmailTemplateId = 1, TemplateName = "StatusChangeTemplate.html"});
