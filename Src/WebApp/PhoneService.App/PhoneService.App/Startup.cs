@@ -83,7 +83,10 @@ namespace PhoneService.App
                 .AddScoped<ICustomerService, CustomerService>()
                 .AddScoped<ISaparePartService, SaparePartService>()
                 .AddScoped<IProductService, ProductService>()
-                .AddScoped<IRepairService, RepairService>();
+                .AddScoped<IRepairService, RepairService>()
+                .AddScoped<IEmailSender, EmailSender>();
+
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
 
 
             //services.AddSingleton(_ => Configuration);

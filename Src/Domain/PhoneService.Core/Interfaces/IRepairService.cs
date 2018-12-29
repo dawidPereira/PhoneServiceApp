@@ -15,6 +15,8 @@ namespace PhoneService.Core.Interfaces
 
         Task<IEnumerable<RepairResponse>> GetRepairBySearchTermsAsync(RepairSearchRequest searchRequest);
 
+        Task UpdateRepairStatusAsync(RepairStatusUpdateRequest repairStatusUpdateRequest);
+
         Task AddRepairAsync(RepairAddRequest repairAddRequest);
 
         Task UpdateRepairAsync(RepairUpdateRequest repairUpdateRequest);

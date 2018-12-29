@@ -77,7 +77,23 @@ namespace PhoneService.Core.Services
 
             _nullCheckMethod.CheckIfResponseIsNull(repair);
 
-            var _repair = Mapper.Map(repairUpdateRequest, repair);
+            repair = Mapper.Map(repairUpdateRequest, repair);
+
+            if (repair.RepairStatusId == 1)
+                repair.RepairStatusId = 2;
+
+            await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task UpdateRepairStatusAsync(RepairStatusUpdateRequest repairStatusUpdateRequest)
+        {
+            _nullCheckMethod.CheckIfRequestIsNull(repairStatusUpdateRequest);
+
+            var repair = await _unitOfWork.Repairs.GetRepairItemByIdAsync(repairStatusUpdateRequest.RepairId);
+
+            _nullCheckMethod.CheckIfResponseIsNull(repair);
+
+            repair.RepairStatusId = repairStatusUpdateRequest.RepairStatusId;
 
             await _unitOfWork.CompleteAsync();
         }

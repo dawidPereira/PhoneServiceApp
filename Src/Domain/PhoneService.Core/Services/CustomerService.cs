@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PhoneService.Infrastructure.Common;
 using PhoneService.Core.Services.Healpers;
+using PhoneService.Core.Interfaces;
 
 namespace PhoneService.Core.Services
 {
@@ -18,12 +19,14 @@ namespace PhoneService.Core.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly NullCheckMethod _nullCheckMethod;
         private readonly SearchFilterHealpers _searchFilterHealpers;
+        private readonly IEmailSender _emailSender;
 
-        public CustomerService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod, SearchFilterHealpers searchFilterHealpers)
+        public CustomerService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod, SearchFilterHealpers searchFilterHealpers, IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
             _nullCheckMethod = nullCheckMethod;
             _searchFilterHealpers = searchFilterHealpers;
+            _emailSender = emailSender;
         }
 
         public async Task<IEnumerable<CustomerResponse>> GetAllCustomersAsync()
@@ -93,6 +96,10 @@ namespace PhoneService.Core.Services
 
             _unitOfWork.Customers.UpdateCustomer(customer);
             await _unitOfWork.CompleteAsync();
+
+            var repair = await _unitOfWork.Repairs.GetRepairItemByIdAsync(1);
+
+            await _emailSender.SendRepairStatusChangeEmailAsync("StatusChangeTemplate.html", repair);
         }
 
         public async Task RemoveCustomerAsync(int customerId)
