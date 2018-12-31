@@ -21,11 +21,16 @@ namespace PhoneService.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(ProductSearchRequest productSearch)
         {
             try
             {
                 var model = await _productService.GetAllProductAsync();
+
+                if (productSearch != null)
+                {
+                    model = await _productService.GetCustomerBySearchTermsAsync(productSearch);
+                }
 
                 return View(model);
             }
