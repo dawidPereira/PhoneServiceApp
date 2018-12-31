@@ -1,12 +1,18 @@
 ﻿@model IEnumerable<PhoneService.Core.Models.Product.ProductResponse>
 
+<div>
+    @await Component.InvokeAsync("ProductSearchComponent")
+</div>
+<br />
 <div class="col-sm-12">
     <a class="btn btn-outline-dark" asp-action="AddProduct" asp-controller="Product">Dodaj produkt</a>
 </div>
 <hr />
-<div>
-    <table class="table table-dark">
-        <thead class="tab-pane">
+@if (@Model.Any())
+{
+    <div>
+        <table class="table table-dark">
+            <thead class="tab-pane">
             <tr>
                 <th>Numer Id</th>
                 <th>Producent</th>
@@ -15,8 +21,8 @@
                 <th></th>
                 <th></th>
             </tr>
-        </thead>
-        <tbody class="tab-content">
+            </thead>
+            <tbody class="tab-content">
             @foreach (var product in Model)
             {
                 <tr>
@@ -41,6 +47,12 @@
                     </td>
                 </tr>
             }
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
+
+}
+else
+{
+    <p>Brak produktów</p>
+}
