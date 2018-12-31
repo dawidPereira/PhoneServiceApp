@@ -1,0 +1,92 @@
+﻿@model PhoneService.Core.Models.Repair.RepairAddRequest
+
+<h2>Rejestracja naprawy</h2>
+<br />
+
+<br />
+<h4>Klient</h4>
+<hr />
+<div class="row">
+    @if (Model.CustomerId == 0)
+    {
+        <div class="col-sm-12">
+            <p>-</p>
+        </div>
+        <div class="col-sm-12">
+            <button onclick="showStuff('listCustomers')">Wybierz klienta</button>
+        </div>
+        <div id="listCustomers" style="display: none" class="col-sm-12">
+            @await Component.InvokeAsync("RepairComponentCustomerList")
+        </div>
+    }
+    else
+    {
+        <div class="col-sm-6">
+            <p>Nr klienta: <strong>@Model.CustomerDetails.CustomerId </strong> </p>
+            <p>Nazwa klienta: <strong>@Model.CustomerDetails.Name @Model.CustomerDetails.LastName </strong> </p>
+            <p>Miasto: <strong>@Model.CustomerDetails.City </strong> </p>
+            <p>Kod pocztowy: <strong>@Model.CustomerDetails.PostCode </strong> </p>
+        </div>
+        <div class="col-sm-6">
+            <p> Adres: <strong>@Model.CustomerDetails.Adress </strong> </p>
+            <p> Numer telefonu: <strong>@Model.CustomerDetails.PhoneNum </strong> </p>
+            <p> Email: <strong>@Model.CustomerDetails.Email </strong> </p>
+            <p> NIP: <strong>@Model.CustomerDetails.TaxNum </strong> </p>
+        </div>
+    }
+</div>
+<br />
+<h4>Produkt</h4>
+<hr />
+<div class="row">
+    @if (Model.ProductId == 0)
+    {
+        <div class="col-sm-12">
+            <p>-</p>
+        </div>
+        <div class="col-sm-12">
+            <button onclick="showStuff('listProduct')">Wybierz produkt</button>
+        </div>
+        <div id="listProduct" style="display: none" class="col-sm-12">
+            @await Component.InvokeAsync("RepairComponentProductList")
+        </div>
+    }
+    else
+    {
+        <div class="col-sm-6">
+            <p>Numer produktu: <strong>@Model.Product.ProductId</strong></p>
+            <p>Model: <strong>@Model.Product.Model</strong></p>
+        </div>
+        <div class="col-sm-6">
+            <p>Producent: <strong>@Model.Product.Producer</strong></p>
+            <p>Opis: <strong>@Model.Product.Description</strong></p>
+        </div>
+    }
+</div>
+<br />
+<h4>Opis usterki</h4>
+<hr />
+<div class="row">
+    <div class="col-sm-12">
+        <form asp-action="AddRepair" asp-controller="Repair" method="post"
+              asp-antiforgery="true" asp-route-productId="" asp-route-customerId="">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductId" />
+            <input type="hidden" asp-for="CustomerId" />
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zarejestruj naprawę" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function showStuff(id) {
+        document.getElementById(id).style.display = 'block';
+    }
+</script>

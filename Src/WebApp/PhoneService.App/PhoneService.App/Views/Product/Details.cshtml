@@ -1,4 +1,5 @@
-﻿@model PhoneService.Core.Models.Product.ProductResponse
+﻿@using Microsoft.CodeAnalysis.Operations
+@model PhoneService.Core.Models.Product.ProductResponse
 
 <h2>Szczegóły produktu</h2>
 <br />
@@ -17,44 +18,56 @@
         </div>
         <br />
         <div class="col-sm-12">
-            <h4>Lista części</h4>
+            <h4>Lista części zamiennych</h4>
             <hr />
-            <table>
-                <thead>
-                <tr>
-                    <th>Numer Id</th>
-                    <th>Nazwa</th>
-                    <th>Numer referencyjny</th>
-                    <th>Cena netto</th>
-                    <th>Telefon</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var part in Model.SapareParts)
+            @if (Model.SapareParts == null)
+            {
+                <p>Brak części zamiennych</p>
+            }
+            else
+            {
+                if (!Model.SapareParts.Any())
                 {
-                    <tr>
-                        <td>@part.SaparePartId</td>
-                        <td>@part.Name</td>
-                        <td>@part.ReferenceNumebr</td>
-                        <td>@part.Price.ToString("C")</td>
-                        <td>@Model.Producer @Model.Model</td>
-                        <td>
-                            <p>
-                                <a class="active" asp-action="UpdateSaparePart"
-                                   asp-controller="SaparePart" asp-route-id="@part.SaparePartId">Edytuj</a> |
-                                <form class="active" asp-action="RemoveSaparePart" method="post"
-                                      asp-controller="SaparePart" asp-route-saparePartId="@part.SaparePartId" 
-                                      asp-route-productId="@Model.ProductId">
-                                    <input type="submit" value="Usuń" class="btn btn-sm"
-                                           onclick="return confirm('Czy na pewno chcesz usunać tę część?')" />
-                                </form>
-                            </p>
-                        </td>
-                    </tr>
+                    <p>Brak części zamiennych</p>
                 }
-                </tbody>
-            </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Numer Id</th>
+                            <th>Nazwa</th>
+                            <th>Numer referencyjny</th>
+                            <th>Cena netto</th>
+                            <th>Telefon</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var part in Model.SapareParts)
+                        {
+                            <tr>
+                                <td>@part.SaparePartId</td>
+                                <td>@part.Name</td>
+                                <td>@part.ReferenceNumebr</td>
+                                <td>@part.Price.ToString("C")</td>
+                                <td>@Model.Producer @Model.Model</td>
+                                <td>
+                                    <p>
+                                        <a class="active" asp-action="UpdateSaparePart"
+                                           asp-controller="SaparePart" asp-route-id="@part.SaparePartId">Edytuj</a> |
+                                        <form class="active" asp-action="RemoveSaparePart" method="post"
+                                              asp-controller="SaparePart" asp-route-saparePartId="@part.SaparePartId"
+                                              asp-route-productId="@Model.ProductId">
+                                            <input type="submit" value="Usuń" class="btn btn-sm"
+                                                   onclick="return confirm('Czy na pewno chcesz usunać tę część?')" />
+                                        </form>
+                                    </p>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
         </div>
     </div>
 

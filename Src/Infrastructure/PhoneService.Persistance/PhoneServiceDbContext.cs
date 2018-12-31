@@ -131,8 +131,9 @@ namespace PhoneService.Persistance
                 new RepairStatus { RepairStatusId = 2, Name = "Wyceniona" },
                 new RepairStatus { RepairStatusId = 3, Name = "W trakcie realizacji" },
                 new RepairStatus { RepairStatusId = 4, Name = "Zrealizowana" },
-                new RepairStatus { RepairStatusId = 5, Name = "Odrzucona" },
-                new RepairStatus { RepairStatusId = 6, Name = "Będziesz Pan zadowolony" });
+                new RepairStatus { RepairStatusId = 5, Name = "Zakończona" },
+                new RepairStatus { RepairStatusId = 6, Name = "Odrzucona" },
+                new RepairStatus { RepairStatusId = 7, Name = "Zakończona bez naprawy" });
 
             modelBuilder.Entity<Repair>().HasData(
                 new Repair { RepairId = 1, CustomerId = 1, ProductId = 1, RepairStatusId = 1, CreateDate = DateTime.UtcNow, Description = "Tutaj powinien być jakiś opis naprawy" },
@@ -143,19 +144,6 @@ namespace PhoneService.Persistance
                 new Repair { RepairId = 6, CustomerId = 4, ProductId = 1, RepairStatusId = 6, CreateDate = DateTime.UtcNow, Description = "Klient przyniusł zalany telefon w skarpecie z ryżem" },
                 new Repair { RepairId = 7, CustomerId = 5, ProductId = 2, RepairStatusId = 2, CreateDate = DateTime.UtcNow, Description = "Coś nie diała" },
                 new Repair { RepairId = 8, CustomerId = 5, ProductId = 5, RepairStatusId = 6, CreateDate = DateTime.UtcNow, Description = "Pan nie był zadowolony" });
-
-            modelBuilder.Entity<RepairItem>().HasData(
-                new RepairItem { RepairId = 1, SaparePartId = 1, Quantity = 1 },
-                new RepairItem { RepairId = 1, SaparePartId = 2, Quantity = 2 },
-                new RepairItem { RepairId = 2, SaparePartId = 3, Quantity = 1 },
-                new RepairItem { RepairId = 3, SaparePartId = 4, Quantity = 2 },
-                new RepairItem { RepairId = 4, SaparePartId = 5, Quantity = 1 },
-                new RepairItem { RepairId = 5, SaparePartId = 1, Quantity = 1 },
-                new RepairItem { RepairId = 2, SaparePartId = 2, Quantity = 2 },
-                new RepairItem { RepairId = 3, SaparePartId = 3, Quantity = 3 },
-                new RepairItem { RepairId = 4, SaparePartId = 4, Quantity = 1 },
-                new RepairItem { RepairId = 5, SaparePartId = 5, Quantity = 10 },
-                new RepairItem { RepairId = 2, SaparePartId = 1, Quantity = 1 });
 
             #endregion
         }

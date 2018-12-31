@@ -2,104 +2,229 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Interfaces;
 using PhoneService.Core.Models.Repair;
+using PhoneService.Core.Models.RepairItem;
+using PhoneService.Core.Services;
 
 namespace PhoneService.App.Controllers
 {
     [Route("[controller]/[action]")]
     public class RepairController : SecureController
     {
-        private IRepairService _repairService;
+        private readonly IRepairService _repairService;
+        private readonly ICustomerService _customerService;
+        private readonly IProductService _productService;
+        private readonly ISaparePartService _saparePartService;
 
-        public RepairController(IRepairService repairService)
+        public RepairController(IRepairService repairService,
+            ICustomerService customerService, IProductService productService,
+            ISaparePartService saparePartService)
         {
             _repairService = repairService;
+            _customerService = customerService;
+            _productService = productService;
+            _saparePartService = saparePartService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetRepairs()
+        public async Task<IActionResult> Index()
         {
-            try
-            {
-                return Ok(await _repairService.GetAllRepairsAsync());
-            }
-            catch (ArgumentNullException)
-            {
-                return NotFound("Repair List is Empty");
-            }
+            var model = await _repairService.GetAllRepairsAsync();
+
+            return View(model);
         }
 
         [HttpGet("{repairId}")]
-        public async Task<IActionResult> GetRepair(int repairId)
+        public async Task<IActionResult> Details(int repairId)
         {
-            try
+            var model = await _repairService.GetRepairByIdAsync(repairId);
+
+            return View(model);
+        }
+
+
+        [HttpGet("{customerId?}/{productId?}")]
+        public async Task<IActionResult> AddRepair(int? customerId, int? productId)
+        {
+            RepairAddRequest model = new RepairAddRequest();
+
+            if (customerId != null || productId != null || model.ProductId != 0 || model.CustomerId != 0)
             {
-                return Ok(await _repairService.GetRepairByIdAsync(repairId));
+                if (customerId != null)
+                {
+                    model.CustomerId = customerId.Value;
+                    model.CustomerDetails = await _customerService.GetCustomerByIdAsync(customerId.Value);
+                }
+
+                if (productId != null)
+                {
+                    model.ProductId = productId.Value;
+                    model.Product = await _productService.GetProductByIdAsync(productId.Value);
+                }
+
+                return View(model);
             }
-            catch (ArgumentNullException)
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddRepair(RepairAddRequest repairAddRequest)
+        {
+            if (ModelState.IsValid)
             {
-                return BadRequest("Request can not be empty");
+                await _repairService.AddRepairAsync(repairAddRequest);
+                return RedirectToAction("Index", "Repair");
             }
-            catch (KeyNotFoundException)
+
+            return View(repairAddRequest);
+        }
+
+
+        [HttpGet("{repairId?}")]
+        [HttpGet("{quantity?}/{saparePartId?}")]
+        public async Task<IActionResult> UpdateRepair(int? repairId, int? saparepartId, int? quantity)
+        {
+            RepairDetailsResponse repair = new RepairDetailsResponse();
+            if (repairId != null)
             {
-                return NotFound("This Repair does not exist");
+                repair = await _repairService.GetRepairByIdAsync(repairId.Value);
             }
+            
+            RepairUpdateRequest model = new RepairUpdateRequest();
+
+            var str = HttpContext.Session.GetString("repairUpdateRequest");
+
+            if (str != null)
+            {
+                var data = JsonConvert.DeserializeObject<RepairUpdateRequest>(str);
+                model = data;
+            }
+            else
+            {
+                model.CustomerId = repair.CustomerId;
+                model.CreateTime = repair.CreateTime;
+                model.Description = repair.Description;
+                model.RepairId = repair.RepairId;
+                model.StatusId = repair.StatusId;
+                model.ProductId = repair.ProductId;
+
+                if (repair.RepairItems.Any() && repair.StatusId != 1)
+                {
+                    model.RepairItems = new List<RepairItemAddRequest>();
+
+                    foreach (var item in repair.RepairItems)
+                    {
+                        RepairItemAddRequest req = new RepairItemAddRequest()
+                        {
+                            Quantity = item.Quantity,
+                            RepairId = repair.RepairId,
+                            SaparePartId = item.SaparePart.SaparePartId
+                        };
+
+                        model.RepairItems.Add(req);
+                    }
+                }
+                else
+                {
+                    model.RepairItems = new List<RepairItemAddRequest>();
+                }
+
+                var key = "repairUpdateRequest";
+                var data = model;
+                HttpContext.Session.SetString(key, JsonConvert.SerializeObject(data));
+            }
+
+            if (saparepartId != null && quantity != null)
+            {
+                var newRepairItem = new RepairItemAddRequest()
+                {
+                    RepairId = model.RepairId,
+                    SaparePartId = saparepartId.Value,
+                    Quantity = quantity.Value
+                };
+
+                if (model.RepairItems != null)
+                {
+                    model.RepairItems.Add(newRepairItem);
+
+                    var key = "repairUpdateRequest";
+                    var data = model;
+                    HttpContext.Session.SetString(key, JsonConvert.SerializeObject(data));
+                }
+
+            }
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateRepair(RepairUpdateRequest repairUpdateRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                await _repairService.UpdateRepairAsync(repairUpdateRequest);
+                HttpContext.Session.Clear();
+                return RedirectToAction("Details", "Repair", new { repairId = repairUpdateRequest.RepairId });
+            }
+
+            return BadRequest(ModelState);
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRepair([FromBody]RepairAddRequest repairAddRequest)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateRepairStatus(int repairId, int statusId)
         {
-            try
+            var repair = await _repairService.GetRepairByIdAsync(repairId);
+
+            if (repair != null)
             {
-                await _repairService.AddRepairAsync(repairAddRequest);
-                return Ok();
+                RepairUpdateRequest model = new RepairUpdateRequest();
+
+                model.CustomerId = repair.CustomerId;
+                model.CreateTime = repair.CreateTime;
+                model.Description = repair.Description;
+                model.RepairId = repair.RepairId;
+                model.StatusId = statusId;
+                model.ProductId = repair.ProductId;
+
+                model.RepairItems = new List<RepairItemAddRequest>();
+
+                foreach (var item in repair.RepairItems)
+                {
+                    RepairItemAddRequest req = new RepairItemAddRequest()
+                    {
+                        Quantity = item.Quantity,
+                        RepairId = repair.RepairId,
+                        SaparePartId = item.SaparePart.SaparePartId
+                    };
+
+                    model.RepairItems.Add(req);
+                }
+
+                return await UpdateRepair(model);
             }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (ArgumentException)
-            {
-                return BadRequest("This Repair already exist");
-            }
+
+            return BadRequest();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateCustomer([FromBody]RepairUpdateRequest repairUpdateRequest)
-        {
-            try
-            {
-                await _repairService.UpdateRepairAsync(repairUpdateRequest);
-                return Ok(NoContent());
-            }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest("This Repair does not exist");
-            }
-        }
 
-        [HttpDelete("{repairId}")]
+        [HttpPost("{repairId}")]
         public async Task<IActionResult> RemoveRepair(int repairId)
         {
-            try
-            {
-                await _repairService.RemoveRepairAsync(repairId);
-                return Ok();
-            }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Request can not be empty");
-            }
-            catch (KeyNotFoundException)
-            {
-                return BadRequest("This Repair does not exist");
-            }
+            await _repairService.RemoveRepairAsync(repairId);
+
+            return RedirectToAction("Index", "Repair");
         }
+
     }
 }

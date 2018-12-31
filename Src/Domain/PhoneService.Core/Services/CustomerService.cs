@@ -79,15 +79,19 @@ namespace PhoneService.Core.Services
 
         public async Task UpdateCustomerAsync(CustomerUpdateRequest customerRequest)
         {
-            
             _nullCheckMethod.CheckIfRequestIsNull(customerRequest);
 
             var customer = await _unitOfWork.Customers.GetCustomerByIdAsync(customerRequest.CustomerId);
 
             _nullCheckMethod.CheckIfResponseIsNull(customer);
 
-            Mapper.Map(customerRequest, customer);
+            var customerAddresId = customer.Addres.CustomerAddresId;
 
+            customer = Mapper.Map<CustomerUpdateRequest, Customer>(customerRequest);
+
+            customer.Addres.CustomerAddresId = customerAddresId;
+
+            _unitOfWork.Customers.UpdateCustomer(customer);
             await _unitOfWork.CompleteAsync();
         }
 

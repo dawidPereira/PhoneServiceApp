@@ -14,6 +14,15 @@ namespace PhoneService.Core.Mapping
             CreateMap<SaparePart, SaparePartResponse>();
             CreateMap<SaparePartAddRequest, SaparePart>();
             CreateMap<SaparePartUpdateRequest, SaparePart>();
+
+            CreateMap<ProductSaparePart, SaparePartResponse>()
+                .ConstructUsing(x => new SaparePartResponse
+                {
+                    SaparePartId = x.SaparePartId,
+                    Name = x.SaparePart.Name,
+                    Price = x.SaparePart.Price,
+                    ReferenceNumebr = x.SaparePart.ReferenceNumebr
+                });
         }
     }
 }
