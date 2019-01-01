@@ -96,18 +96,34 @@ namespace PhoneService.App.Controllers
             {
                 repair = await _repairService.GetRepairByIdAsync(repairId.Value);
             }
-            
+
             RepairUpdateRequest model = new RepairUpdateRequest();
 
-            model.CustomerId = repair.CustomerId;
-            model.CreateTime = repair.CreateTime;
-            model.Description = repair.Description;
-            model.RepairId = repair.RepairId;
-            model.StatusId = repair.StatusId;
-            model.ProductId = repair.ProductId;
-            if (repair.RepairItems.Any() && repair.StatusId != 1)
+            var str = HttpContext.Session.GetString("repairUpdateRequest");
+
+            if (str != null)
             {
-                model.RepairItems = new List<RepairItemAddRequest>();
+                var data = JsonConvert.DeserializeObject<RepairUpdateRequest>(str);
+                model = data;
+            }
+            else
+            {
+                //##########################################################//
+                //##############TODO: Change it to real links###############//
+                model.Links = new Core.Models.Healpers.CustomerDecisionLink();
+                model.Links.AcceptLink = "https://www.onet.pl/";
+                model.Links.RejectLink = "https://www.onet.pl/";
+                //#########################################################//
+
+                model.CustomerId = repair.CustomerId;
+                model.Description = repair.Description;
+                model.RepairId = repair.RepairId;
+                model.StatusId = repair.StatusId;
+                model.ProductId = repair.ProductId;
+
+                if (repair.RepairItems.Any() && repair.StatusId != 1)
+                {
+                    model.RepairItems = new List<RepairItemAddRequest>();
 
                     foreach (var item in repair.RepairItems)
                     {
@@ -181,7 +197,6 @@ namespace PhoneService.App.Controllers
                 RepairUpdateRequest model = new RepairUpdateRequest();
 
                 model.CustomerId = repair.CustomerId;
-                model.CreateTime = repair.CreateTime;
                 model.Description = repair.Description;
                 model.RepairId = repair.RepairId;
                 model.StatusId = statusId;
