@@ -44,6 +44,53 @@
 <br />
 <h4>Wycena usterki i zarządzanie naprawą</h4>
 <hr />
+@if (Model.RepairItems.Any())
+{
+    <h6>Części zamienne</h6>
+    <hr />
+    <table>
+        <thead>
+        <tr>
+            <th>Id Części</th>
+            <th>Nazwa części</th>
+            <th>Numer referencyjny</th>
+            <th>Cena jednostkowa</th>
+            <th>Ilość</th>
+            <th>Suma</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (Model.RepairItems != null)
+        {
+            if (Model.RepairItems.Any())
+            {
+                foreach (var item in @Model.RepairItems)
+                {
+                    <tr>
+                        <td>@item.SaparePart.SaparePartId</td>
+                        <td>@item.SaparePart.Name</td>
+                        <td>@item.SaparePart.ReferenceNumebr</td>
+                        <td>@item.SaparePart.Price</td>
+                        <td>@item.Quantity</td>
+                        <td>@(item.Quantity*@item.SaparePart.Price)</td>
+                    </tr>
+                }
+            }
+        }
+        </tbody>
+        <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Do zapłaty:</td>
+            <td>@(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price))</td>
+        </tr>
+        </tfoot>
+    </table>
+}
+<br/>
 @if (Model.StatusId == 1)
 {
     <h6>Wyceń naprawę</h6>
@@ -57,17 +104,49 @@
 {
     <h6>Decyzja klienta</h6>
     <p>Jeżeli klient nie jest obecny, czekamy na jego decyzję</p>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <form asp-controller="Repair" asp-action="UpdateRepairStatus" method="post" asp-antiforgery="true"
+                  asp-route-repairId="@Model.RepairId" asp-route-statusId="3">
+                <input type="submit" value="Przekaż do naprawy" class="btn btn-block" />
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <form asp-controller="Repair" asp-action="UpdateRepairStatus" method="post" asp-antiforgery="true"
+                  asp-route-repairId="@Model.RepairId" asp-route-statusId="6">
+                <input type="submit" value="Odrzuć wycenę" class="btn btn-block" />
+            </form>
+        </div>
+    </div>
+
 }
 
 @if (Model.StatusId == 3)
 {
     <h6>Produkt w naprawie</h6>
+    <p>Klikamy kiedy produkt wrócił z naprawy i fizycznie znajduje się w serwisie</p>
+    <div class="col-sm-12">
+        <form asp-controller="Repair" asp-action="UpdateRepairStatus" method="post" asp-antiforgery="true"
+              asp-route-repairId="@Model.RepairId" asp-route-statusId="4">
+            <input type="submit" value="Produkt gotowy do odbioru" class="btn btn-block" />
+        </form>
+    </div>
+
 }
 
 @if (Model.StatusId == 4)
 {
     <h6>Naprawa zrealizowana</h6>
     <p>Produkt gotowy do odbioru</p>
+    <br />
+    <p>Klikamy w momencie odbioru produktu przez klienta</p>
+    <div class="col-sm-12">
+        <form asp-controller="Repair" asp-action="UpdateRepairStatus" method="post" asp-antiforgery="true"
+              asp-route-repairId="@Model.RepairId" asp-route-statusId="5">
+            <input type="submit" value="Klient odebrał produkt" class="btn btn-block" />
+        </form>
+    </div>
 }
 
 @if (Model.StatusId == 5)
@@ -79,6 +158,14 @@
 @if (Model.StatusId == 6)
 {
     <h6>Wycena odrzucona przez klienta</h6>
+
+    <p>Klikamy w momencie odbioru produktu przez klienta</p>
+    <div class="col-sm-12">
+        <form asp-controller="Repair" asp-action="UpdateRepairStatus" method="post" asp-antiforgery="true"
+              asp-route-repairId="@Model.RepairId" asp-route-statusId="7">
+            <input type="submit" value="Klient odebrał produkt - bez naprawy" class="btn btn-block" />
+        </form>
+    </div>
 }
 
 @if (Model.StatusId == 7)
