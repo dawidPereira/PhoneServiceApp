@@ -19,7 +19,7 @@ namespace PhoneService.Core.Mapping
                     Producer = x.Producer,
                     Model = x.Model,
                     Description = x.Description,
-                    SapareParts = Mapper.Map<IEnumerable<SaparePartResponse>>(x.ProductSapareParts)
+                    SapareParts = Mapper.Map<List<SaparePartResponse>>(x.ProductSapareParts)
                 });
 
             CreateMap<ProductAddRequest, Product>();

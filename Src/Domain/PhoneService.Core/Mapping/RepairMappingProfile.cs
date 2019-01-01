@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PhoneService.Core.Models.Customer;
+using PhoneService.Core.Models.SaparePart;
 
 namespace PhoneService.Core.Mapping
 {
@@ -31,7 +32,7 @@ namespace PhoneService.Core.Mapping
 
             CreateMap<Repair, RepairDetailsResponse>()
                  .ConvertUsing(x => new RepairDetailsResponse
-                 {                                                                                                          
+                 {
                      RepairId = x.RepairId,
                      Description = x.Description,
                      StatusName = x.RepairStatus.Name,
@@ -39,6 +40,7 @@ namespace PhoneService.Core.Mapping
                      CreateTime = x.CreateDate,
                      CustomerId = x.CustomerId,
                      ProductId = x.ProductId,
+                     SapareParts = Mapper.Map<List<SaparePartResponse>>(x.Product.ProductSapareParts),
                      CustomerDetails = Mapper.Map<CustomerDetailsResponse>(x.Customer),
                      Product = Mapper.Map<ProductResponse>(x.Product),
                      RepairItems = Mapper.Map<List<RepairItemResponse>>(x.RepairItems)
@@ -77,6 +79,19 @@ namespace PhoneService.Core.Mapping
                     RepairItems = Mapper.Map<ICollection<RepairItem>>(x.RepairItems)
                 });
 
+        }
+
+        public Repair ConvertRepairAddRequestToRepair(RepairUpdateRequest repairUpdateRequest, Repair repair)
+        {
+            
+            repair.RepairId = repairUpdateRequest.RepairId;
+            repair.Description = repairUpdateRequest.Description;
+            repair.RepairStatusId = repairUpdateRequest.StatusId;
+            repair.CustomerId = repairUpdateRequest.CustomerId;
+            repair.ProductId = repairUpdateRequest.ProductId;
+            repair.RepairItems = Mapper.Map<ICollection<RepairItem>>(repairUpdateRequest.RepairItems);
+
+            return repair;
         }
     }
 }

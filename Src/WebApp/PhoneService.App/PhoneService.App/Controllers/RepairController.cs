@@ -99,25 +99,15 @@ namespace PhoneService.App.Controllers
             
             RepairUpdateRequest model = new RepairUpdateRequest();
 
-            var str = HttpContext.Session.GetString("repairUpdateRequest");
-
-            if (str != null)
+            model.CustomerId = repair.CustomerId;
+            model.CreateTime = repair.CreateTime;
+            model.Description = repair.Description;
+            model.RepairId = repair.RepairId;
+            model.StatusId = repair.StatusId;
+            model.ProductId = repair.ProductId;
+            if (repair.RepairItems.Any() && repair.StatusId != 1)
             {
-                var data = JsonConvert.DeserializeObject<RepairUpdateRequest>(str);
-                model = data;
-            }
-            else
-            {
-                model.CustomerId = repair.CustomerId;
-                model.CreateTime = repair.CreateTime;
-                model.Description = repair.Description;
-                model.RepairId = repair.RepairId;
-                model.StatusId = repair.StatusId;
-                model.ProductId = repair.ProductId;
-
-                if (repair.RepairItems.Any() && repair.StatusId != 1)
-                {
-                    model.RepairItems = new List<RepairItemAddRequest>();
+                model.RepairItems = new List<RepairItemAddRequest>();
 
                     foreach (var item in repair.RepairItems)
                     {
