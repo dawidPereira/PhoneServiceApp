@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using MimeKit;
 using PhoneService.Domain;
 using PhoneService.Core.Models.Repair;
+using PhoneService.Core.Models.Healpers;
+using PhoneService.Core.Models.Customer;
 
 namespace PhoneService.Core.Services
 {
@@ -24,7 +26,7 @@ namespace PhoneService.Core.Services
                 _hostingEnvironment = hostingEnvironment;
             }
 
-            public EmailSettings _emailSettings { get; }
+        public EmailSettings _emailSettings { get; }
 
         #region Send Email
 
@@ -74,10 +76,30 @@ namespace PhoneService.Core.Services
 
         #endregion
 
-        public async Task SendRepairStatusChangeEmailAsync(string templateName, string subject, RepairDetailsResponse repair)
-        {
-            var builder = new BodyBuilder();
+        #region Sepcify Emails
 
+        public async Task SendRepairStatusChangeEmailAsync(string templateName, string subject, RepairDetailsResponse repair, CustomerDecisionLink links)
+        {
+            var email = repair.CustomerDetails.Email;
+
+            // Use diferent messageBody Builder if links are empty.
+            if (links != null)
+            {
+                string messageBody = BuildCustomerDecisionMessageBody(templateName, repair, links);
+                await SendEmailAsync(email, subject, messageBody);
+            }
+            else
+            {
+                string messageBody = BuildStatusChangeMessageBody(templateName, repair, links);
+                await SendEmailAsync(email, subject, messageBody);
+            }
+
+        }
+
+        public async Task SendRepairAddNotifyEmailAsync(string templateName, string subject, RepairDetailsResponse repair)
+        {
+            var email = repair.CustomerDetails.Email;
+            var builder = new BodyBuilder();
             var _pathToFile = GetTemplateFilePathAsync(templateName);
 
             using (StreamReader SourceReader = System.IO.File.OpenText(_pathToFile))
@@ -85,18 +107,48 @@ namespace PhoneService.Core.Services
                 builder.HtmlBody = SourceReader.ReadToEnd();
             }
 
-            var email = repair.CustomerDetails.Email;
-
             //{0} : Customer.Name  
             //{1} : RepairStatus.name
-            
+
             string messageBody = string.Format(builder.HtmlBody,
-                        repair.CustomerDetails.Name,
-                        repair.StatusName
-                        );
+            repair.CustomerDetails.Name,
+            repair.StatusName
+            );
 
             await SendEmailAsync(email, subject, messageBody);
         }
+
+        public async Task SendCustomerAddNotifyEmailAsync(string templateName, string subject, CustomerDetailsResponse custoemr)
+        {
+            var email = custoemr.Email;
+            var builder = new BodyBuilder();
+            var _pathToFile = GetTemplateFilePathAsync(templateName);
+
+            using (StreamReader SourceReader = System.IO.File.OpenText(_pathToFile))
+            {
+                builder.HtmlBody = SourceReader.ReadToEnd();
+            }
+
+            //{0} : Customer.Name  
+            //{1} : Customer.LastName
+            //{2} : Customer.PhoneNum  
+            //{3} : Customer.Email  
+            //{4} : Customer.City  
+            //{5} : Customer.PostCode  
+
+            string messageBody = string.Format(builder.HtmlBody,
+            custoemr.Name,
+            custoemr.LastName,
+            custoemr.PhoneNum,
+            custoemr.Email,
+            custoemr.City,
+            custoemr.PostCode
+            );
+
+            await SendEmailAsync(email, subject, messageBody);
+        }
+
+        #endregion
 
         #region Healpers
 
@@ -112,6 +164,53 @@ namespace PhoneService.Core.Services
                             + templateName;
 
             return pathToFile;
+        }
+
+        public string BuildCustomerDecisionMessageBody(string templateName, RepairDetailsResponse repair, CustomerDecisionLink links)
+        {
+            var builder = new BodyBuilder();
+            var _pathToFile = GetTemplateFilePathAsync(templateName);
+
+            using (StreamReader SourceReader = System.IO.File.OpenText(_pathToFile))
+            {
+                builder.HtmlBody = SourceReader.ReadToEnd();
+            }
+
+            //{0} : Customer.Name  
+            //{1} : RepairStatus.name
+            //{2} : AcceptLink
+            //{3} : RejectLink
+
+            string messageBody = string.Format(builder.HtmlBody,
+            repair.CustomerDetails.Name,
+            repair.StatusName,
+            links.AcceptLink,
+            links.RejectLink
+            );
+
+            return messageBody;
+        }
+
+        public string BuildStatusChangeMessageBody(string templateName, RepairDetailsResponse repair, CustomerDecisionLink links)
+        {
+            var email = repair.CustomerDetails.Email;
+            var builder = new BodyBuilder();
+            var _pathToFile = GetTemplateFilePathAsync(templateName);
+
+            using (StreamReader SourceReader = System.IO.File.OpenText(_pathToFile))
+            {
+                builder.HtmlBody = SourceReader.ReadToEnd();
+            }
+
+            //{0} : Customer.Name  
+            //{1} : RepairStatus.name
+
+            string messageBody = string.Format(builder.HtmlBody,
+            repair.CustomerDetails.Name,
+            repair.StatusName
+            );
+
+            return messageBody;
         }
 
         #endregion

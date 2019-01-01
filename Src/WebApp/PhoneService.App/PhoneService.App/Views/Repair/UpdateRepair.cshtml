@@ -23,6 +23,8 @@
         <input type="hidden" asp-for="ProductId" />
         <input type="hidden" asp-for="RepairId" />
         <input type="hidden" asp-for="StatusId" value="2" />
+        <input type="hidden" asp-for="Links.AcceptLink" value="https://www.onet.pl/" />
+        <input type="hidden" asp-for="Links.RejectLink" value="https://www.onet.pl/" />
         <button onclick="addItem(form)">Dodaj kolejną część</button>
         <br />
         <div class="form-group" id="item-list">

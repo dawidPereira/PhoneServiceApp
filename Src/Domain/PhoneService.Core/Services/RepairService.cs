@@ -91,7 +91,7 @@ namespace PhoneService.Core.Services
             
             await _unitOfWork.CompleteAsync();
 
-            await _emailService.SendRepairStatusNotifyEmailAsync(repairUpdateRequest.RepairId);
+            await _emailService.SendRepairStatusNotifyEmailAsync(repairUpdateRequest.RepairId, repairUpdateRequest.Links);
         }
 
         public async Task UpdateRepairStatusAsync(RepairStatusUpdateRequest repairStatusUpdateRequest)
@@ -106,7 +106,7 @@ namespace PhoneService.Core.Services
 
             await _unitOfWork.CompleteAsync();
 
-            await _emailService.SendRepairStatusNotifyEmailAsync(repairStatusUpdateRequest.RepairId);
+            await _emailService.SendRepairStatusNotifyEmailAsync(repairStatusUpdateRequest.RepairId, repairStatusUpdateRequest.Links);
         }
 
         public async Task RemoveRepairAsync(int repairId)

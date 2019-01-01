@@ -93,6 +93,12 @@ namespace PhoneService.App.Controllers
             model.RepairId = repair.RepairId;
             model.StatusId = repair.StatusId;
             model.ProductId = repair.ProductId;
+
+            //TODO: Change it to real links
+            model.Links = new Core.Models.Healpers.CustomerDecisionLink();
+            model.Links.AcceptLink = "https://www.onet.pl/";
+            model.Links.RejectLink = "https://www.onet.pl/";
+
             if (repair.RepairItems.Any() && repair.StatusId != 1)
             {
                 model.RepairItems = new List<RepairItemAddRequest>();

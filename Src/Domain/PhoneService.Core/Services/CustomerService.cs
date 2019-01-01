@@ -20,14 +20,14 @@ namespace PhoneService.Core.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly NullCheckMethod _nullCheckMethod;
         private readonly SearchFilterHealpers _searchFilterHealpers;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService;
 
-        public CustomerService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod, SearchFilterHealpers searchFilterHealpers, IEmailSender emailSender)
+        public CustomerService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod, SearchFilterHealpers searchFilterHealpers, IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _nullCheckMethod = nullCheckMethod;
             _searchFilterHealpers = searchFilterHealpers;
-            _emailSender = emailSender;
+            _emailService = emailService;
         }
 
         public async Task<IEnumerable<CustomerResponse>> GetAllCustomersAsync()
@@ -77,7 +77,7 @@ namespace PhoneService.Core.Services
             _unitOfWork.Customers.AddCustomer(_customerRequest);
             await _unitOfWork.CompleteAsync();
 
-            //TODO: Run IEmailService and notifi user
+            await _emailService.SendCustomerAddNotifyEmailAsync(customerRequest.Email);
         }
 
         public async Task UpdateCustomerAsync(CustomerUpdateRequest customerRequest)

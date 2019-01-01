@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PhoneService.Core.Models.Customer;
+using PhoneService.Core.Models.Healpers;
 
 namespace PhoneService.Core.Models.Repair
 {
@@ -15,6 +16,7 @@ namespace PhoneService.Core.Models.Repair
 
         public int CustomerId { get; set; }
         public int ProductId { get; set; }
+        public CustomerDecisionLink Links { get; set; }
 
         public List<RepairItemAddRequest> RepairItems { get; set; }
     }
