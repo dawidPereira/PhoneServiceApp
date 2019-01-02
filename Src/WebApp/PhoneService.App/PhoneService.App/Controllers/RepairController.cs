@@ -198,6 +198,9 @@ namespace PhoneService.App.Controllers
                 model.StatusId = statusId;
                 model.ProductId = repair.ProductId;
 
+                model.Links = new Core.Models.Healpers.CustomerDecisionLink();
+                model.Links.DecisionLink = Url.Action("DecisionTaken", "Repair", new { repairId = model.RepairId });
+
                 model.RepairItems = new List<RepairItemAddRequest>();
 
                 foreach (var item in repair.RepairItems)
