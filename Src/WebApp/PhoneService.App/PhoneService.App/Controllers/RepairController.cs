@@ -181,6 +181,14 @@ namespace PhoneService.App.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (repairUpdateRequest.StatusId == 2)
+                {
+                    foreach (var item in repairUpdateRequest.RepairItems)
+                    {
+                        item.RepairId = repairUpdateRequest.RepairId;
+                    }
+                }
+
                 await _repairService.UpdateRepairAsync(repairUpdateRequest);
                 HttpContext.Session.Clear();
                 return RedirectToAction("Details", "Repair", new { repairId = repairUpdateRequest.RepairId });
