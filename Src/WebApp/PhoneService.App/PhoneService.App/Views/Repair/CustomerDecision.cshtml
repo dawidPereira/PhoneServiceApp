@@ -1,8 +1,12 @@
 ﻿@model PhoneService.Core.Models.Repair.RepairDetailsResponse
 
 <h2>Decyzja dotycząca naprawy: <strong>@Model.RepairId</strong></h2>
+<h5>Dla <strong>@Model.CustomerDetails.Name @Model.CustomerDetails.LastName</strong></h5>
+<h6>Zarejestrowano dnia: @Model.CreateTime.ToShortDateString()</h6>
+<hr/>
 
-<p>Obecny status: <strong>@Model.StatusName</strong></p>
+<h3>Obecny status: <strong>@Model.StatusName</strong></h3>
+<hr/>
 
 <h4>Opis usterki</h4>
 <hr />
@@ -14,34 +18,53 @@
 <h4>Wycena</h4>
 <hr />
 <div>
-    <table class="row">
+    <table class="table table-dark">
         <thead>
-        <tr>
-            <th>Nazwa części zamiennej</th>
-            <th>Cena jednostkowa</th>
-            <th>Ilość</th>
-            <th>Cena końcowa</th>
-        </tr>
+            <tr>
+                <th>Nazwa części zamiennej</th>
+                <th>Cena jednostkowa</th>
+                <th>Ilość</th>
+                <th>Cena końcowa</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var part in @Model.RepairItems)
-        {
-            <tr>
-                <td>@part.SaparePart.Name</td>
-                <td>@part.SaparePart.Price</td>
-                <td>@part.Quantity</td>
-                <td>@(part.Quantity * part.SaparePart.Price)</td>
-            </tr>
-        }
+            @foreach (var part in @Model.RepairItems)
+            {
+                <tr>
+                    <td>@part.SaparePart.Name</td>
+                    <td>@part.SaparePart.Price</td>
+                    <td>@part.Quantity</td>
+                    <td>@(part.Quantity * part.SaparePart.Price)</td>
+                </tr>
+            }
         </tbody>
         <tfoot>
-        <tr>
-            <td></td>
-            <td></td>
-            <td>Razem do zapłaty:</td>
-            <td><strong>@(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price))</strong></td>
-        </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Razem do zapłaty:</td>
+                <td><strong>@(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price))</strong></td>
+            </tr>
         </tfoot>
     </table>
+</div>
+<br />
+
+<h4>Decyzja klienta</h4>
+<hr />
+<div class="row">
+    <div class="col-sm-6">
+        <form asp-controller="Repair" asp-action="CustomerConfirmOrDenyRepair" method="post" asp-antiforgery="true"
+              asp-route-repairId="@Model.RepairId" asp-route-statusId="3">
+            <input type="submit" value="Przyjmuję wycenę na kwotę: @(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price)) zł" 
+                   class="btn btn-block btn-success"/>
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <form asp-controller="Repair" asp-action="CustomerConfirmOrDenyRepair" method="post" asp-antiforgery="true"
+              asp-route-repairId="@Model.RepairId" asp-route-statusId="6">
+            <input type="submit" value="Odrzucam wycenę" class="btn btn-block btn-danger" />
+        </form>
+    </div>
 </div>
 <br />

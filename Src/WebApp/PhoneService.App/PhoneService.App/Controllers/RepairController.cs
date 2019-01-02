@@ -231,7 +231,7 @@ namespace PhoneService.App.Controllers
 
             if (repairModel.StatusId != 2)
             {
-                return await DecisionTaken(repairId);
+                return RedirectToAction("DecisionTaken", "Repair", new {repairId = repairModel.RepairId});
             }
 
             return View(repairModel);
@@ -240,7 +240,8 @@ namespace PhoneService.App.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> ClientConfirmOrDenyRepair(int repairId, int statusId)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CustomerConfirmOrDenyRepair(int repairId, int statusId)
         {
             var repair = await _repairService.GetRepairByIdAsync(repairId);
 
@@ -248,7 +249,7 @@ namespace PhoneService.App.Controllers
             {
                 if (statusId == 3 || statusId == 6)
                 {
-                    return await UpdateRepairStatusClient(repairId, statusId);
+                    return await UpdateRepairStatusCustomer(repairId, statusId);
                 }
             }
 
@@ -258,7 +259,7 @@ namespace PhoneService.App.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateRepairStatusClient(int repairId, int statusId)
+        public async Task<IActionResult> UpdateRepairStatusCustomer(int repairId, int statusId)
         {
             var repair = await _repairService.GetRepairByIdAsync(repairId);
 
@@ -320,7 +321,7 @@ namespace PhoneService.App.Controllers
 
             if (repairModel.StatusId == 2)
             {
-                return await CustomerDecision(repairId);
+                return RedirectToAction("CustomerDecision", "Repair", new { repairId = repairModel.RepairId });
             }
 
             return View(repairModel);
