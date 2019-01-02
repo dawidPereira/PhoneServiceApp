@@ -50,47 +50,51 @@
     <hr />
     <table>
         <thead>
-        <tr>
-            <th>Id Części</th>
-            <th>Nazwa części</th>
-            <th>Numer referencyjny</th>
-            <th>Cena jednostkowa</th>
-            <th>Ilość</th>
-            <th>Suma</th>
-        </tr>
+            <tr>
+                <th>Id Części</th>
+                <th>Nazwa części</th>
+                <th>Numer referencyjny</th>
+                <th>Cena jednostkowa</th>
+                <th>Ilość</th>
+                <th>Suma</th>
+            </tr>
         </thead>
         <tbody>
-        @if (Model.RepairItems != null)
-        {
-            if (Model.RepairItems.Any())
+            @if (Model.RepairItems != null)
             {
-                foreach (var item in @Model.RepairItems)
+                if (Model.RepairItems.Any())
                 {
-                    <tr>
-                        <td>@item.SaparePart.SaparePartId</td>
-                        <td>@item.SaparePart.Name</td>
-                        <td>@item.SaparePart.ReferenceNumebr</td>
-                        <td>@item.SaparePart.Price</td>
-                        <td>@item.Quantity</td>
-                        <td>@(item.Quantity*@item.SaparePart.Price)</td>
-                    </tr>
+                    foreach (var item in @Model.RepairItems)
+                    {
+                        <tr>
+                            <td>@item.SaparePart.SaparePartId</td>
+                            <td>@item.SaparePart.Name</td>
+                            <td>@item.SaparePart.ReferenceNumebr</td>
+                            <td>@item.SaparePart.Price</td>
+                            <td>@item.Quantity</td>
+                            <td>@(item.Quantity * @item.SaparePart.Price)</td>
+                        </tr>
+                    }
                 }
             }
-        }
         </tbody>
         <tfoot>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>Do zapłaty:</td>
-            <td>@(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price))</td>
-        </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Do zapłaty:</td>
+                <td>@(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price))</td>
+            </tr>
         </tfoot>
     </table>
 }
-<br/>
+else
+{
+    <p>Brak części zamiennych</p>
+}
+<br />
 @if (Model.StatusId == 1)
 {
     <h6>Wyceń naprawę</h6>

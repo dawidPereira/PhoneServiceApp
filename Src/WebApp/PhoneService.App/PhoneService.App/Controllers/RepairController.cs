@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -108,11 +109,8 @@ namespace PhoneService.App.Controllers
             }
             else
             {
-                //##########################################################//
-                //##############TODO: Change it to real links###############//
                 model.Links = new Core.Models.Healpers.CustomerDecisionLink();
-                model.Links.DecisionLink = "https://www.onet.pl/";
-                //#########################################################//
+                model.Links.DecisionLink = Url.Action("CustomerDecision", "Repair", new { repairId = model.RepairId });
 
                 model.CustomerId = repair.CustomerId;
                 model.Description = repair.Description;
@@ -182,7 +180,6 @@ namespace PhoneService.App.Controllers
             }
 
             return BadRequest(ModelState);
-
         }
 
         [HttpPost]
@@ -219,6 +216,114 @@ namespace PhoneService.App.Controllers
             }
 
             return BadRequest();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{repairId}")]
+        public async Task<IActionResult> CustomerDecision(int repairId)
+        {
+            var repairModel = await _repairService.GetRepairByIdAsync(repairId);
+
+            if (repairModel == null)
+            {
+                return BadRequest("Repair does not exists");
+            }
+
+            if (repairModel.StatusId != 2)
+            {
+                return await DecisionTaken(repairId);
+            }
+
+            return View(repairModel);
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> ClientConfirmOrDenyRepair(int repairId, int statusId)
+        {
+            var repair = await _repairService.GetRepairByIdAsync(repairId);
+
+            if (repair != null && repair.StatusId == 2)
+            {
+                if (statusId == 3 || statusId == 6)
+                {
+                    return await UpdateRepairStatusClient(repairId, statusId);
+                }
+            }
+
+            return BadRequest();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateRepairStatusClient(int repairId, int statusId)
+        {
+            var repair = await _repairService.GetRepairByIdAsync(repairId);
+
+            if (repair != null)
+            {
+                RepairUpdateRequest model = new RepairUpdateRequest();
+
+                model.CustomerId = repair.CustomerId;
+                model.Description = repair.Description;
+                model.RepairId = repair.RepairId;
+                model.StatusId = statusId;
+                model.ProductId = repair.ProductId;
+
+                model.RepairItems = new List<RepairItemAddRequest>();
+
+                foreach (var item in repair.RepairItems)
+                {
+                    RepairItemAddRequest req = new RepairItemAddRequest()
+                    {
+                        Quantity = item.Quantity,
+                        RepairId = repair.RepairId,
+                        SaparePartId = item.SaparePart.SaparePartId
+                    };
+
+                    model.RepairItems.Add(req);
+                }
+
+                return await UpdateRepairClient(model);
+            }
+
+            return BadRequest();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateRepairClient(RepairUpdateRequest repairUpdateRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                await _repairService.UpdateRepairAsync(repairUpdateRequest);
+                HttpContext.Session.Clear();
+                return RedirectToAction("DecisionTaken", "Repair", new { repairId = repairUpdateRequest.RepairId });
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{repairId}")]
+        public async Task<IActionResult> DecisionTaken(int repairId)
+        {
+            var repairModel = await _repairService.GetRepairByIdAsync(repairId);
+
+            if (repairModel == null)
+            {
+                return BadRequest("Repair does not exists");
+            }
+
+            if (repairModel.StatusId == 2)
+            {
+                return await CustomerDecision(repairId);
+            }
+
+            return View(repairModel);
         }
 
 
