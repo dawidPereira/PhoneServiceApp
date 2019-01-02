@@ -110,7 +110,14 @@ namespace PhoneService.App.Controllers
             else
             {
                 model.Links = new Core.Models.Healpers.CustomerDecisionLink();
-                model.Links.DecisionLink = Url.Action("CustomerDecision", "Repair", new { repairId = model.RepairId });
+                var host = HttpContext.Request.Host.Host;
+                var port = HttpContext.Request.Host.Port;
+                var apiUri = host + ":" + port;
+                if (port == null)
+                {
+                    apiUri = host;
+                }
+                model.Links.DecisionLink = Url.Action("CustomerDecision", "Repair", new { repairId = repair.RepairId }, "https", apiUri);
 
                 model.CustomerId = repair.CustomerId;
                 model.Description = repair.Description;
@@ -198,8 +205,16 @@ namespace PhoneService.App.Controllers
                 model.StatusId = statusId;
                 model.ProductId = repair.ProductId;
 
+                var host = HttpContext.Request.Host.Host;
+                var port = HttpContext.Request.Host.Port;
+                var apiUri = host + ":" + port;
+                if (port == null)
+                {
+                    apiUri = host;
+                }
+
                 model.Links = new Core.Models.Healpers.CustomerDecisionLink();
-                model.Links.DecisionLink = Url.Action("DecisionTaken", "Repair", new { repairId = model.RepairId });
+                model.Links.DecisionLink = Url.Action("DecisionTaken", "Repair", new { repairId = model.RepairId }, "https", apiUri);
 
                 model.RepairItems = new List<RepairItemAddRequest>();
 
