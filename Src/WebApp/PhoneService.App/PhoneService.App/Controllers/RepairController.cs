@@ -111,8 +111,7 @@ namespace PhoneService.App.Controllers
                 //##########################################################//
                 //##############TODO: Change it to real links###############//
                 model.Links = new Core.Models.Healpers.CustomerDecisionLink();
-                model.Links.AcceptLink = "https://www.onet.pl/";
-                model.Links.RejectLink = "https://www.onet.pl/";
+                model.Links.DecisionLink = "https://www.onet.pl/";
                 //#########################################################//
 
                 model.CustomerId = repair.CustomerId;

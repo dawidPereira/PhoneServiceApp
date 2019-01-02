@@ -6,7 +6,6 @@ namespace PhoneService.Core.Models.Healpers
 {
     public class CustomerDecisionLink
     {
-        public string AcceptLink { get; set; }
-        public string RejectLink { get; set; }
+        public string DecisionLink { get; set; }
     }
 }
