@@ -184,8 +184,7 @@ namespace PhoneService.Core.Services
             string messageBody = string.Format(builder.HtmlBody,
             repair.CustomerDetails.Name,
             repair.StatusName,
-            links.AcceptLink,
-            links.RejectLink
+            links.DecisionLink
             );
 
             return messageBody;
