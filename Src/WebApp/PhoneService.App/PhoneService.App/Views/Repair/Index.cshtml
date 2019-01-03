@@ -1,19 +1,18 @@
 ﻿@model IEnumerable<PhoneService.Core.Models.Repair.RepairResponse>
 
-<h2>Lista napraw</h2>
-<p class="text-right">
+<h2 class="float-left">Lista napraw</h2>
+<p class="text-right float-right">
     <a class="btn btn-outline-success" asp-action="AddRepair" asp-controller="Repair"><i class="fa fa-plus" aria-hidden="true"></i> Zarejestruj naprawę</a>
 </p>
 <div>
     <table class="table">
         <thead class="tab-pane">
             <tr>
-                <th>Numer Id</th>
-                <th>Data rejestracji</th>
-                <th>Nazwa produktu</th>
-                <th>Id Klienta</th>
-                <th>Nazwa klienta</th>
+                <th>#</th>
+                <th>Klient</th>
+                <th>Produkt</th>
                 <th>Status</th>
+                <th>Data rejestracji</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -32,18 +31,21 @@
                     <tr>
 
                         <td>@repair.RepairId</td>
-                        <td>@repair.CreateDate</td>
+                        
+                        
+                        <td><a asp-action="UpdateCuastomer" asp-controller="Customer" asp-route-id="@repair.CustomerId" title="Edytuj">@repair.CustomerName @repair.LastName</a></td>
                         <td>@repair.Product</td>
-                        <td>@repair.CustomerId</td>
-                        <td>@repair.CustomerName @repair.LastName</td>
-                        <td>@repair.RepairStatusName</td>
+                        <td><span class="badge badge-pill badge-dark">
+                                @repair.RepairStatusName
+                            </span></td>
+                        <td>@repair.CreateDate</td>
                         <td>
                             <div class="d-inline-flex">
-                                    <a class="btn btn-primary btn-sm" asp-action="Details" asp-controller="Repair" asp-route-repairId="@repair.RepairId"><i class="fa fa-eye" aria-hidden="true"></i> Zobacz</a>
+                                    <a class="btn btn-link text-primary" asp-action="Details" asp-controller="Repair" asp-route-repairId="@repair.RepairId"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                     <form class="active" asp-action="RemoveRepair" method="post"
                                       asp-controller="Repair" asp-route-repairId="@repair.RepairId">
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Czy na pewno chcesz usunać tę naprawę?')">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>  Usuń
+                                    <button type="submit" class="btn btn-link text-danger" onclick="return confirm('Czy na pewno chcesz usunać tę naprawę?')">
+                                        <i class="fa fa-trash" aria-hidden="true"></i> 
                                     </button>
                                     </form>
                             </div>

@@ -7,7 +7,8 @@
 @import 'base/global';
 
 // BASE COMPONENTS
-@import 'header';
+@import 'components/header';
+@import 'components/badges';
 
 /* VIEWS */
 @import 'home/index';
