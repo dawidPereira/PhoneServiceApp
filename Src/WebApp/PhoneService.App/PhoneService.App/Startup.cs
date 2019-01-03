@@ -74,10 +74,13 @@ namespace PhoneService.App
                 opts.IdleTimeout = TimeSpan.FromMinutes(5);
             });
 
+            services.AddDistributedMemoryCache();
+
             services
                 .AddMvc();
 
-            services.AddDistributedMemoryCache();
+
+            
             
 
             services
@@ -131,7 +134,7 @@ namespace PhoneService.App
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
             app.UseSession();
 
             Mapper.Initialize(x =>
