@@ -58,7 +58,6 @@ namespace PhoneService.Core.Services.Healpers
                         {
                             items = SearchByDateTo(items, filterValue, filter);
                         }
-                        else
                         {
                             items = SearchByContains(items, filterValue, filter);
                         }

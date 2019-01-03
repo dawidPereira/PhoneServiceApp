@@ -17,6 +17,7 @@
             <p>Opis: <strong>@Model.Description</strong></p>
         </div>
         <br />
+
         <div class="col-sm-12">
             <h4>Lista części zamiennych</h4>
             <hr />
@@ -30,7 +31,7 @@
                 {
                     <p>Brak części zamiennych</p>
                 }
-                <table>
+                <table class="table table-dark">
                     <thead>
                         <tr>
                             <th>Numer Id</th>
@@ -70,9 +71,8 @@
             }
         </div>
     </div>
-
-    <div>
-        <a class="btn btn-block" asp-action="AddSaparePart" asp-controller="SaparePart" asp-route-productId="@Model.ProductId">Dodaj część</a>
-        <a class="btn btn-block" asp-action="Index" asp-controller="Product">Powrót do listy</a>
-    </div>
+</div>
+<div>
+    <a class="btn btn-block" asp-action="AddSaparePart" asp-controller="SaparePart" asp-route-productId="@Model.ProductId">Dodaj część</a>
+    <a class="btn btn-block" asp-action="Index" asp-controller="Product">Powrót do listy</a>
 </div>

@@ -86,6 +86,8 @@ namespace PhoneService.App
                 .AddScoped<ISaparePartRepository, SaparePartRepository>()
                 .AddScoped<IProductRepository, ProductRepository>()
                 .AddScoped<IRepairItemRepository, RepairItemRepository>()
+                .AddScoped<IEmailSubjectRepository, EmailSubjectRepository>()
+                .AddScoped<IEmailTemplateRepository, EmailTemplateRepository>()
                 .AddScoped<IRepairRepository, RepairRepository>();
 
 
@@ -93,12 +95,18 @@ namespace PhoneService.App
                 .AddScoped<ICustomerService, CustomerService>()
                 .AddScoped<ISaparePartService, SaparePartService>()
                 .AddScoped<IProductService, ProductService>()
-                .AddScoped<IRepairService, RepairService>();
+                .AddScoped<IRepairService, RepairService>()
+                .AddScoped<IEmailSender, EmailSender>()
+                .AddScoped<IEmailService, EmailService>();
+
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
 
 
             //services.AddSingleton(_ => Configuration);
-            services.AddScoped<NullCheckMethod>()
-                .AddScoped<SearchFilterHealpers>();
+            services
+                .AddScoped<NullCheckMethod>()
+                .AddScoped<SearchFilterHealpers>()
+                .AddScoped<RepairMappingProfile>();
 
 
             //services.AddAutoMapper(
@@ -128,12 +136,16 @@ namespace PhoneService.App
 
             Mapper.Initialize(x =>
             {
+                x.ForAllMaps((obj, cnfg) => cnfg.ForAllOtherMembers(opt => opt.IgnoreSourceWhenDefault()));
                 x.AddProfile<CustomerMappingProfile>();
                 x.AddProfile<SaparePartMappingProfile>();
                 x.AddProfile<ProductMappingProfile>();
                 x.AddProfile<RepairMappingProfile>();
                 x.AddProfile<RepairItemMappingProfile>();
             });
+
+
+
 
             //Mapper.Configuration.AssertConfigurationIsValid();
             var seed = new SeedData(userManager, roleManager);
@@ -143,6 +155,27 @@ namespace PhoneService.App
             {
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+        
+    }
+    public static class Extensions
+    {
+        public static void IgnoreSourceWhenDefault<TSource, TDestination>(this IMemberConfigurationExpression<TSource, TDestination, object> opt)
+        {
+            var destinationType = opt.DestinationMember.GetMemberType();
+            object defaultValue = destinationType.GetTypeInfo().IsValueType ? Activator.CreateInstance(destinationType) : null;
+            opt.Condition((src, dest, srcValue) => !Equals(srcValue, defaultValue));
+        }
+
+        public static Type GetMemberType(this MemberInfo memberInfo)
+        {
+            if (memberInfo is MethodInfo)
+                return ((MethodInfo)memberInfo).ReturnType;
+            if (memberInfo is PropertyInfo)
+                return ((PropertyInfo)memberInfo).PropertyType;
+            if (memberInfo is FieldInfo)
+                return ((FieldInfo)memberInfo).FieldType;
+            return null;
         }
     }
 }
