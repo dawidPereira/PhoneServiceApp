@@ -1,4 +1,13 @@
-﻿.page-heading{
+﻿a{
+    &:hover{
+        color: inherit;
+    }
+    &:hover, &:focus{
+        text-decoration: none;
+    }
+}
+
+.page-heading{
     border-bottom: 1px solid $gray;
     padding-bottom: $offset--base;
     margin-bottom: $offset--base*2;

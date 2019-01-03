@@ -1,6 +1,6 @@
 ﻿.home-stats {
+    $parent: &;
     &__item {
-        // border: 1px solid;
         background-color: $gray--light;
         border: 1px solid transparent;
         font-size: 22px;
@@ -20,22 +20,22 @@
             box-shadow: 0 10px 15px -10px rgba($black, 0.2);
             transform: translateY(-2px);
         }
-    }
-
-    .item {
-        &__number {
-            color: $primary;
-            display: block;
+        &--action{
+            background-color: $primary;
+            color: $white;
             font-weight: bold;
-            font-size: 140%;
+            #{$parent}__item-number {
+                color: $white;
+            }
+
         }
     }
-}
-
-.feather {
-    width: 16px;
-    height: 16px;
-    vertical-align: text-bottom;
+    &__item-number{
+        color: $primary;
+        display: block;
+        font-weight: bold;
+        font-size: 140%;
+    }
 }
 
 /*

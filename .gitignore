@@ -259,3 +259,6 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+#App Settings
+Src/WebApp/PhoneService.App/PhoneService.App/appsettings.json
