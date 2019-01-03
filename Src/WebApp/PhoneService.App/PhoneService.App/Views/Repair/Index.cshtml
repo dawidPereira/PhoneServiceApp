@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<PhoneService.Core.Models.Repair.RepairResponse>
 
-<div class="col-sm-12">
-    <a class="btn btn-outline-dark" asp-action="AddRepair" asp-controller="Repair">Zarejestruj naprawę</a>
-</div>
-<hr />
+<h2>Lista napraw</h2>
+<p class="text-right">
+    <a class="btn btn-outline-success" asp-action="AddRepair" asp-controller="Repair"><i class="fa fa-plus" aria-hidden="true"></i> Zarejestruj naprawę</a>
+</p>
 <div>
-    <table class="table table-dark">
+    <table class="table">
         <thead class="tab-pane">
             <tr>
                 <th>Numer Id</th>
@@ -38,16 +38,19 @@
                         <td>@repair.CustomerName @repair.LastName</td>
                         <td>@repair.RepairStatusName</td>
                         <td>
-                            <p>
-                                <a class="active" asp-action="Details" asp-controller="Repair" asp-route-repairId="@repair.RepairId">Szczegóły</a> |
-                            </p>
+                            <div class="d-inline-flex">
+                                    <a class="btn btn-primary btn-sm" asp-action="Details" asp-controller="Repair" asp-route-repairId="@repair.RepairId"><i class="fa fa-eye" aria-hidden="true"></i> Zobacz</a>
+                                    <form class="active" asp-action="RemoveRepair" method="post"
+                                      asp-controller="Repair" asp-route-repairId="@repair.RepairId">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Czy na pewno chcesz usunać tę naprawę?')">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>  Usuń
+                                    </button>
+                                    </form>
+                            </div>
+                                
                         </td>
                         <td>
-                            <form class="active" asp-action="RemoveRepair" method="post"
-                                  asp-controller="Repair" asp-route-repairId="@repair.RepairId">
-                                <input type="submit" value="Usuń" class="btn btn-sm"
-                                       onclick="return confirm('Czy na pewno chcesz usunać tę naprawę?')" />
-                            </form>
+                            
                         </td>
                     </tr>
                 }
