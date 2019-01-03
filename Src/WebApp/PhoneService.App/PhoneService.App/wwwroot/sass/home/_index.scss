@@ -1,5 +1,35 @@
-﻿body {
-    font-size: .875rem;
+﻿.home-stats {
+    &__item {
+        // border: 1px solid;
+        background-color: $gray--light;
+        border: 1px solid transparent;
+        font-size: 22px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-flow: column;
+        padding-top: $offset--lg;
+        padding-bottom: $offset--lg;
+        transition: 0.3s;
+        color: $gray--dark;
+        margin-bottom: $offset--base*2;
+        font-weight: lighter;
+
+        &:hover {
+            border-color: $primary;
+            box-shadow: 0 10px 15px -10px rgba($black, 0.2);
+            transform: translateY(-2px);
+        }
+    }
+
+    .item {
+        &__number {
+            color: $primary;
+            display: block;
+            font-weight: bold;
+            font-size: 140%;
+        }
+    }
 }
 
 .feather {
@@ -14,19 +44,18 @@
 
 .sidebar {
     position: fixed;
-    top: 0;
+    top: $offset--base;
     bottom: 0;
     left: 0;
     z-index: 100; /* Behind the navbar */
-    padding: 48px 0 0; /* Height of navbar */
+    padding: $navbar-height 0 0; /* Height of navbar */
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 }
 
 .sidebar-sticky {
     position: relative;
     top: 0;
-    height: calc(100vh - 48px);
-    padding-top: .5rem;
+    height: calc(100vh - $navbar-height);
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
@@ -48,10 +77,6 @@
     color: #999;
 }
 
-.sidebar .nav-link.active {
-    color: #007bff;
-}
-
 .sidebar .nav-link:hover .feather,
 .sidebar .nav-link.active .feather {
     color: inherit;
@@ -67,20 +92,12 @@
  */
 
 [role="main"] {
-    padding-top: 48px; /* Space for fixed navbar */
+    padding-top: $offset--base;
 }
 
 /*
  * Navbar
  */
-
-.navbar-brand {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
-    font-size: 1rem;
-    background-color: rgba(0, 0, 0, .25);
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
-}
 
 .navbar .form-control {
     padding: .75rem 1rem;

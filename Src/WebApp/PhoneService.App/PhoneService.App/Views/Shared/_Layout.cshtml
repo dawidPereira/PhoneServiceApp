@@ -7,26 +7,28 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
         <link rel="stylesheet" href="~/css/site.css" />
-        <link href="~/css/dashboard.css" rel="stylesheet">
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href=""
               asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-        <link href="~/css/dashboard.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">TelMax</a>
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" asp-action="Index" asp-controller="Home"><img src="~/images/telmax-logo.png" alt="TelMax" height="50" /></a>
         <ul class="navbar-nav px-3 flex-md-row">
 
             @if (!User.Identity.IsAuthenticated)
             {
                 <li class="nav-item text-nowrap px-3">
-                    <a class="nav-link" asp-action="Login" asp-controller="Account">Logowanie</a>
+                    <a class="nav-link" asp-action="Login" asp-controller="Account"><i class="fa fa-user"></i> Logowanie</a>
                 </li>
             }
             else
@@ -35,7 +37,7 @@
                     <p class="navbar-text">Zalogowano jako: <strong>@User.Identity.Name</strong></p>
                 </li>
                 <li class="nav-item text-nowrap px-3">
-                    <a class="nav-link" asp-action="Logout" asp-controller="Account">Wyloguj</a>
+                    <a class="nav-link" asp-action="Logout" asp-controller="Account"><i class="fa fa-sign-out-alt"></i> Wyloguj</a>
                 </li>
             }
 
@@ -49,25 +51,24 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link active" asp-action="Index" asp-controller="Home">
-                                <span data-feather="home"></span>
-                                Strona Główna <span class="sr-only">(current)</span>
-                            </a>
+                                <i class="fa fa-home"></i>
+                                Strona Główna </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="Repair">
-                                <span data-feather="shopping-cart"></span>
+                            <a class="nav-link" href="#">
+                                <i class="fa fa-tools"></i>
                                 Naprawy
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-action="Index" asp-controller="Customer">
-                                <span data-feather="users"></span>
+                                <i class="fa fa-users"></i>
                                 Klienci
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-action="Index" asp-controller="Product">
-                                <span data-feather="bar-chart-2"></span>
+                                <i class="fa fa-mobile-alt"></i>
                                 Produkty
                             </a>
                         </li>

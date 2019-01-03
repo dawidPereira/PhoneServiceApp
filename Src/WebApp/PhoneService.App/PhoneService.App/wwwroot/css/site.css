@@ -1,37 +1,206 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
-for details on configuring this project to bundle and minify static web assets. */
+/* BASE */
+/* line 1, ../sass/base/_typography.scss */
+.page-heading {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  font-weight: lighter;
+}
+
+/* line 1, ../sass/base/_global.scss */
 body {
+  padding-top: 50px;
+  font-size: 14px;
+}
+
+/*body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Carousel */
+
 .carousel-caption p {
     font-size: 20px;
     line-height: 1.4;
 }
 
-/* Make .svg files in the carousel display properly in older browsers */
+
 .carousel-inner .item img[src$=".svg"] {
     width: 100%;
 }
 
-/* QR code generator */
+
 #qrCode {
     margin: 15px;
 }
 
-/* Hide/rearrange for smaller screens */
+
 @media screen and (max-width: 767px) {
-    /* Hide captions */
     .carousel-caption {
         display: none;
     }
+}
+*/
+/* line 1, ../sass/_header.scss */
+.navbar-brand {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/* line 4, ../sass/_header.scss */
+.navbar-brand img {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: block;
+}
+
+/* line 10, ../sass/_header.scss */
+.navbar-text {
+  margin-bottom: 0;
+}
+
+/* line 15, ../sass/_header.scss */
+.sidebar .nav-link {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+/* line 18, ../sass/_header.scss */
+.sidebar .nav-link i {
+  text-align: center;
+  width: 30px;
+}
+/* line 22, ../sass/_header.scss */
+.sidebar .nav-link.active {
+  background-color: #ee1251;
+  color: #fefefe;
+}
+
+/* VIEWS */
+/* line 2, ../sass/home/_index.scss */
+.home-stats__item {
+  background-color: #f8f9fa;
+  border: 1px solid transparent;
+  font-size: 22px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  transition: 0.3s;
+  color: #888;
+  margin-bottom: 30px;
+  font-weight: lighter;
+}
+/* line 18, ../sass/home/_index.scss */
+.home-stats__item:hover {
+  border-color: #ee1251;
+  box-shadow: 0 10px 15px -10px rgba(51, 51, 51, 0.2);
+  transform: translateY(-2px);
+}
+/* line 26, ../sass/home/_index.scss */
+.home-stats .item__number {
+  color: #ee1251;
+  display: block;
+  font-weight: bold;
+  font-size: 140%;
+}
+
+/* line 35, ../sass/home/_index.scss */
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+/*
+ * Sidebar
+ */
+/* line 45, ../sass/home/_index.scss */
+.sidebar {
+  position: fixed;
+  top: 15px;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  /* Behind the navbar */
+  padding: 50px 0 0;
+  /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+/* line 55, ../sass/home/_index.scss */
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - $navbar-height);
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Scrollable contents if viewport is shorter than content. */
+}
+
+@supports (position: -webkit-sticky) or (position: sticky) {
+  /* line 64, ../sass/home/_index.scss */
+  .sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+  }
+}
+/* line 70, ../sass/home/_index.scss */
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+/* line 75, ../sass/home/_index.scss */
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #999;
+}
+
+/* line 80, ../sass/home/_index.scss */
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+/* line 85, ../sass/home/_index.scss */
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+/*
+ * Content
+ */
+/* line 94, ../sass/home/_index.scss */
+[role="main"] {
+  padding-top: 15px;
+}
+
+/*
+ * Navbar
+ */
+/* line 102, ../sass/home/_index.scss */
+.navbar .form-control {
+  padding: .75rem 1rem;
+  border-width: 0;
+  border-radius: 0;
+}
+
+/* line 108, ../sass/home/_index.scss */
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* line 114, ../sass/home/_index.scss */
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }

@@ -1,0 +1,13 @@
+/* BASE */
+@import 'base/mixins';
+@import 'base/functions';
+@import 'base/variables';
+@import 'base/typography';
+
+@import 'base/global';
+
+// BASE COMPONENTS
+@import 'header';
+
+/* VIEWS */
+@import 'home/index';
