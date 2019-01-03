@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using PhoneService.Infrastructure.Common;
 using PhoneService.Core.Services.Healpers;
+using PhoneService.Core.Interfaces;
+using PhoneService.Core.Models.Repair;
 
 namespace PhoneService.Core.Services
 {
@@ -18,12 +20,14 @@ namespace PhoneService.Core.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly NullCheckMethod _nullCheckMethod;
         private readonly SearchFilterHealpers _searchFilterHealpers;
+        private readonly IEmailService _emailService;
 
-        public CustomerService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod, SearchFilterHealpers searchFilterHealpers)
+        public CustomerService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod, SearchFilterHealpers searchFilterHealpers, IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _nullCheckMethod = nullCheckMethod;
             _searchFilterHealpers = searchFilterHealpers;
+            _emailService = emailService;
         }
 
         public async Task<IEnumerable<CustomerResponse>> GetAllCustomersAsync()
@@ -72,9 +76,8 @@ namespace PhoneService.Core.Services
 
             _unitOfWork.Customers.AddCustomer(_customerRequest);
             await _unitOfWork.CompleteAsync();
-            
 
-            //TODO: Run IEmailService and notifi user
+            await _emailService.SendCustomerAddNotifyEmailAsync(customerRequest.Email);
         }
 
         public async Task UpdateCustomerAsync(CustomerUpdateRequest customerRequest)
@@ -85,6 +88,7 @@ namespace PhoneService.Core.Services
 
             _nullCheckMethod.CheckIfResponseIsNull(customer);
 
+            //TODO: Add CustomerAddresId in Request
             var customerAddresId = customer.Addres.CustomerAddresId;
 
             customer = Mapper.Map<CustomerUpdateRequest, Customer>(customerRequest);

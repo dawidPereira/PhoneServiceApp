@@ -30,6 +30,8 @@ namespace PhoneService.Persistance
         public DbSet<SaparePart> SapareParts { get; set; }
         public DbSet<RepairItem> RepairItems { get; set; }
         public DbSet<ProductSaparePart> ProductSapareParts { get; set; }
+        public DbSet<EmailTemplate> EmailTemplates { get; set; }
+        public DbSet<EmailSubject> EmailSubjects { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {  
@@ -117,7 +119,7 @@ namespace PhoneService.Persistance
             modelBuilder.Entity<ProductSaparePart>().HasData(
                 new ProductSaparePart { ProductId = 1, SaparePartId = 1 },
                 new ProductSaparePart { ProductId = 1, SaparePartId = 3 },
-                new ProductSaparePart { ProductId = 2, SaparePartId = 5 },
+                new ProductSaparePart { ProductId = 2, SaparePartId = 5 },  
                 new ProductSaparePart { ProductId = 2, SaparePartId = 2 },
                 new ProductSaparePart { ProductId = 3, SaparePartId = 3 },
                 new ProductSaparePart { ProductId = 3, SaparePartId = 4 },
@@ -144,6 +146,22 @@ namespace PhoneService.Persistance
                 new Repair { RepairId = 6, CustomerId = 4, ProductId = 1, RepairStatusId = 6, CreateDate = DateTime.UtcNow, Description = "Klient przyniusł zalany telefon w skarpecie z ryżem" },
                 new Repair { RepairId = 7, CustomerId = 5, ProductId = 2, RepairStatusId = 2, CreateDate = DateTime.UtcNow, Description = "Coś nie diała" },
                 new Repair { RepairId = 8, CustomerId = 5, ProductId = 5, RepairStatusId = 6, CreateDate = DateTime.UtcNow, Description = "Pan nie był zadowolony" });
+
+            modelBuilder.Entity<EmailSubject>().HasData(
+                new EmailSubject { EmailSubjectId = 1, Subject = "Twoja naprawa została wyceniona"},
+                new EmailSubject { EmailSubjectId = 2, Subject = "Twoja naprawa została przekazana do realizacji" },
+                new EmailSubject { EmailSubjectId = 3, Subject = "Status Twojej naprawy został zmieniony"},
+                new EmailSubject { EmailSubjectId = 4, Subject = "Twój telefon jest gotowy do odbioru"},
+                new EmailSubject { EmailSubjectId = 5, Subject = "Zarejestrowaliśmy Twoją naprawę" },
+                new EmailSubject { EmailSubjectId = 6, Subject = "Twoje konto zostało zarejestrowane" }
+                );
+
+            modelBuilder.Entity<EmailTemplate>().HasData(
+                new EmailTemplate { EmailTemplateId = 1, TemplateName = "StatusChangeTemplate.html"},
+                new EmailTemplate { EmailTemplateId = 2, TemplateName = "CustomerDecisionTemplate.html" },
+                new EmailTemplate { EmailTemplateId = 3, TemplateName = "RepairAddTemplate.html"},
+                new EmailTemplate { EmailTemplateId = 4, TemplateName = "CustomerCreateTemplate.html" }
+                );
 
             #endregion
         }
