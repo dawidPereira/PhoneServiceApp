@@ -55,8 +55,11 @@ namespace PhoneService.Core.Services
 
         public async Task<IEnumerable<RepairResponse>> GetRepairBySearchTermsAsync(RepairSearchRequest searchRequest)
         {
-            var searchFilter = Mapper.Map<Repair>(searchRequest);
-            var repair = await _unitOfWork.Repairs.GetRepairBySearchTermsAsync(searchFilter);
+            var searchFilter = new Repair();
+
+            searchFilter = _repairMappingProfile.ConvertRepairSearchRequestToRepair(searchRequest, searchFilter);
+
+            var repair = await _unitOfWork.Repairs.GetRepairBySearchTermsAsync(searchRequest.DateFrom, searchRequest.DateTo, searchFilter);
 
             _nullCheckMethod.CheckIfResponseListIsEmpty(repair);
 

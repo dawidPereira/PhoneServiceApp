@@ -50,7 +50,7 @@ namespace PhoneService.Core.Repository
             return repair;
         }
 
-        public async Task<IEnumerable<Repair>> GetRepairBySearchTermsAsync(Repair repairRequest)
+        public async Task<IEnumerable<Repair>> GetRepairBySearchTermsAsync(DateTime dateFrom, DateTime dateTo, Repair repairRequest)
         {
             IEnumerable<Repair> repairs = _context.Set<Repair>()
                                 .Include(c => c.Customer)
@@ -62,7 +62,7 @@ namespace PhoneService.Core.Repository
                                 .Include(c => c.RepairStatus)
                                     .AsQueryable();
 
-            var searchResponse = await _searchFilterHealpers.SearchByContains(repairs, repairRequest);
+            var searchResponse = await _searchFilterHealpers.SearchByContainsWithDateAsync(dateFrom, dateTo, repairs, repairRequest);
             var response = Mapper.Map<IEnumerable<Repair>>(searchResponse);
 
             return response;
