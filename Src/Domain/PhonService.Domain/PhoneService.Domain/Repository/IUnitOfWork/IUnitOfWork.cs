@@ -14,6 +14,7 @@ namespace PhoneService.Domain.Repository.IUnitOfWork
         IRepairItemRepository RepairItems { get; }
         IEmailSubjectRepository EmailSubject { get; }
         IEmailTemplateRepository EmailTemplate { get; }
+        IProductSaparePartRepository ProductSaparePart { get; }
         Task CompleteAsync();
     }
 }

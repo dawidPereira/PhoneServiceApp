@@ -257,7 +257,7 @@ namespace PhoneService.App.Controllers
 
             if (repairModel.StatusId != 2)
             {
-                return RedirectToAction("DecisionTaken", "Repair", new {repairId = repairModel.RepairId});
+                return RedirectToAction("DecisionTaken", "Repair", new { repairId = repairModel.RepairId });
             }
 
             return View(repairModel);

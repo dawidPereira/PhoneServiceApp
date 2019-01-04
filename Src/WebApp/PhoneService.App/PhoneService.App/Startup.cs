@@ -74,10 +74,13 @@ namespace PhoneService.App
                 opts.IdleTimeout = TimeSpan.FromMinutes(5);
             });
 
+            services.AddDistributedMemoryCache();
+
             services
                 .AddMvc();
 
-            services.AddDistributedMemoryCache();
+
+            
             
 
             services
@@ -88,7 +91,8 @@ namespace PhoneService.App
                 .AddScoped<IRepairItemRepository, RepairItemRepository>()
                 .AddScoped<IEmailSubjectRepository, EmailSubjectRepository>()
                 .AddScoped<IEmailTemplateRepository, EmailTemplateRepository>()
-                .AddScoped<IRepairRepository, RepairRepository>();
+                .AddScoped<IRepairRepository, RepairRepository>()
+                .AddScoped<IProductSaparePartRepository, ProductSaparePartRepository>();
 
 
             services
@@ -131,7 +135,7 @@ namespace PhoneService.App
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
             app.UseSession();
 
             Mapper.Initialize(x =>

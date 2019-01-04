@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PhoneService.Domain
 {
-    public class CustomerAddres
+    public class CustomerAddres 
     {
         public int CustomerAddresId { get; set; }
         public string City { get; set; }

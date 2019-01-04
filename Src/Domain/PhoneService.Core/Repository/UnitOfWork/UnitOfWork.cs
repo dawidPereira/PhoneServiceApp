@@ -24,6 +24,7 @@ namespace PhoneService.Core.Repository.UnitOfWork
             RepairItems = new RepairItemRepository(_context);
             EmailSubject = new EmailSubjectRepository(_context);
             EmailTemplate = new EmailTemplateRepository(_context);
+            ProductSaparePart = new ProductSaparePartRepository(_context);
             //TODO: Add rest repo connection
         }
         
@@ -34,6 +35,7 @@ namespace PhoneService.Core.Repository.UnitOfWork
         public IRepairItemRepository RepairItems { get; private set; }
         public IEmailSubjectRepository EmailSubject { get; private set; }
         public IEmailTemplateRepository EmailTemplate { get; private set; }
+        public IProductSaparePartRepository ProductSaparePart { get; private set; }
 
 
         public async Task CompleteAsync()
