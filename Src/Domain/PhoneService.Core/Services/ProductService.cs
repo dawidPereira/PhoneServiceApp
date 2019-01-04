@@ -18,7 +18,7 @@ namespace PhoneService.Core.Services
 
         public ProductService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;   
             _nullCheckMethod = nullCheckMethod;
         }
 

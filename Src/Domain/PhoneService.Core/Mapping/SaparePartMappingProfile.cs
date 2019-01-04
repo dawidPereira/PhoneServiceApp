@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using PhoneService.Core.Models.SaparePart;
 using PhoneService.Domain;
+using PhoneService.Domain.Repository.IUnitOfWork;
+using PhoneService.Persistance;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,6 +25,7 @@ namespace PhoneService.Core.Mapping
                     Price = x.SaparePart.Price,
                     ReferenceNumebr = x.SaparePart.ReferenceNumebr
                 });
+
         }
     }
 }

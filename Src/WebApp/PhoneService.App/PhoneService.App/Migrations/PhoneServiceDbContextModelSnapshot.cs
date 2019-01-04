@@ -236,6 +236,48 @@ namespace PhoneService.App.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("PhoneService.Domain.Entities.EmailSubject", b =>
+                {
+                    b.Property<int>("EmailSubjectId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Subject");
+
+                    b.HasKey("EmailSubjectId");
+
+                    b.ToTable("EmailSubjects");
+
+                    b.HasData(
+                        new { EmailSubjectId = 1, Subject = "Twoja naprawa została wyceniona" },
+                        new { EmailSubjectId = 2, Subject = "Twoja naprawa została przekazana do realizacji" },
+                        new { EmailSubjectId = 3, Subject = "Status Twojej naprawy został zmieniony" },
+                        new { EmailSubjectId = 4, Subject = "Twój telefon jest gotowy do odbioru" },
+                        new { EmailSubjectId = 5, Subject = "Zarejestrowaliśmy Twoją naprawę" },
+                        new { EmailSubjectId = 6, Subject = "Twoje konto zostało zarejestrowane" }
+                    );
+                });
+
+            modelBuilder.Entity("PhoneService.Domain.Entities.EmailTemplate", b =>
+                {
+                    b.Property<int>("EmailTemplateId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("TemplateName");
+
+                    b.HasKey("EmailTemplateId");
+
+                    b.ToTable("EmailTemplates");
+
+                    b.HasData(
+                        new { EmailTemplateId = 1, TemplateName = "StatusChangeTemplate.html" },
+                        new { EmailTemplateId = 2, TemplateName = "CustomerDecisionTemplate.html" },
+                        new { EmailTemplateId = 3, TemplateName = "RepairAddTemplate.html" },
+                        new { EmailTemplateId = 4, TemplateName = "CustomerCreateTemplate.html" }
+                    );
+                });
+
             modelBuilder.Entity("PhoneService.Domain.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -314,14 +356,14 @@ namespace PhoneService.App.Migrations
                     b.ToTable("Repairs");
 
                     b.HasData(
-                        new { RepairId = 1, CreateDate = new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), CustomerId = 1, Description = "Tutaj powinien być jakiś opis naprawy", ProductId = 1, RepairStatusId = 1 },
-                        new { RepairId = 2, CreateDate = new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), CustomerId = 1, Description = "Opis z produktu dodamu tutaj", ProductId = 5, RepairStatusId = 2 },
-                        new { RepairId = 3, CreateDate = new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), CustomerId = 2, Description = "Klient nie może dodzwonić się do nikogo - nie opłacił abonamentu", ProductId = 2, RepairStatusId = 3 },
-                        new { RepairId = 4, CreateDate = new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), CustomerId = 3, Description = "Klientowi nie działa klawiatura", ProductId = 3, RepairStatusId = 4 },
-                        new { RepairId = 5, CreateDate = new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), CustomerId = 3, Description = "Popsuty głośnik", ProductId = 4, RepairStatusId = 5 },
-                        new { RepairId = 6, CreateDate = new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), CustomerId = 4, Description = "Klient przyniusł zalany telefon w skarpecie z ryżem", ProductId = 1, RepairStatusId = 6 },
-                        new { RepairId = 7, CreateDate = new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), CustomerId = 5, Description = "Coś nie diała", ProductId = 2, RepairStatusId = 2 },
-                        new { RepairId = 8, CreateDate = new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), CustomerId = 5, Description = "Pan nie był zadowolony", ProductId = 5, RepairStatusId = 6 }
+                        new { RepairId = 1, CreateDate = new DateTime(2019, 1, 3, 20, 59, 17, 453, DateTimeKind.Utc), CustomerId = 1, Description = "Tutaj powinien być jakiś opis naprawy", ProductId = 1, RepairStatusId = 1 },
+                        new { RepairId = 2, CreateDate = new DateTime(2019, 1, 3, 20, 59, 17, 453, DateTimeKind.Utc), CustomerId = 1, Description = "Opis z produktu dodamu tutaj", ProductId = 5, RepairStatusId = 2 },
+                        new { RepairId = 3, CreateDate = new DateTime(2019, 1, 3, 20, 59, 17, 453, DateTimeKind.Utc), CustomerId = 2, Description = "Klient nie może dodzwonić się do nikogo - nie opłacił abonamentu", ProductId = 2, RepairStatusId = 3 },
+                        new { RepairId = 4, CreateDate = new DateTime(2019, 1, 3, 20, 59, 17, 453, DateTimeKind.Utc), CustomerId = 3, Description = "Klientowi nie działa klawiatura", ProductId = 3, RepairStatusId = 4 },
+                        new { RepairId = 5, CreateDate = new DateTime(2019, 1, 3, 20, 59, 17, 453, DateTimeKind.Utc), CustomerId = 3, Description = "Popsuty głośnik", ProductId = 4, RepairStatusId = 5 },
+                        new { RepairId = 6, CreateDate = new DateTime(2019, 1, 3, 20, 59, 17, 453, DateTimeKind.Utc), CustomerId = 4, Description = "Klient przyniusł zalany telefon w skarpecie z ryżem", ProductId = 1, RepairStatusId = 6 },
+                        new { RepairId = 7, CreateDate = new DateTime(2019, 1, 3, 20, 59, 17, 453, DateTimeKind.Utc), CustomerId = 5, Description = "Coś nie diała", ProductId = 2, RepairStatusId = 2 },
+                        new { RepairId = 8, CreateDate = new DateTime(2019, 1, 3, 20, 59, 17, 453, DateTimeKind.Utc), CustomerId = 5, Description = "Pan nie był zadowolony", ProductId = 5, RepairStatusId = 6 }
                     );
                 });
 
@@ -338,20 +380,6 @@ namespace PhoneService.App.Migrations
                     b.HasIndex("SaparePartId");
 
                     b.ToTable("RepairItems");
-
-                    b.HasData(
-                        new { RepairId = 1, SaparePartId = 1, Quantity = 1 },
-                        new { RepairId = 1, SaparePartId = 2, Quantity = 2 },
-                        new { RepairId = 2, SaparePartId = 3, Quantity = 1 },
-                        new { RepairId = 3, SaparePartId = 4, Quantity = 2 },
-                        new { RepairId = 4, SaparePartId = 5, Quantity = 1 },
-                        new { RepairId = 5, SaparePartId = 1, Quantity = 1 },
-                        new { RepairId = 2, SaparePartId = 2, Quantity = 2 },
-                        new { RepairId = 3, SaparePartId = 3, Quantity = 3 },
-                        new { RepairId = 4, SaparePartId = 4, Quantity = 1 },
-                        new { RepairId = 5, SaparePartId = 5, Quantity = 10 },
-                        new { RepairId = 2, SaparePartId = 1, Quantity = 1 }
-                    );
                 });
 
             modelBuilder.Entity("PhoneService.Domain.RepairStatus", b =>
@@ -371,8 +399,9 @@ namespace PhoneService.App.Migrations
                         new { RepairStatusId = 2, Name = "Wyceniona" },
                         new { RepairStatusId = 3, Name = "W trakcie realizacji" },
                         new { RepairStatusId = 4, Name = "Zrealizowana" },
-                        new { RepairStatusId = 5, Name = "Odrzucona" },
-                        new { RepairStatusId = 6, Name = "Będziesz Pan zadowolony" }
+                        new { RepairStatusId = 5, Name = "Zakończona" },
+                        new { RepairStatusId = 6, Name = "Odrzucona" },
+                        new { RepairStatusId = 7, Name = "Zakończona bez naprawy" }
                     );
                 });
 

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using PhoneService.Core.Interfaces;
+using PhoneService.Core.Mapping;
 using PhoneService.Core.Models.Repair;
+using PhoneService.Core.Models.RepairItem;
 using PhoneService.Domain;
 using PhoneService.Domain.Repository.IUnitOfWork;
 using PhoneService.Infrastructure.Common;
@@ -15,11 +17,15 @@ namespace PhoneService.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly NullCheckMethod _nullCheckMethod;
+        private readonly IEmailService _emailService;
+        private readonly RepairMappingProfile _repairMappingProfile;
 
-        public RepairService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod)
+        public RepairService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod, IEmailService emailService, RepairMappingProfile repairMappingProfile)
         {
             _unitOfWork = unitOfWork;
             _nullCheckMethod = nullCheckMethod;
+            _emailService = emailService;
+            _repairMappingProfile = repairMappingProfile;
         }
 
 
@@ -77,9 +83,30 @@ namespace PhoneService.Core.Services
 
             _nullCheckMethod.CheckIfResponseIsNull(repair);
 
-            var _repair = Mapper.Map(repairUpdateRequest, repair);
+            repair = _repairMappingProfile.ConvertRepairAddRequestToRepair(repairUpdateRequest, repair);
+
+            if (repair.RepairStatusId == 1)
+                if (repair.RepairItems != null)
+                    repair.RepairStatusId = 2;
+            
+            await _unitOfWork.CompleteAsync();
+
+            await _emailService.SendRepairStatusNotifyEmailAsync(repairUpdateRequest.RepairId, repairUpdateRequest.Links);
+        }
+
+        public async Task UpdateRepairStatusAsync(RepairStatusUpdateRequest repairStatusUpdateRequest)
+        {
+            _nullCheckMethod.CheckIfRequestIsNull(repairStatusUpdateRequest);
+
+            var repair = await _unitOfWork.Repairs.GetRepairItemByIdAsync(repairStatusUpdateRequest.RepairId);
+
+            _nullCheckMethod.CheckIfResponseIsNull(repair);
+
+            repair.RepairStatusId = repairStatusUpdateRequest.RepairStatusId;
 
             await _unitOfWork.CompleteAsync();
+
+            await _emailService.SendRepairStatusNotifyEmailAsync(repairStatusUpdateRequest.RepairId, repairStatusUpdateRequest.Links);
         }
 
         public async Task RemoveRepairAsync(int repairId)

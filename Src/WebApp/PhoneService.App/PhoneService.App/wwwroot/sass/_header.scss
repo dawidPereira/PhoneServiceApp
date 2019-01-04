@@ -1,0 +1,34 @@
+﻿.navbar-brand {
+    padding-top: 0;
+    padding-bottom: 0;
+    img{
+        padding-top: $offset--sm;
+        padding-bottom: $offset--sm;
+        display: block;
+    }
+}
+.navbar-text{
+    margin-bottom:0;
+}
+
+.sidebar{
+    .nav-link{
+        padding-top: $offset--base;
+        padding-bottom: $offset--base;
+        transition: background-color 0.3s; 
+        i{
+            text-align: center;
+            width: 30px;
+        }
+        &.active{
+            background-color: $primary;
+            color: $white;
+            &:hover{
+                background-color: darken($primary, 10%);
+            }
+        }
+        &:hover{
+            background-color: $gray;
+        }
+    }
+}

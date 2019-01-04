@@ -1,1 +1,44 @@
-﻿<p>To jest strona główna aplikacji</p>
+﻿<h1>Panel główny</h1>
+
+<h4 class="page-heading">
+    Podsumowanie bieżących napraw
+</h4>
+
+<section class="home-stats d-flex flex-wrap">
+    <div class="col-4">
+        <article class="home-stats__item">
+            <span class="home-stats__item-number">12</span>
+            Przyjęta
+        </article>
+    </div>
+    <div class="col-4">
+        <article class="home-stats__item">
+            <span class="home-stats__item-number">6</span>
+            Wyceniona
+        </article>
+    </div>
+    <div class="col-4">
+        <article class="home-stats__item">
+            <span class="home-stats__item-number">3</span>
+            W trakcie realizacji
+        </article>
+    </div>
+    <div class="col-4">
+        <article class="home-stats__item">
+            <span class="home-stats__item-number">55</span>
+            Zrealizowana
+        </article>
+    </div>
+    <div class="col-4">
+        <article class="home-stats__item">
+            <span class="home-stats__item-number">15</span>
+            Odrzucona
+        </article>
+    </div>
+    <a class="col-4" asp-action="AddRepair" asp-controller="Repair">
+        <article class="home-stats__item home-stats__item--action">
+            <span class="home-stats__item-number"><i class="fa fa-plus" aria-hidden="true"></i></span>
+            Zarejestruj naprawę
+        </article>
+    </a>
+</section>
