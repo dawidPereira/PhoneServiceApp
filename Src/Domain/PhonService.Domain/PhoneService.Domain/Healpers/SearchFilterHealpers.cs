@@ -101,7 +101,7 @@ namespace PhoneService.Core.Services.Healpers
             return response;
         }
 
-        public async Task<IEnumerable<object>> SearchByContainsWithDateAsync(DateTime dateFrom, DateTime dateTo, IEnumerable<object> items, object contains)
+        public async Task<IEnumerable<object>> SearchByContainsWithDateAsync(DateTime? dateFrom, DateTime? dateTo, IEnumerable<object> items, object contains)
         {
             foreach (var filter in contains.GetType().GetProperties())
             {
@@ -133,12 +133,12 @@ namespace PhoneService.Core.Services.Healpers
                 {
                     if (dateFrom != null)
                     {
-                        items = SearchByDateFrom(items, dateFrom, filter);
+                        items = SearchByDateFrom(items, dateFrom.Value, filter);
                     }
 
                     if (dateTo != null)
                     {
-                        items = SearchByDateTo(items, dateTo, filter);
+                        items = SearchByDateTo(items, dateTo.Value, filter);
                     }
                 }
             }
