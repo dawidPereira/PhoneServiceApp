@@ -45,7 +45,7 @@ namespace PhoneService.Core.Mapping
                      Product = Mapper.Map<ProductResponse>(x.Product),
                      RepairItems = Mapper.Map<List<RepairItemResponse>>(x.RepairItems)
                  });
-            
+
             CreateMap<RepairAddRequest, Repair>()
                 .ConvertUsing(x => new Repair
                 {
@@ -66,24 +66,24 @@ namespace PhoneService.Core.Mapping
                     ProductId = x.ProductId,
                     RepairItems = Mapper.Map<ICollection<RepairItem>>(x.RepairItems)
                 });
+        }
+        public Repair ConvertRepairSearchRequestToRepair(RepairSearchRequest _repairSearchRequest, Repair repair)
+        {
 
-            CreateMap<RepairSearchRequest, Repair>()
-                .ConvertUsing(x => new Repair
-                {
-                    RepairId = x.RepairId,
-                    Description = x.Description,
-                    RepairStatusId = x.StatusId,
-                    CreateDate = x.CreateTime,
-                    CustomerId = x.CustomerId,
-                    ProductId = x.ProductId,
-                    RepairItems = Mapper.Map<ICollection<RepairItem>>(x.RepairItems)
-                });
+            repair.RepairStatus.Name = _repairSearchRequest.StatusName;
+            repair.Product.Producer = _repairSearchRequest.ProducerName;
+            repair.Product.Model = _repairSearchRequest.ModelName;
+            repair.Customer.Name = _repairSearchRequest.CustomerName;
+            repair.Customer.LastName = _repairSearchRequest.CustomerLastName;
+            repair.Customer.Email = _repairSearchRequest.Email;
+            repair.Customer.PhoneNum = _repairSearchRequest.PhoneNumber;
 
+            return repair;
         }
 
         public Repair ConvertRepairAddRequestToRepair(RepairUpdateRequest repairUpdateRequest, Repair repair)
         {
-            
+
             repair.RepairId = repairUpdateRequest.RepairId;
             repair.Description = repairUpdateRequest.Description;
             repair.RepairStatusId = repairUpdateRequest.StatusId;
