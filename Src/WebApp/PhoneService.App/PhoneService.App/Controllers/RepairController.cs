@@ -33,9 +33,14 @@ namespace PhoneService.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(RepairSearchRequest repairSearch)
         {
             var model = await _repairService.GetAllRepairsAsync();
+
+            if (repairSearch != null)
+            {
+                model = await _repairService.GetRepairBySearchTermsAsync(repairSearch);
+            }
 
             return View(model);
         }

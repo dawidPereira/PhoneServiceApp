@@ -67,16 +67,25 @@ namespace PhoneService.Core.Mapping
                     RepairItems = Mapper.Map<ICollection<RepairItem>>(x.RepairItems)
                 });
         }
+
         public Repair ConvertRepairSearchRequestToRepair(RepairSearchRequest _repairSearchRequest, Repair repair)
         {
-
-            repair.RepairStatus.Name = _repairSearchRequest.StatusName;
-            repair.Product.Producer = _repairSearchRequest.ProducerName;
-            repair.Product.Model = _repairSearchRequest.ModelName;
-            repair.Customer.Name = _repairSearchRequest.CustomerName;
-            repair.Customer.LastName = _repairSearchRequest.CustomerLastName;
-            repair.Customer.Email = _repairSearchRequest.Email;
-            repair.Customer.PhoneNum = _repairSearchRequest.PhoneNumber;
+            repair.RepairStatus = new RepairStatus()
+            {
+                Name = _repairSearchRequest.StatusName
+            };
+            repair.Product = new Product()
+            {
+                Producer = _repairSearchRequest.ProducerName,
+                Model = _repairSearchRequest.ModelName
+            };
+            repair.Customer = new Customer()
+            {
+                Name = _repairSearchRequest.CustomerName,
+                LastName = _repairSearchRequest.CustomerLastName,
+                Email = _repairSearchRequest.Email,
+                PhoneNum = _repairSearchRequest.PhoneNumber
+            };
 
             return repair;
         }
