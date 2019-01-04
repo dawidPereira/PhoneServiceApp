@@ -56,6 +56,15 @@ namespace PhoneService.Core.Services
 
             _unitOfWork.SapareParts.AddSaparePart(saparePart);
             await _unitOfWork.CompleteAsync();
+
+            var productSaparePart = new ProductSaparePart()
+            {
+                ProductId = saparePartRequest.ProductId,
+                SaparePartId = saparePart.SaparePartId
+            };
+
+            _unitOfWork.ProductSaparePart.AddProductSaparePart(productSaparePart);
+            await _unitOfWork.CompleteAsync();
         }
 
         public async Task UpdateSaparePartAsync(SaparePartUpdateRequest saparePartRequest)
@@ -78,6 +87,11 @@ namespace PhoneService.Core.Services
             var saparePart = await _unitOfWork.SapareParts.GetSaparePartByIdAsync(saparePartId);
 
             _nullCheckMethod.CheckIfResponseIsNull(saparePart);
+
+            var productSaparePart = new ProductSaparePart()
+            {
+                SaparePartId = saparePart.SaparePartId
+            };
 
             _unitOfWork.SapareParts.RemoveSaparePart(saparePart);
             await _unitOfWork.CompleteAsync();

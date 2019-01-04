@@ -91,7 +91,8 @@ namespace PhoneService.App
                 .AddScoped<IRepairItemRepository, RepairItemRepository>()
                 .AddScoped<IEmailSubjectRepository, EmailSubjectRepository>()
                 .AddScoped<IEmailTemplateRepository, EmailTemplateRepository>()
-                .AddScoped<IRepairRepository, RepairRepository>();
+                .AddScoped<IRepairRepository, RepairRepository>()
+                .AddScoped<IProductSaparePartRepository, ProductSaparePartRepository>();
 
 
             services
