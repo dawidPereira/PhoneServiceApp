@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using PhoneService.Core.Models.Customer;
 using PhoneService.Core.Models.SaparePart;
+using System.ComponentModel.DataAnnotations;
 
 namespace PhoneService.Core.Models.Repair
 {
@@ -12,7 +13,8 @@ namespace PhoneService.Core.Models.Repair
     {
         public int RepairId { get; set; }
         public string Description { get; set; }
-        public DateTime CreateTime { get; set; }
+        //[Display ]
+        public DateTime? CreateTime { get; set; }
         public string StatusName { get; set; }
         public int CustomerId { get; set; }
         public int ProductId { get; set; }

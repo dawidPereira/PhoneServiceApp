@@ -17,7 +17,7 @@ namespace PhoneService.Core.Services.Healpers
             items = items.Where
                     (p => Convert.ToDateTime(p.GetType()
                     .GetProperty(filter.Name).GetValue(p))
-                    <= Convert.ToDateTime(dateFrom));
+                    >= Convert.ToDateTime(dateFrom));
 
             return items;
         }
@@ -27,7 +27,7 @@ namespace PhoneService.Core.Services.Healpers
             items = items.Where
                     (p => Convert.ToDateTime(p.GetType()
                     .GetProperty(filter.Name).GetValue(p))
-                    >= Convert.ToDateTime(dateTo));
+                    <= Convert.ToDateTime(dateTo));
 
             return items;
         }
@@ -106,7 +106,7 @@ namespace PhoneService.Core.Services.Healpers
             foreach (var filter in contains.GetType().GetProperties())
             {
                 var filterValue = filter.GetValue(contains);
-                var propName = filter.ToString();
+                var propName = filter.Name;
 
                
                 if (filterValue != null
