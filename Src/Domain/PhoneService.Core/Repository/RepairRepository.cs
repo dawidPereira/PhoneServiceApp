@@ -73,5 +73,15 @@ namespace PhoneService.Core.Repository
         public void UpdateRepair(Repair repairItem) => _context.Update(repairItem);
 
         public void RemoveRepair(Repair repairItem) => _context.Remove(repairItem);
+
+        #region Repair Status Count
+
+        public async Task<int> GetNewRepairStatusCountAsync() => await _context.Repairs.CountAsync(r => r.RepairStatusId == 1);
+        public async Task<int> GetPricedRepairStatusCountAsync() => await _context.Repairs.CountAsync(r => r.RepairStatusId == 2);
+        public async Task<int> GetInProgressRepairStatusCountAsync() => await _context.Repairs.CountAsync(r => r.RepairStatusId == 3);
+        public async Task<int> GetCompletedRepairStatusCountAsync() => await _context.Repairs.CountAsync(r => r.RepairStatusId == 4 || r.RepairStatusId == 5);
+        public async Task<int> GetRejectedRepairStatusCountAsync() => await _context.Repairs.CountAsync(r => r.RepairStatusId == 6);
+
+        #endregion
     }
 }
