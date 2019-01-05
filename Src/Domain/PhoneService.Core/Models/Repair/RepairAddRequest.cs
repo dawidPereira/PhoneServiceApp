@@ -12,7 +12,7 @@ namespace PhoneService.Core.Models.Repair
     {
         public string Description { get; set; }
 
-        public DateTime CreateTime { get; set; }
+        public DateTime? CreateTime { get; set; }
         public int StatusId { get; set; }
 
         [Required(ErrorMessage = "Id klienta jest wymagane")]

@@ -50,7 +50,7 @@ namespace PhoneService.Core.Repository
             return repair;
         }
 
-        public async Task<IEnumerable<Repair>> GetRepairBySearchTermsAsync(DateTime dateFrom, DateTime dateTo, Repair repairRequest)
+        public async Task<IEnumerable<Repair>> GetRepairBySearchTermsAsync(DateTime? dateFrom, DateTime? dateTo, Repair repairRequest)
         {
             IEnumerable<Repair> repairs = _context.Set<Repair>()
                                 .Include(c => c.Customer)

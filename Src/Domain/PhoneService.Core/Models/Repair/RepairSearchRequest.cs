@@ -10,8 +10,8 @@ namespace PhoneService.Core.Models.Repair
 {
     public class RepairSearchRequest
     {
-        public DateTime DateFrom { get; set; }
-        public DateTime DateTo { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
         public string StatusName { get; set; }
         public string ProducerName { get; set; }
         public string ModelName { get; set; }
@@ -19,5 +19,10 @@ namespace PhoneService.Core.Models.Repair
         public string CustomerLastName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+
+        public object ArePropertiesNotNull()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

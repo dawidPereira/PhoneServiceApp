@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<PhoneService.Core.Models.Repair.RepairResponse>
 
+<div>
+    @await Component.InvokeAsync("RepairSearchComponent")
+</div>
+
 <div class="col-sm-12">
     <a class="btn btn-outline-dark" asp-action="AddRepair" asp-controller="Repair">Zarejestruj naprawę</a>
 </div>
