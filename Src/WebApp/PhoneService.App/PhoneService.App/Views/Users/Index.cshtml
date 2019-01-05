@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PhoneService.Domain.Entities
+@model List<PhoneService.Domain.Entities.AppUser>
+@inject UserManager<AppUser> UserManager
+
+<h2>Panel Administratora</h2>
+<hr />
+
+<div>
+    <h4>Lista Użytkowników Aplikacji</h4>
+    <hr />
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>Nazwa użytkownika</th>
+                <th>Email</th>
+                <th></th>
+                <th></th>
+                <th><a asp-controller="Users" asp-action="AddUser" class="btn btn-sm">Dodaj nowego użytkownika</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <a asp-controller="Users" asp-action="ChangePassword" asp-route-id="@user.Id"
+                           class="nav-link">
+                            Zmień hasło
+                        </a>
+
+                    </td>
+                    <td>
+                        @if (User.Identity.Name == @user.UserName)
+                        {
+                            <span>Nie można usunąć obecnie zalogowanego użytkownika.</span>
+                        }
+                        else
+                        {
+                            <form asp-controller="Users" asp-action="DeleteUser" asp-route-id="@user.Id">
+                                <input type="submit" value="Usuń użytkownika"
+                                       onclick="return confirm('Czy na pewno chcesz usunać tego użytkownika?')" />
+                            </form>
+                        }
+
+                    </td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
