@@ -75,7 +75,7 @@
                         @if (User.IsInRole("appmaster"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" asp-controller="Users" asp-action="Index">
                                     <i class="fa fa-users" aria-hidden="true"></i>
                                     Użytkownicy
                                 </a>
