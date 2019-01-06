@@ -192,6 +192,11 @@ body {
   padding: 5px 10px;
 }
 
+/* line 1, ../sass/components/_search.scss */
+.search-component {
+  padding-bottom: 40px;
+}
+
 /* VIEWS */
 /* line 3, ../sass/home/_index.scss */
 .home-stats__item {

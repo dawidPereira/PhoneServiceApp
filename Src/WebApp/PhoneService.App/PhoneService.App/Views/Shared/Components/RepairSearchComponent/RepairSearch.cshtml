@@ -1,51 +1,54 @@
 ﻿@model PhoneService.Core.Models.Repair.RepairSearchRequest
 
-<form class="row" asp-controller="Repair" asp-action="Index" method="get">
-    <div class="col-sm-3">
-        <div class="form-group">
-            <label asp-for="CustomerName" class="control-label"></label>
-            <input asp-for="CustomerName" class="form-control" />
+<section class="search-component search-component--repair">
+    <p class="h5"><i class="fa fa-search"></i> Wyszukiwarka</p>
+    <hr>
+    <form class="row" asp-controller="Repair" asp-action="Index" method="get">
+        <div class="col-sm-3">
+            <div class="form-group input-group-sm">
+                <!-- <label asp-for="CustomerName" class="control-label"></label> -->
+                <input asp-for="CustomerName" class="form-control" placeholder="Imię" />
+            </div>
+            <div class="form-group input-group-sm">
+                <!-- <label asp-for="CustomerLastName" class="control-label"></label> -->
+                <input asp-for="CustomerLastName" class="form-control" placeholder="Nazwisko" />
+            </div>
         </div>
-        <div class="form-group">
-            <label asp-for="CustomerLastName" class="control-label"></label>
-            <input asp-for="CustomerLastName" class="form-control" />
+        <div class="col-sm-3">
+            <div class="form-group input-group-sm">
+                <!-- <label asp-for="Email" class="control-label"></label> -->
+                <input asp-for="Email" class="form-control" placeholder="Adres e-mail" />
+            </div>
+            <div class="form-group input-group-sm">
+                <!-- <label asp-for="PhoneNumber" class="control-label"></label> -->
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Numer telefonu" />
+            </div>
         </div>
-    </div>
-    <div class="col-sm-3">
-        <div class="form-group">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" />
+        <div class="col-sm-3">
+            <div class="form-group input-group-sm">
+                <!-- <label asp-for="ModelName" class="control-label"></label> -->
+                <input asp-for="ModelName" class="form-control" placeholder="Nazwa modelu" />
+            </div>
+            <div class="form-group input-group-sm">
+                <!-- <label asp-for="ProducerName" class="control-label"></label> -->
+                <input asp-for="ProducerName" class="form-control" placeholder="Nazwa producenta" />
+            </div>
         </div>
-        <div class="form-group">
-            <label asp-for="PhoneNumber" class="control-label"></label>
-            <input asp-for="PhoneNumber" class="form-control" />
+        <div class="col-sm-3">
+            <div class="form-group input-group-sm">
+                <!-- <label asp-for="DateFrom" class="control-label"></label> -->
+                <input asp-for="DateFrom" class="form-control" placeholder="Data od" />
+            </div>
+            <div class="form-group input-group-sm">
+                <!-- <label asp-for="DateTo" class="control-label"></label> -->
+                <input asp-for="DateTo" class="form-control" placeholder="Data do" />
+            </div>
         </div>
-    </div>
-    <div class="col-sm-3">
-        <div class="form-group">
-            <label asp-for="ModelName" class="control-label"></label>
-            <input asp-for="ModelName" class="form-control" />
+        <div class="col">
+            <button type="submit" value="Szukaj" class="btn float-right" ><i class="fa fa-search" aria-hidden="true"></i> Szukaj</button>
         </div>
-        <div class="form-group">
-            <label asp-for="ProducerName" class="control-label"></label>
-            <input asp-for="ProducerName" class="form-control" />
-        </div>
-    </div>
-    <div class="col-sm-3">
-        <div class="form-group">
-            <label asp-for="DateFrom" class="control-label"></label>
-            <input asp-for="DateFrom" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="DateTo" class="control-label"></label>
-            <input asp-for="DateTo" class="form-control" />
-        </div>
-    </div>
-    <div class="col-sm-12">
-        <input type="submit" value="Szukaj" class="btn btn-block" />
-    </div>
-
-</form>
+    </form>
+</section>
 
 
 
