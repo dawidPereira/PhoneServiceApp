@@ -44,8 +44,15 @@
                 <input asp-for="DateTo" class="form-control" placeholder="Data do" />
             </div>
         </div>
+        <div class="col-sm-2 col-xs-12">
+            <div class="form-group input-group-sm">
+                <select asp-for="StatusName" asp-items="new SelectList(@Model.StatusList)" class="form-control">
+                    <option selected value="">Wybierz status</option>
+                </select>
+            </div>
+        </div>
         <div class="col">
-            <button type="submit" value="Szukaj" class="btn btn-outline-primary btn-block float-right" ><i class="fa fa-search" aria-hidden="true"></i> Szukaj</button>
+            <button type="submit" value="Szukaj" class="btn btn-outline-primary btn-block float-right"><i class="fa fa-search" aria-hidden="true"></i> Szukaj</button>
         </div>
     </form>
 </section>

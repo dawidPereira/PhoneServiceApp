@@ -5,6 +5,7 @@ using PhoneService.Core.Models.RepairItem;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PhoneService.Core.Models.Repair
 {
@@ -12,7 +13,8 @@ namespace PhoneService.Core.Models.Repair
     {
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
-        public string StatusName { get; set; }
+        public string StatusName { get; set;}
+        public IEnumerable<string> StatusList { get; set; }
         public string ProducerName { get; set; }
         public string ModelName { get; set; }
         public string CustomerName { get; set; }
@@ -20,9 +22,19 @@ namespace PhoneService.Core.Models.Repair
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
 
-        public object ArePropertiesNotNull()
+        public RepairSearchRequest()
         {
-            throw new NotImplementedException();
+            StatusList = new List<string>()
+            {
+                "Przyjeta",
+                "Wyceniona",
+                "W trakcie realizacji",
+                "Zrealizowana",
+                "Zakończona",
+                "Odrzucona",
+                "Zakończona bez naprawy"
+            };
         }
+
     }
 }
