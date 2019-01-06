@@ -1,26 +1,29 @@
 ﻿@model IEnumerable<PhoneService.Core.Models.Customer.CustomerResponse>
 
-<div>
-    @await Component.InvokeAsync("CustomerSearchComponent")
+<div class="row">
+    <div class="col">@await Component.InvokeAsync("CustomerSearchComponent")</div>
 </div>
 <br/> 
 
-<div class="col-sm-12">
-    <a class="btn btn-outline-dark" asp-action="AddCustomer" asp-controller="Customer">Dodaj klienta</a>
+<div class="row">
+    <div class="col">
+        <h2 class="float-left h3">Lista  klientów</h2>
+        <p class="text-right float-right">
+            <a class="btn btn-outline-success" asp-action="AddCustomer" asp-controller="Customer"><i class="fa fa-plus" aria-hidden="true"></i> Dodaj klienta</a>
+        </p>
+    </div>
 </div>
-<hr />
 @if (@Model.Any())
 {
     <div>
-        <table class="table table-dark">
+        <table class="table">
             <thead class="tab-pane">
             <tr>
-                <th>Numer Id</th>
-                <th>Nazwa klienta</th>
+                <th>#</th>
+                <th>Klient</th>
                 <th>Nr tel.</th>
                 <th>E-mail</th>
                 <th>NIP</th>
-                <th></th>
                 <th></th>
             </tr>
             </thead>
@@ -34,15 +37,15 @@
                     <td>@customer.Email</td>
                     <td>@customer.TaxNum</td>
                     <td>
-                        <a class="nav-link active" asp-action="UpdateCustomer"
-                           asp-controller="Customer" asp-route-id="@customer.CustomerId">Edytuj</a>
-                    </td>
-                    <td>
-                        <form class="nav-link active" asp-action="RemoveCustomer" method="post"
-                              asp-controller="Customer" asp-route-id="@customer.CustomerId">
-                            <input type="submit" value="Usuń" class="btn btn-sm"
-                                   onclick="return confirm('Czy na pewno chcesz usunać tego klienta?')" />
+                        <div class="d-inline-flex">
+                                <a class="text-warning btn btn-link" asp-action="UpdateCustomer"
+                                asp-controller="Customer" asp-route-id="@customer.CustomerId" title="Edytuj"><i class="fas fa-pen-square"></i></a>
+                                <form asp-action="RemoveCustomer" method="post" asp-controller="Customer" asp-route-id="@customer.CustomerId">
+                                <button type="submit" class="btn btn-link text-danger" onclick="return confirm('Czy na pewno chcesz usunać tego klienta?')" title="Usuń"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
                         </form>
+                        </div>
+                        
+                           
                     </td>
                 </tr>
             }

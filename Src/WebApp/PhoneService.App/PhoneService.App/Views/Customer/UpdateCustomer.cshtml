@@ -1,62 +1,67 @@
 ﻿@model PhoneService.Core.Models.Customer.CustomerUpdateRequest
 
 
-<h2>Zmień dane klienta</h2>
+<h2>Zmień dane klienta - <small>@Model.Name @Model.LastName <span class="badge badge-primary">#@Model.CustomerId</span></small></h2>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="UpdateCustomer" asp-controller="Customer" method="post" asp-antiforgery="true" asp-route-id="">
+        <form asp-action="UpdateCustomer" asp-controller="Customer" method="post" asp-antiforgery="true" asp-route-id="" class="row form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-sm-6">
             <input type="hidden" asp-for="CustomerId" class="form-control" />
+                <legend>Dane podstawowe</legend>
+                <hr>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label>Imię</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+                    <label>Nazwisko</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                    <label>Adres e-mail</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PhoneNum" class="control-label"></label>
+                    <label>NIP</label>
+                <input asp-for="TaxNum" class="form-control" />
+                <span asp-validation-for="TaxNum" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <legend>Dane adresowe</legend>
+            <hr>
+            <div class="form-group">
+                    <label>Numer tel.</label>
                 <input asp-for="PhoneNum" class="form-control" />
                 <span asp-validation-for="PhoneNum" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TaxNum" class="control-label"></label>
-                <input asp-for="TaxNum" class="form-control" />
-                <span asp-validation-for="TaxNum" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Adress" class="control-label"></label>
-                <input asp-for="Adress" class="form-control" />
-                <span asp-validation-for="Adress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PostCode" class="control-label"></label>
-                <input asp-for="PostCode" class="form-control" />
-                <span asp-validation-for="PostCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Zapisz dane klienta" class="btn btn-default" />
-            </div>
+                    <label>Miasto</label>
+                    <input asp-for="City" class="form-control" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                        <label>Adres</label>
+                    <input asp-for="Adress" class="form-control" />
+                    <span asp-validation-for="Adress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                        <label>Kod pocztowy</label>
+                    <input asp-for="PostCode" class="form-control" />
+                    <span asp-validation-for="PostCode" class="text-danger"></span>
+                </div>
+        </div>
+        <div class="col-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-lg" ><i class="fas fa-save"></i> Zapisz</button>
+                </div>
+        </div>
         </form>
-    </div>
-</div>
-
 <div>
-    <a asp-action="Index" asp-controller="Customer">Powrót do listy</a>
+    <a asp-action="Index" asp-controller="Customer"><i class="fa fa-arrow-left" aria-hidden="true"></i> Powrót do listy</a>
 </div>
 
