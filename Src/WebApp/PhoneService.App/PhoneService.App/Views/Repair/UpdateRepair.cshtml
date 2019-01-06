@@ -84,7 +84,10 @@
             }
         }
         <div class="form-group">
-            <button type="submit" onclick="submit()" class="btn btn-success btn-lg"><i class="fa fa-check" aria-hidden="true"></i> Zapisz wycenę</button>
+            @if (@Model.RepairItems.Count > 0)
+            {
+                <button type="submit" onclick="submit()" class="btn btn-success btn-lg"><i class="fa fa-check" aria-hidden="true"></i> Zapisz wycenę</button>
+            }
         </div>
     </form>
 </div>
