@@ -197,6 +197,11 @@ body {
   padding-bottom: 40px;
 }
 
+/* line 1, ../sass/components/_forms.scss */
+input[type=number].form-control {
+  width: 60px;
+}
+
 /* VIEWS */
 /* line 3, ../sass/home/_index.scss */
 .home-stats__item {

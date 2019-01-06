@@ -4,7 +4,7 @@
     <p class="h5"><i class="fa fa-search"></i> Wyszukiwarka</p>
     <hr>
     <form class="row" asp-controller="Repair" asp-action="Index" method="get">
-        <div class="col-sm-3">
+        <div class="col-sm-3 col-xs-12">
             <div class="form-group input-group-sm">
                 <!-- <label asp-for="CustomerName" class="control-label"></label> -->
                 <input asp-for="CustomerName" class="form-control" placeholder="Imię" />
@@ -14,7 +14,7 @@
                 <input asp-for="CustomerLastName" class="form-control" placeholder="Nazwisko" />
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 col-xs-12">
             <div class="form-group input-group-sm">
                 <!-- <label asp-for="Email" class="control-label"></label> -->
                 <input asp-for="Email" class="form-control" placeholder="Adres e-mail" />
@@ -24,7 +24,7 @@
                 <input asp-for="PhoneNumber" class="form-control" placeholder="Numer telefonu" />
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2 col-xs-12">
             <div class="form-group input-group-sm">
                 <!-- <label asp-for="ModelName" class="control-label"></label> -->
                 <input asp-for="ModelName" class="form-control" placeholder="Nazwa modelu" />
@@ -34,7 +34,7 @@
                 <input asp-for="ProducerName" class="form-control" placeholder="Nazwa producenta" />
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2 col-xs-12">
             <div class="form-group input-group-sm">
                 <!-- <label asp-for="DateFrom" class="control-label"></label> -->
                 <input asp-for="DateFrom" class="form-control" placeholder="Data od" />
@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="col">
-            <button type="submit" value="Szukaj" class="btn float-right" ><i class="fa fa-search" aria-hidden="true"></i> Szukaj</button>
+            <button type="submit" value="Szukaj" class="btn btn-outline-primary btn-block float-right" ><i class="fa fa-search" aria-hidden="true"></i> Szukaj</button>
         </div>
     </form>
 </section>

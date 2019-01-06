@@ -26,9 +26,9 @@
         <p>Numer produktu: <strong>@Model.Product.ProductId</strong></p>
         <p>Producent / Model: <a asp-action="Details" asp-controller="Product" asp-route-id="@Model.Product.ProductId"><strong>@Model.Product.Producer @Model.Product.Model</strong></a></p>
         @if(@Model.Product.Description != null){
-            <p class="card">
-                    <span class="card-body"><strong>Opis:</strong> @Model.Product.Description</span>
-                </p>
+            <p class="card" title="Opis produktu">
+                    <span class="card-body">@Model.Product.Description</span>
+            </p>
         }
         @if(@Model.Description != null){
             <h5>Opis usterki</h5>
@@ -45,11 +45,11 @@
             {
                 <h6>Części zamienne</h6>
                 <hr />
-                <table>
+                <table class="table table-stripped">
                     <thead>
                         <tr>
-                            <th>Id Części</th>
-                            <th>Nazwa części</th>
+                            <th>#</th>
+                            <th>Nazwa</th>
                             <th>Numer referencyjny</th>
                             <th>Cena jednostkowa</th>
                             <th>Ilość</th>
@@ -77,11 +77,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Do zapłaty:</td>
+                            <td colspan="5" class="text-right"><strong>Do zapłaty:</strong></td>
                             <td>@(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price))</td>
                         </tr>
                     </tfoot>
@@ -89,28 +85,30 @@
             }
             else
             {
-                <p>Brak części zamiennych</p>
+                <p class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> Brak części zamiennych</p>
             }
             <br />
             @if (Model.StatusId == 1)
             {
-                <h6>Wyceń naprawę</h6>
+                <h6>Wycena naprawy</h6>
+                <hr>
             
-                <a asp-controller="Repair" asp-action="UpdateRepair" asp-route-repairId="@Model.RepairId">
-                    <button>Dodaj części zamienne</button>
+                <a class="btn btn-primary" asp-controller="Repair" asp-action="UpdateRepair" asp-route-repairId="@Model.RepairId">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Dodaj części zamienne
                 </a>
             }
             
             @if (Model.StatusId == 2)
             {
                 <h6>Decyzja klienta</h6>
-                <p>Jeżeli klient nie jest obecny, czekamy na jego decyzję</p>
+                <hr>
+                <p class="alert alert-info"><i class="fa fa-info-circle" aria-hidden="true"></i> Jeżeli klient nie jest obecny, czekamy na jego decyzję.</p>
             
                 <div class="row">
                     <div class="col-sm-6">
                         <form asp-controller="Repair" asp-action="UpdateRepairStatus" method="post" asp-antiforgery="true"
                               asp-route-repairId="@Model.RepairId" asp-route-statusId="3">
-                            <button type="submit" class="btn btn-success btn-block"><i class="fa fa-check" aria-hidden="true"></i> Przekaż do naprawy</button>
+                            <button type="submit" class="btn btn-success btn-block"><i class="fa fa-arrow-left" aria-hidden="true"></i> Przekaż do naprawy</button>
                         </form>
                     </div>
                     <div class="col-sm-6">
@@ -126,7 +124,8 @@
             @if (Model.StatusId == 3)
             {
                 <h6>Produkt w naprawie</h6>
-                <p>Klikamy kiedy produkt wrócił z naprawy i fizycznie znajduje się w serwisie</p>
+                <hr>
+                <p class="alert alert-info"><i class="fa fa-info-circle" aria-hidden="true"></i> Wybierz, jeżeli produkt wrócił z naprawy i fizycznie znajduje się w serwisie</p>
                 <form asp-controller="Repair" asp-action="UpdateRepairStatus" method="post" asp-antiforgery="true"
                           asp-route-repairId="@Model.RepairId" asp-route-statusId="4">
                           <button type="submit" class="btn btn-success btn-block"><i class="fa fa-check" aria-hidden="true"></i> Produkt gotowy do odbioru</button>
@@ -137,54 +136,40 @@
             @if (Model.StatusId == 4)
             {
                 <h6>Naprawa zrealizowana</h6>
-                <p>Produkt gotowy do odbioru</p>
-                <br />
-                <p>Klikamy w momencie odbioru produktu przez klienta</p>
-                <div class="col-sm-12">
-                    <form asp-controller="Repair" asp-action="UpdateRepairStatus" method="post" asp-antiforgery="true"
+                <hr>
+                <p class="alert alert-success"><i class="fa fa-check-circle" aria-hidden="true"></i> Produkt gotowy do odbioru</p>
+                <p>Wybierz w momencie odbioru produktu przez klienta</p>
+                <form asp-controller="Repair" asp-action="UpdateRepairStatus" method="post" asp-antiforgery="true"
                           asp-route-repairId="@Model.RepairId" asp-route-statusId="5">
-                        <input type="submit" value="Klient odebrał produkt" class="btn btn-block" />
-                    </form>
-                </div>
+                        <button type="submit" class="btn btn-success btn-block"><i class="fa fa-check" aria-hidden="true"></i> Klient odebrał produkt</button>
+                </form>
             }
             
             @if (Model.StatusId == 5)
             {
                 <h6>Zakończona</h6>
-                <p>Klient odebrał produkt</p>
+                <hr>
+                <p class="alert alert-success"><i class="fa fa-check-circle" aria-hidden="true"></i> Klient odebrał produkt</p>
             }
             
             @if (Model.StatusId == 6)
             {
                 <h6>Wycena odrzucona przez klienta</h6>
+                <hr>
             
-                <p>Klikamy w momencie odbioru produktu przez klienta</p>
-                <div class="col-sm-12">
-                    <form asp-controller="Repair" asp-action="UpdateRepairStatus" method="post" asp-antiforgery="true"
+                <p class="alert alert-info"><i class="fa fa-info-circle" aria-hidden="true"></i> Wybierz, jeżeli klient odebrał produkt</p>
+                <form asp-controller="Repair" asp-action="UpdateRepairStatus" method="post" asp-antiforgery="true"
                           asp-route-repairId="@Model.RepairId" asp-route-statusId="7">
-                        <input type="submit" value="Klient odebrał produkt - bez naprawy" class="btn btn-block" />
+                          <button type="submit" class="btn btn-success btn-block"><i class="fa fa-check" aria-hidden="true"></i> Klient odebrał produkt</button>
                     </form>
-                </div>
             }
             
             @if (Model.StatusId == 7)
             {
                 <h6>Zakończona bez naprawy</h6>
+                <hr>
                 <p>Klient odebrał produkt</p>
             }
     </div>
 </div>
-<br />
-<div class="row">
-    <div class="col-sm-6">
-       
-    </div>
-    <div class="col-sm-6">
-            
-    </div>
-</div>
-<br />
 
-
-
-<br />

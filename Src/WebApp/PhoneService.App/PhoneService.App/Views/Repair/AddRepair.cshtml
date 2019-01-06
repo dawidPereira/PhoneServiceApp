@@ -4,67 +4,73 @@
 <br />
 
 <br />
-<h4>Klient</h4>
+<h5><i class="fa fa-user" aria-hidden="true"></i> Klient</h5>
 <hr />
 <div class="row">
     @if (Model.CustomerId == 0)
     {
         <div class="col-sm-12">
-            <p>-</p>
+            <p>Nie wybrano klienta</p>
+            <button onclick="showStuff('listCustomers')" class="btn btn-outline-primary">Wybierz</button>
         </div>
         <div class="col-sm-12">
-            <button onclick="showStuff('listCustomers')">Wybierz klienta</button>
+            <div id="listCustomers" style="display: none">
+                @await Component.InvokeAsync("RepairComponentCustomerList")
+            </div>
         </div>
-        <div id="listCustomers" style="display: none" class="col-sm-12">
-            @await Component.InvokeAsync("RepairComponentCustomerList")
-        </div>
+        
     }
     else
     {
         <div class="col-sm-6">
-            <p>Nr klienta: <strong>@Model.CustomerDetails.CustomerId </strong> </p>
-            <p>Nazwa klienta: <strong>@Model.CustomerDetails.Name @Model.CustomerDetails.LastName </strong> </p>
+            <p>Nazwa klienta: <strong>@Model.CustomerDetails.Name @Model.CustomerDetails.LastName <a asp-controller="Customer" asp-action="UpdateCustomer" asp-route-id="@Model.CustomerDetails.CustomerId" title="Edytuj">(#@Model.CustomerDetails.CustomerId)</a></strong></p>
             <p>Miasto: <strong>@Model.CustomerDetails.City </strong> </p>
             <p>Kod pocztowy: <strong>@Model.CustomerDetails.PostCode </strong> </p>
         </div>
         <div class="col-sm-6">
-            <p> Adres: <strong>@Model.CustomerDetails.Adress </strong> </p>
+            @if(@Model.CustomerDetails.Adress != null){
+                <p> Adres: <strong>@Model.CustomerDetails.Adress </strong> </p>
+            }
             <p> Numer telefonu: <strong>@Model.CustomerDetails.PhoneNum </strong> </p>
-            <p> Email: <strong>@Model.CustomerDetails.Email </strong> </p>
+            <p> Email: <a href="mailto:@Model.CustomerDetails.Email"><strong>@Model.CustomerDetails.Email </strong></a> </p>
             <p> NIP: <strong>@Model.CustomerDetails.TaxNum </strong> </p>
         </div>
     }
 </div>
 <br />
-<h4>Produkt</h4>
+<h5><i class="fa fa-mobile" aria-hidden="true"></i> Produkt</h5>
 <hr />
 <div class="row">
     @if (Model.ProductId == 0)
     {
         <div class="col-sm-12">
-            <p>-</p>
+            <p>Nie wybrano produktu</p>
+            <p>
+                <button onclick="showStuff('listProduct')" class="btn btn-outline-primary">Wybierz</button>
+            </p>
+            <div id="listProduct" style="display: none" class="col-sm-12">
+                    @await Component.InvokeAsync("RepairComponentProductList")
+            </div>
         </div>
         <div class="col-sm-12">
-            <button onclick="showStuff('listProduct')">Wybierz produkt</button>
+           
         </div>
-        <div id="listProduct" style="display: none" class="col-sm-12">
-            @await Component.InvokeAsync("RepairComponentProductList")
-        </div>
+        
     }
     else
     {
         <div class="col-sm-6">
             <p>Numer produktu: <strong>@Model.Product.ProductId</strong></p>
-            <p>Model: <strong>@Model.Product.Model</strong></p>
+            <p>Model: <strong>@Model.Product.Model <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Product.ProductId">(#@Model.Product.ProductId)</a></strong></p>
         </div>
         <div class="col-sm-6">
             <p>Producent: <strong>@Model.Product.Producer</strong></p>
-            <p>Opis: <strong>@Model.Product.Description</strong></p>
+            <p>Opis: <em>@Model.Product.Description</em></p>
         </div>
     }
 </div>
 <br />
-<h4>Opis usterki</h4>
+<h5><i class="fas fa-sticky-note    "></i> Opis usterki</h5>
 <hr />
 <div class="row">
     <div class="col-sm-12">
@@ -74,12 +80,12 @@
             <input type="hidden" asp-for="ProductId" />
             <input type="hidden" asp-for="CustomerId" />
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                Wpisz opis usterki
                 <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Zarejestruj naprawę" class="btn btn-default" />
+                <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-check" aria-hidden="true"></i> Zarejestruj naprawę</button>
             </div>
         </form>
     </div>
@@ -87,6 +93,6 @@
 
 <script type="text/javascript">
     function showStuff(id) {
-        document.getElementById(id).style.display = 'block';
+        $('#'+id).slideToggle();
     }
 </script>

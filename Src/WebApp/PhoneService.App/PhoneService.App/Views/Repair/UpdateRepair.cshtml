@@ -1,26 +1,21 @@
-﻿
-@model PhoneService.Core.Models.Repair.RepairUpdateRequest
-
-<h2>Dodaj części zamienne dla naprawy</h2>
-
-<h5>Numer naprawy: <strong>@Model.RepairId</strong> <br />Status: <strong>@Model.StatusId</strong></h5>
+﻿@model PhoneService.Core.Models.Repair.RepairUpdateRequest
+<h2>Dodaj części zamienne dla naprawy <small>#@Model.RepairId</small> <span class="badge badge-primary" title="Status">Status: @Model.StatusId</span></h2>
+<br />
+<h5>Opis usterki</h5>
+<hr />
+<p class="card"><span class="card-body">
+        @Model.Description
+</span></p>
 
 <br />
-<h4>Opis usterki</h4>
+<h5>Wycena usterki i zarządzanie naprawą</h5>
 <hr />
-<div class="col-sm-12">
-    <p>@Model.Description</p>
-</div>
-
-<br />
-<h4>Wycena usterki i zarządzanie naprawą</h4>
-<hr />
-<p>Części w Naprawie</p>
-<table>
+<p>Wykaz części wymaganych do naprawy</p>
+<table class="table table-stripped">
     <thead>
         <tr>
-            <th>Id Części</th>
-            <th>Nazwa części</th>
+            <th>#</th>
+            <th>Nazwa</th>
             <th>Numer referencyjny</th>
             <th>Cena jednostkowa</th>
             <th>Ilość</th>
@@ -49,11 +44,27 @@
 </table>
 <hr />
 <div>
-    <button onclick="showStuff('listItems')">Dodaj kolejną część</button>
+    <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#listItems"><i class="fa fa-plus" aria-hidden="true"></i> Dodaj część</button>
     <br />
-    <div style="display: none" id="listItems">
+    <!-- <div style="display: none" id="listItems">
         @await Component.InvokeAsync("RepairForSaparePartSelectComponent", new { productId = @Model.ProductId })
-    </div>
+    </div> -->
+    <!-- Modal -->
+    <div class="modal fade" id="listItems" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Dodaj część do wyceny</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        @await Component.InvokeAsync("RepairForSaparePartSelectComponent", new { productId = @Model.ProductId })
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 <div>
     <form id="form" asp-controller="Repair" asp-action="UpdateRepair" asp-route-repairId="" method="post" asp-antiforgery="true"
@@ -73,7 +84,7 @@
             }
         }
         <div class="form-group">
-            <input type="submit" value="Zapisz wycenę" onclick="submit()" class="btn btn-default" />
+            <button type="submit" onclick="submit()" class="btn btn-success btn-lg"><i class="fa fa-check" aria-hidden="true"></i> Zapisz wycenę</button>
         </div>
     </form>
 </div>
