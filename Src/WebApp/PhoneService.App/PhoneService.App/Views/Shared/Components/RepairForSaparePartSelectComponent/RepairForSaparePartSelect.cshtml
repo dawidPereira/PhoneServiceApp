@@ -36,7 +36,7 @@
                     <td>@Model[i].ReferenceNumebr</td>
                     <td>@Model[i].Price.ToString("C")</td>
                     <td>
-                        <input type="number" id="@idInput[i]" class="form-control form-control-sm" value="1"/>
+                        <input type="number" id="@idInput[i]" class="form-control form-control-sm" value="1" min="1" max="50"/>
                     </td>
                     <td>
                         <a id="@idForm[i]" href="#" class="btn btn-outline-success" onclick="valueSwitch('@idInput[i]','@idForm[i]','@Model[i].SaparePartId')"><i class="fa fa-plus" aria-hidden="true"></i> Dodaj</a>
