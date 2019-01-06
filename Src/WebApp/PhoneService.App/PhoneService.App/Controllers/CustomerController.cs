@@ -10,7 +10,7 @@ using PhoneService.Core.Services;
 
 namespace PhoneService.App.Controllers
 {
-    [AllowAnonymous]
+
     [Route("[controller]/[action]")]
     public class CustomerController : SecureController
     {
