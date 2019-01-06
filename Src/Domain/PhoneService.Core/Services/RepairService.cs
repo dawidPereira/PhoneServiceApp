@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using PhoneService.Core.Interfaces;
 using PhoneService.Core.Mapping;
+using PhoneService.Core.Models.Other;
 using PhoneService.Core.Models.Repair;
 using PhoneService.Core.Models.RepairItem;
 using PhoneService.Domain;
@@ -122,6 +123,19 @@ namespace PhoneService.Core.Services
             _unitOfWork.RepairItems.RemoveRangeRepairItems(repairItem);
             _unitOfWork.Repairs.RemoveRepair(repair);
             await _unitOfWork.CompleteAsync();
+        }
+
+        public async Task<Statistics> GetRepairStatusCountAsync()
+        {
+            var statisticsData = new Statistics();
+
+            statisticsData.New = await _unitOfWork.Repairs.GetNewRepairStatusCountAsync();
+            statisticsData.Priced = await _unitOfWork.Repairs.GetPricedRepairStatusCountAsync();
+            statisticsData.InProgress = await _unitOfWork.Repairs.GetInProgressRepairStatusCountAsync();
+            statisticsData.Completed = await _unitOfWork.Repairs.GetCompletedRepairStatusCountAsync();
+            statisticsData.Rejected = await _unitOfWork.Repairs.GetRejectedRepairStatusCountAsync();
+
+            return statisticsData;
         }
     }
 }

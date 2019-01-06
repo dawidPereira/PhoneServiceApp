@@ -13,5 +13,11 @@ namespace PhoneService.Domain.Repository
         void AddRepair(Repair repairItem);
         void UpdateRepair(Repair repairItem);
         void RemoveRepair(Repair repairItem);
+
+        Task<int> GetNewRepairStatusCountAsync();
+        Task<int> GetPricedRepairStatusCountAsync(); 
+        Task<int> GetInProgressRepairStatusCountAsync();
+        Task<int> GetCompletedRepairStatusCountAsync();
+        Task<int> GetRejectedRepairStatusCountAsync(); 
     }
 }

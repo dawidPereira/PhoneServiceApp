@@ -1,0 +1,46 @@
+﻿@using PhoneService.App.DTO.Users
+@model PhoneService.App.DTO.Users.UserAdminForCreateDto
+
+<h2>Utwórz nowego Uzytkownika</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddUser" asp-controller="Users" method="post" asp-antiforgery="true">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                Nazwa Użytkownika:
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Email:
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Hasło:
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Potwierdź hasło:
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Uprawnienia:
+                <select asp-for="RoleName" asp-items="Html.GetEnumSelectList<Roles>()">
+                    <option selected="selected" value="">Wybierz uprawnienia</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Stwórz Użytkownika" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Users">Powrót</a>
+</div>
