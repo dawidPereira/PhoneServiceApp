@@ -64,7 +64,7 @@ namespace PhoneService.App.Controllers
                 if (ModelState.IsValid)
                 {
                     await _productService.AddProductAsync(productAddRequest);
-                    return RedirectToAction("Index", "Customer");
+                    return RedirectToAction("Index", "Product");
                 }
 
                 return View(productAddRequest);
