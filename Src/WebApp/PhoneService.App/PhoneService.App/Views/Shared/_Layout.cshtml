@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var rv = ViewContext.RouteData.Values;
+    string page = $"{rv["controller"]}".ToLowerInvariant();
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -50,24 +54,24 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" asp-action="Index" asp-controller="Home">
+                            <a class='nav-link @(page == "home" ?  "active" : "")' asp-action="Index" asp-controller="Home">
                                 <i class="fa fa-home"></i>
-                                Strona Główna </a>
+                                Strona Główna</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="Repair">
+                            <a class='nav-link @(page == "repair" ?  "active" : "")' asp-action="Index" asp-controller="Repair">
                                 <i class="fa fa-tools"></i>
                                 Naprawy
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="Customer">
+                            <a class='nav-link @(page == "customer" ?  "active" : "")' asp-action="Index" asp-controller="Customer">
                                 <i class="fa fa-users"></i>
                                 Klienci
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="Product">
+                            <a class='nav-link @(page == "product" ?  "active" : "")' asp-action="Index" asp-controller="Product">
                                 <i class="fa fa-mobile-alt"></i>
                                 Produkty
                             </a>
@@ -75,7 +79,7 @@
                         @if (User.IsInRole("appmaster"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class='nav-link @(page == "user" ?  "active" : "")' href="#">
                                     <i class="fa fa-users" aria-hidden="true"></i>
                                     Użytkownicy
                                 </a>
