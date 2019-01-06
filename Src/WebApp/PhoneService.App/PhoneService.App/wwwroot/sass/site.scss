@@ -7,7 +7,10 @@
 @import 'base/global';
 
 // BASE COMPONENTS
-@import 'header';
+@import 'components/header';
+@import 'components/badges';
+@import 'components/search';
+@import 'components/forms';
 
 /* VIEWS */
 @import 'home/index';
