@@ -33,6 +33,15 @@ namespace PhoneService.Core.Repository
 
             return saparePart;
         }
+
+        public async Task<SaparePart> GetLatestSaparePartAsync()
+        {
+            var saparePart = await _context.Set<SaparePart>()
+                                .LastOrDefaultAsync();
+
+            return saparePart;
+        }
+
         public void AddSaparePart(SaparePart saparePart)
         {
             _context.SapareParts.Add(saparePart);

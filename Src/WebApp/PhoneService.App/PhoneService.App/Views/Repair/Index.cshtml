@@ -5,6 +5,9 @@
     <a class="btn btn-outline-success" asp-action="AddRepair" asp-controller="Repair"><i class="fa fa-plus" aria-hidden="true"></i> Zarejestruj naprawę</a>
 </p>
 <div>
+    @await Component.InvokeAsync("RepairSearchComponent")
+</div>
+<div>
     <table class="table">
         <thead class="tab-pane">
             <tr>

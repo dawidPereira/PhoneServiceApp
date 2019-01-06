@@ -10,14 +10,19 @@ namespace PhoneService.Core.Models.Repair
 {
     public class RepairSearchRequest
     {
-        public int RepairId { get; set; }
-        public string Description { get; set; }
-        public DateTime CreateTime { get => DateTime.Now; }
-        public int StatusId { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+        public string StatusName { get; set; }
+        public string ProducerName { get; set; }
+        public string ModelName { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerLastName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
 
-        public int CustomerId { get; set; }
-        public int ProductId { get; set; }
-
-        public ICollection<RepairItemAddRequest> RepairItems { get; set; }
+        public object ArePropertiesNotNull()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
