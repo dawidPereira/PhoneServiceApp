@@ -1,4 +1,6 @@
-﻿<h1>Panel główny</h1>
+﻿@model PhoneService.Core.Models.Other.Statistics
+
+<h1>Panel główny</h1>
 
 <h4 class="page-heading">
     Podsumowanie bieżących napraw
@@ -7,31 +9,31 @@
 <section class="home-stats d-flex flex-wrap">
     <div class="col-4">
         <article class="home-stats__item">
-            <span class="home-stats__item-number">12</span>
+            <span class="home-stats__item-number">@Model.New</span>
             Przyjęta
         </article>
     </div>
     <div class="col-4">
         <article class="home-stats__item">
-            <span class="home-stats__item-number">6</span>
+            <span class="home-stats__item-number">@Model.Priced</span>
             Wyceniona
         </article>
     </div>
     <div class="col-4">
         <article class="home-stats__item">
-            <span class="home-stats__item-number">3</span>
+            <span class="home-stats__item-number">@Model.InProgress</span>
             W trakcie realizacji
         </article>
     </div>
     <div class="col-4">
         <article class="home-stats__item">
-            <span class="home-stats__item-number">55</span>
+            <span class="home-stats__item-number">@Model.Completed</span>
             Zrealizowana
         </article>
     </div>
     <div class="col-4">
         <article class="home-stats__item">
-            <span class="home-stats__item-number">15</span>
+            <span class="home-stats__item-number">@Model.Rejected</span>
             Odrzucona
         </article>
     </div>

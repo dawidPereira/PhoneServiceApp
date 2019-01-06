@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using PhoneService.Core.Models.Other;
 
 namespace PhoneService.Core.Interfaces
 {
@@ -22,5 +23,7 @@ namespace PhoneService.Core.Interfaces
         Task UpdateRepairAsync(RepairUpdateRequest repairUpdateRequest);
 
         Task RemoveRepairAsync(int repairId);
+
+        Task<Statistics> GetRepairStatusCountAsync();
     }
 }
