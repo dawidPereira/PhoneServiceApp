@@ -1,18 +1,18 @@
 ﻿@model PhoneService.Core.Models.Product.ProductSearchRequest
-
+<p class="h5"><i class="fa fa-search" aria-hidden="true"></i> Wyszukiwarka</p>
 <form class="row" asp-controller="Product" asp-action="Index" method="get">
-    <div class="col-sm-12">
+    <div class="col-sm-2">
         <div class="form-group">
-            <label asp-for="Producer" class="control-label"></label>
-            <input asp-for="Producer" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Model" class="control-label"></label>
-            <input asp-for="Model" class="form-control" />
+            <input asp-for="Producer" class="form-control form-control-sm" placeholder="Producent"/>
         </div>
     </div>
-    <div class="col-sm-12">
-        <input type="submit" value="Szukaj" class="btn btn-block" />
+    <div class="col-sm-2">
+        <div class="form-group">
+            <input asp-for="Model" class="form-control form-control-sm" placeholder="Model"/>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <button type="submit" class="btn btn-block btn-outline-primary btn-sm"><i class="fa fa-search" aria-hidden="true"></i> Szukaj</button>
     </div>
     
 </form>

@@ -11,28 +11,28 @@
             <input type="hidden" asp-for="ProductId" />
             <input type="hidden" asp-for="SaparePartId" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                    <label for="">Nazwa</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ReferenceNumebr" class="control-label"></label>
+                    <label for="">Numer referencyjny</label>
                 <input asp-for="ReferenceNumebr" class="form-control" />
                 <span asp-validation-for="ReferenceNumebr" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
+                    <label for="">Cena jednostkowa</label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Zapisz dane" class="btn btn-default" />
+                    <button type="submit" class="btn btn-success"> <i class="fas fa-save"></i> Zapisz</button>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Details" asp-controller="Product" asp-route-productId="@Model.ProductId">Powrót do listy</a>
+        <p><a asp-action="Details" asp-controller="Product" asp-route-productId="@Model.ProductId"><i class="fa fa-arrow-left" aria-hidden="true"></i> Wróć do produktu</a></p>
 </div>
 
