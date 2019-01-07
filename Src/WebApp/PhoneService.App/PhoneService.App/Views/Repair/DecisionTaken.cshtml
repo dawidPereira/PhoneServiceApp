@@ -1,108 +1,129 @@
 ﻿@model PhoneService.Core.Models.Repair.RepairDetailsResponse
-
-<h2>Decyzja dotycząca naprawy: <strong>@Model.RepairId</strong></h2>
-<h5>Dla <strong>@Model.CustomerDetails.Name @Model.CustomerDetails.LastName</strong></h5>
-<h6>Zarejestrowano dnia: @Model.CreateTime</h6>
-<hr />
-
-<h3>Obecny status: <strong>@Model.StatusName</strong></h3>
-<hr />
-
-<h4>Opis usterki</h4>
-<hr />
-<div>
-    <p>@Model.Description</p>
+@{
+    Layout = "~/Views/Shared/_LayoutFluid.cshtml";
+}
+<style>
+body,[role=main]{
+    margin-top:0;
+    padding-top: 15px;
+}
+</style>
+<div class="container">
+    <p class="text-center"><img src="~/images/telmax-logo.png" alt="TelMax" width="200"></p>
+    @if (@Model.StatusId == 3)
+        {
+            <div class="alert alert-info" role="alert">
+              <h3 class="alert-heading">Witaj @Model.CustomerDetails.Name!</h3>
+              <p>Twoja wycena została <strong>zaakceptowana</strong>, a Twój <strong>@Model.Product.Producer @Model.Product.Model</strong> trafił do naprawy.</p>
+              <hr>
+              <p class="mb-0">
+                  Kiedy Twój telefon zostanie naprawiony otrzymasz od nas <strong>wiadomość e-mail</strong> z dalszymi instrukcjami. Możesz także
+                    sprawdzać status swojej naprawy na tej stronie.</p>
+            </div>
+        }
+        
+        @if (@Model.StatusId == 4)
+        {
+            <div class="alert alert-success" role="alert">
+                    <h3 class="alert-heading">Witaj @Model.CustomerDetails.Name!</h3>
+            <br />
+            <p>Twój <strong>@Model.Product.Producer @Model.Product.Model</strong> jest <strong>gotowy do odbioru!</strong></p>
+            <hr>
+            <p>
+                Zapraszamy do naszego punktu w godzinach <strong>od 7:30 do 18:30</strong>.
+            </p>
+            </div>
+        
+        }
+        
+        @if (@Model.StatusId == 5)
+        {
+            <div class="alert alert-light" role="alert">
+                    <h3 class="alert-heading">Witaj @Model.CustomerDetails.Name!</h3>
+            <br />
+            <p>Twój <strong>@Model.Product.Producer @Model.Product.Model</strong> został przez Ciebie <strong>odebrany</strong>.</p>
+            <hr>
+            <p>
+                Dziękujemy za korzystanie z usług TelMax.
+            </p>
+        </div>
+        
+        }
+        
+        @if (@Model.StatusId == 6)
+        {
+            <div class="alert alert-danger" role="alert">
+                    <h3 class="alert-heading">Witaj @Model.CustomerDetails.Name!</h3>
+            <br />
+            <p><strong>Odrzucono</strong> wycenę naprawy @Model.Product.Producer @Model.Product.Model.</p>
+            <hr>
+            <p>
+                Zapraszamy do naszego punktu w godzinach od 7:30 do 18:30 po <strong>odbiór telefonu</strong>.
+            </p>
+        </div>
+        
+        }
+        
+        @if (@Model.StatusId == 7)
+        {
+            <div class="alert alert-warning" role="alert">
+                    <h3 class="alert-heading">Witaj @Model.CustomerDetails.Name!</h3>
+            <br />
+            <p>Twój <strong>@Model.Product.Producer @Model.Product.Model</strong> został przez Ciebie <strong>odebrany</strong>.</p>
+            <hr>
+            <p>
+                Przykro nam, że nie skorzystałeś/aś z usług TelMax. Jeżeli kiedyś zmienisz zdanie, zapraszamy ponownie.
+            </p>
+        </div>
+        
+        }
+        <div class="row">
+                <div class="col-sm-6">
+                        <h5>Szczegóły naprawy</h5>
+                        <hr>
+                        <p>Numer naprawy: <span class="badge badge-primary">#@Model.RepairId</span></p>
+                        <p>Klient: <strong>@Model.CustomerDetails.Name @Model.CustomerDetails.LastName</strong></p>
+                        <p>Zarejestrowano dnia: <strong>@Model.CreateTime</strong></p>
+                        <p>Obecny status: <span class="badge badge-primary">@Model.StatusName</s></p>
+                        <p>Opis usterki: <em>@Model.Description</em></p>
+                </div>
+                <div class="col-sm-6">
+                        <h5>Wycena</h5>
+                        <hr />
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Część</th>
+                                        <th>Cena jednostkowa</th>
+                                        <th>Ilość</th>
+                                        <th>Cena końcowa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var part in @Model.RepairItems)
+                                    {
+                                        <tr>
+                                            <td>@part.SaparePart.Name</td>
+                                            <td>@part.SaparePart.Price</td>
+                                            <td>@part.Quantity</td>
+                                            <td>@(part.Quantity * part.SaparePart.Price) zł</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Razem do zapłaty:</td>
+                                        <td><strong>@(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price)) zł</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                </div>
+            </div>
 </div>
-<br />
 
-<h4>Wycena</h4>
-<hr />
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nazwa części zamiennej</th>
-                <th>Cena jednostkowa</th>
-                <th>Ilość</th>
-                <th>Cena końcowa</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var part in @Model.RepairItems)
-            {
-                <tr>
-                    <td>@part.SaparePart.Name</td>
-                    <td>@part.SaparePart.Price</td>
-                    <td>@part.Quantity</td>
-                    <td>@(part.Quantity * part.SaparePart.Price)</td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>Razem do zapłaty:</td>
-                <td><strong>@(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price))</strong></td>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-<br />
+        
 
-@if (@Model.StatusId == 3)
-{
-    <h4>Drogi kliencie...</h4>
-    <p>Twoja wycena została zaakceptowana, a twój @Model.Product.Producer @Model.Product.Model trafił do naprawy</p>
-    <p>
-        Kiedy twój telefon zostanie naprawiony otrzymasz od nas wiadomość e-mail z dalszymi instrukcjami. Możesz także
-        sprawdzać status swojej naprawy na tej stronie.
-    </p>
-
-}
-
-@if (@Model.StatusId == 4)
-{
-    <h4>Drogi kliencie...</h4>
-    <br />
-    <h5>Twój @Model.Product.Producer @Model.Product.Model jest gotowy do odbioru!</h5>
-    <p>
-        Zapraszamy do naszego punktu w godzinach od 7:30 do 18:30.
-    </p>
-
-}
-
-@if (@Model.StatusId == 5)
-{
-    <h4>Drogi kliencie...</h4>
-    <br />
-    <h5>Twój @Model.Product.Producer @Model.Product.Model został przez Ciebie odebrany.</h5>
-    <p>
-        Dziękujemy za korzystanie z usług TelMax.
-    </p>
-
-}
-
-@if (@Model.StatusId == 6)
-{
-    <h4>Drogi kliencie...</h4>
-    <br />
-    <h5>Odrzuciłeś wycenę naprawy dla twojego @Model.Product.Producer @Model.Product.Model.</h5>
-    <p>
-        Zapraszamy do naszego punktu w godzinach od 7:30 do 18:30 po odbiór telefonu.
-    </p>
-
-}
-
-@if (@Model.StatusId == 7)
-{
-    <h4>Drogi kliencie...</h4>
-    <br />
-    <h5>Twój @Model.Product.Producer @Model.Product.Model został przez Ciebie odebrany.</h5>
-    <p>
-        Przykro nam, że nie skorzystałeś z usług TelMax. Jezeli kiedyś zmienisz zdanie, zapraszamy ponownie.
-    </p>
-
-}
-
-<br />
