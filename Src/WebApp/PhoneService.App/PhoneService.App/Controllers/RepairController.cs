@@ -38,12 +38,19 @@ namespace PhoneService.App.Controllers
         {
             var model = await _repairService.GetAllRepairsAsync();
 
-            if (ControllerHelperMethods.ArePropertiesNotNull(repairSearch))
+            try
             {
-                model = await _repairService.GetRepairBySearchTermsAsync(repairSearch);
+                if (ControllerHelperMethods.ArePropertiesNotNull(repairSearch))
+                {
+                    model = await _repairService.GetRepairBySearchTermsAsync(repairSearch);
+                }
+                return View(model);
             }
-
-            return View(model);
+            catch (ArgumentNullException)
+            {
+                var emptyList = new List<RepairResponse>();
+                return View(emptyList);
+            }
         }
 
 

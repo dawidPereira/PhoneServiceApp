@@ -35,9 +35,10 @@ namespace PhoneService.App.Controllers
 
                 return View(model);
             }
-            catch (Exception e)
+            catch (ArgumentNullException)
             {
-                return BadRequest(e.Message);
+                var emptyList = new List<CustomerResponse>();
+                return View(emptyList);
             }
         }
 
