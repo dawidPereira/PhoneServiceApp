@@ -45,6 +45,7 @@ namespace PhoneService.Core.Repository
                             .Include(c => c.RepairItems)
                                     .ThenInclude(c => c.SaparePart)
                             .Include(c => c.RepairStatus)
+                            .OrderByDescending(c => c.CreateDate)
                                     .FirstOrDefaultAsync(c => c.RepairId == repairId);
 
             return repair;

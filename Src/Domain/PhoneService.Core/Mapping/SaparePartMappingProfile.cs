@@ -19,32 +19,30 @@ namespace PhoneService.Core.Mapping
                     Price = x .SaparePart.Price,
                     Name = x.SaparePart.Name,
                     SaparePartId = x.SaparePartId,
-                    ReferenceNumebr = x.SaparePart.ReferenceNumebr,
-                    ProductId = x.ProductId
+                    ProductId = x.ProductId,
+                    ReferenceNumebr = x.SaparePart.ReferenceNumebr
                 });
 
-            CreateMap<SaparePartAddRequest, SaparePart>();
-
-            //CreateMap<SaparePartUpdateRequest, SaparePart>()
-            //    .ConstructUsing(x => new SaparePart
-            //    {
-            //        SaparePartId = x.SaparePartId,
-            //        Name = x.Name,
-            //        Price = x.Price,
-            //        ReferenceNumebr = x.ReferenceNumebr,
-            //        ProductSapareParts = Mapper.Map<SaparePartUpdateRequest, ProductSaparePart>
-            //    });
+            CreateMap<SaparePart, SaparePartResponse>()
+                .ConstructUsing(x => new SaparePartResponse
+                {
+                    Price = x.Price,
+                    Name = x.Name,
+                    ReferenceNumebr = x.ReferenceNumebr,
+                    SaparePartId = x.SaparePartId,
+                    ProductId = 1
+                });
 
             CreateMap<ProductSaparePart, SaparePartResponse>()
                 .ConstructUsing(x => new SaparePartResponse
                 {
-                    SaparePartId = x.SaparePartId,
-                    Name = x.SaparePart.Name,
                     Price = x.SaparePart.Price,
-                    ReferenceNumebr = x.SaparePart.ReferenceNumebr,
-                    ProductId = x.ProductId
-                    
+                    Name = x.SaparePart.Name,
+                    SaparePartId = x.SaparePartId,
+                    ReferenceNumebr = x.SaparePart.ReferenceNumebr
                 });
+
+            CreateMap<SaparePartAddRequest, SaparePart>();
 
             CreateMap<SaparePartResponse, SaparePartUpdateRequest>()
                 .ConstructUsing(x => new SaparePartUpdateRequest

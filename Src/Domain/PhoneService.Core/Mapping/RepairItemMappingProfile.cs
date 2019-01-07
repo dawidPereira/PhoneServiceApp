@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PhoneService.Core.Models.RepairItem;
+using PhoneService.Core.Models.SaparePart;
 using PhoneService.Domain;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,12 @@ namespace PhoneService.Core.Mapping
     {
         public RepairItemMappingProfile()
         {
-            CreateMap<RepairItem, RepairItemResponse>();
+            CreateMap<RepairItem, RepairItemResponse>()
+                .ConstructUsing(x => new RepairItemResponse
+                {
+                    SaparePart = Mapper.Map<SaparePartResponse>(x.SaparePart),
+                    Quantity = x.Quantity
+                });
             CreateMap<RepairItemAddRequest, RepairItem>();
         }
     }
