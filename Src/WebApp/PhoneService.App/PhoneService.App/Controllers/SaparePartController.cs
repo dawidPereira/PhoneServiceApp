@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Interfaces;
+using PhoneService.Core.Mapping;
 using PhoneService.Core.Models.SaparePart;
 
 namespace PhoneService.App.Controllers
@@ -13,10 +14,12 @@ namespace PhoneService.App.Controllers
     public class SaparePartController : SecureController
     {
         private ISaparePartService _saparePartService;
+        private readonly SaparePartMappingProfile _saparePartMappingProfile;
 
-        public SaparePartController(ISaparePartService saparePartService)
+        public SaparePartController(ISaparePartService saparePartService, SaparePartMappingProfile saparePartMappingProfile)
         {
             _saparePartService = saparePartService;
+            _saparePartMappingProfile = saparePartMappingProfile;
         }
 
 
@@ -60,12 +63,12 @@ namespace PhoneService.App.Controllers
 
         }
 
-        [HttpGet("id")]
-        public async Task<IActionResult> UpdateSaparePart(int id)
+        [HttpGet("{saparePartId}/{productId}")]
+        public async Task<IActionResult> UpdateSaparePart(int saparePartId, int productId)
         {
             try
             {
-                var part = await _saparePartService.GetSaparePartByIdAsync(id);
+                var part = await _saparePartService.GetProductSaparePartByIdAsync(saparePartId, productId);
                 var model = AutoMapper.Mapper.Map<SaparePartUpdateRequest>(part);
 
                 if (model != null)

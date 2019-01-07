@@ -12,6 +12,8 @@ namespace PhoneService.Core.Interfaces
 
         Task<SaparePartResponse> GetSaparePartByIdAsync(int saparePartId);
 
+        Task<SaparePartResponse> GetProductSaparePartByIdAsync(int saparePartId, int productId);
+
         Task AddSaparePartAsync(SaparePartAddRequest saparePartRequest);
 
         Task UpdateSaparePartAsync(SaparePartUpdateRequest saparePartRequest);

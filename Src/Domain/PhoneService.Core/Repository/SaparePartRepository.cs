@@ -34,6 +34,17 @@ namespace PhoneService.Core.Repository
             return saparePart;
         }
 
+        public async Task<ProductSaparePart> GetProductSaparePartByIdAsync(int saparePartId, int productId)
+        {
+            var saparePart = await _context.Set<ProductSaparePart>()
+                                .Include(c => c.SaparePart)
+                                .Where(x => x.SaparePartId == saparePartId
+                                && x.ProductId == productId)
+                                .FirstOrDefaultAsync();
+
+            return saparePart;
+        }
+
         public async Task<SaparePart> GetLatestSaparePartAsync()
         {
             var saparePart = await _context.Set<SaparePart>()

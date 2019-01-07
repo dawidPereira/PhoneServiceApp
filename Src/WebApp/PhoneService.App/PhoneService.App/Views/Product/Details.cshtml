@@ -49,7 +49,8 @@
                                 <td>
                                     <div class="d-inline-flex">
                                         <a class="btn btn-link text-warning" asp-action="UpdateSaparePart"
-                                            asp-controller="SaparePart" asp-route-id="@part.SaparePartId" title="Edytuj"><i class="fas fa-pen-square"></i></a>
+                                            asp-controller="SaparePart" asp-route-saparePartId="@part.SaparePartId" asp-route-productId="@part.ProductId" 
+                                              title="Edytuj"><i class="fas fa-pen-square"></i></a>
                                         <form asp-action="RemoveSaparePart" method="post"
                                                 asp-controller="SaparePart" asp-route-saparePartId="@part.SaparePartId"
                                                 asp-route-productId="@Model.ProductId">
