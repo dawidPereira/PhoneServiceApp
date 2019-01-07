@@ -242,3 +242,11 @@ input[type=number].form-control {
   font-weight: bold;
   font-size: 140%;
 }
+
+/* line 3, ../sass/repair/_index.scss */
+.repair-index__table .badge {
+  display: block;
+  width: 180px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}

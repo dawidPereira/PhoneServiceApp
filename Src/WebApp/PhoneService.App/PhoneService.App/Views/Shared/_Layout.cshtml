@@ -79,7 +79,7 @@
                         @if (User.IsInRole("appmaster"))
                         {
                             <li class="nav-item">
-                                <a class='nav-link @(page == "user" ?  "active" : "")' asp-action="Index" asp-controller="Users">
+                                <a class='nav-link @(page == "users" ?  "active" : "")' asp-action="Index" asp-controller="Users">
                                     <i class="fa fa-users" aria-hidden="true"></i>
                                     Użytkownicy
                                 </a>

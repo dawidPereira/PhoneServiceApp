@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<PhoneService.Core.Models.Repair.RepairResponse>
-
+@{var repairClass = "light";}
 
 <div class="row">
     <div class="col">@await Component.InvokeAsync("RepairSearchComponent")</div>
@@ -13,7 +13,7 @@
         </div>
     </div>
 <div>
-    <table class="table">
+    <table class="table repair-index__table">
         <thead class="tab-pane">
             <tr>
                 <th>#</th>
@@ -42,7 +42,31 @@
                         
                         <td><a asp-action="UpdateCustomer" asp-controller="Customer" asp-route-id="@repair.CustomerId" title="Edytuj">@repair.CustomerName @repair.LastName</a></td>
                         <td>@repair.Product</td>
-                        <td><span class="badge badge-pill badge-dark">
+                        <td>
+                            @if(repair.RepairId == 1){
+                                repairClass = "success";
+                            }else if(repair.RepairId == 2){
+                                repairClass = "info";
+                            }
+                            else if(repair.RepairId == 3){
+                                repairClass = "primary";
+                            }
+                            else if(repair.RepairId == 4){
+                                repairClass = "dark";
+                            }
+                            else if(repair.RepairId == 5){
+                                repairClass = "danger";
+                            }
+                            else if(repair.RepairId == 6){
+                                repairClass = "secondary";
+                            }
+                            else if(repair.RepairId == 7){
+                                repairClass = "warning";
+                            }
+                            else{
+                                repairClass = "light";
+                            }
+                            <span class="badge badge-pill badge-@repairClass">
                                 @repair.RepairStatusName
                             </span></td>
                         <td>@repair.CreateDate</td>

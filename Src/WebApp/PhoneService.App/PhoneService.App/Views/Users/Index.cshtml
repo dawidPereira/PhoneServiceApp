@@ -7,16 +7,15 @@
 <hr />
 
 <div>
-    <h4>Lista Użytkowników Aplikacji</h4>
-    <hr />
-    <table class="table table-dark">
+    <h5 class="float-left">Lista użytkowników aplikacji</h5>
+    <p class="float-right"><a asp-controller="Users" asp-action="AddUser" class="btn btn-outline-success"><i class="fa fa-plus" aria-hidden="true"></i> Dodaj nowego użytkownika</a></p>
+    <table class="table">
         <thead>
             <tr>
                 <th>Nazwa użytkownika</th>
                 <th>Email</th>
                 <th></th>
                 <th></th>
-                <th><a asp-controller="Users" asp-action="AddUser" class="btn btn-sm">Dodaj nowego użytkownika</a></th>
             </tr>
         </thead>
         <tbody>
@@ -27,8 +26,8 @@
                     <td>@user.Email</td>
                     <td>
                         <a asp-controller="Users" asp-action="ChangePassword" asp-route-id="@user.Id"
-                           class="nav-link">
-                            Zmień hasło
+                           class="">
+                            <i class="fa fa-key" aria-hidden="true"></i> Zmień hasło
                         </a>
 
                     </td>
@@ -40,13 +39,12 @@
                         else
                         {
                             <form asp-controller="Users" asp-action="DeleteUser" asp-route-id="@user.Id">
-                                <input type="submit" value="Usuń użytkownika"
-                                       onclick="return confirm('Czy na pewno chcesz usunać tego użytkownika?')" />
+                                <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Czy na pewno chcesz usunać tego użytkownika?')" ><i class="fa fa-times" aria-hidden="true"></i> Usuń użytkownika</button>
                             </form>
                         }
 
                     </td>
-                    <td></td>
                 </tr>
             }
         </tbody>
