@@ -107,12 +107,29 @@ namespace PhoneService.App.Controllers
         public async Task<IActionResult> UpdateRepair(int? repairId, int? saparepartId, int? quantity)
         {
             RepairDetailsResponse repair = new RepairDetailsResponse();
+
             if (repairId != null)
             {
                 repair = await _repairService.GetRepairByIdAsync(repairId.Value);
+                var key = "currentRepairId";
+                var data = repairId.Value;
+                HttpContext.Session.SetString(key, JsonConvert.SerializeObject(data));
             }
 
             RepairUpdateRequest model = new RepairUpdateRequest();
+
+            var result = HttpContext.Session.GetString("repairUpdateRequest");
+
+            if (result != null)
+            {
+                var data = JsonConvert.DeserializeObject<RepairUpdateRequest>(result);
+                var currentRepairId = HttpContext.Session.GetString("currentRepairId");
+
+                if (data.RepairId != int.Parse(currentRepairId))
+                {
+                    HttpContext.Session.Clear();
+                }
+            }
 
             var str = HttpContext.Session.GetString("repairUpdateRequest");
 
@@ -163,6 +180,10 @@ namespace PhoneService.App.Controllers
                 var key = "repairUpdateRequest";
                 var data = model;
                 HttpContext.Session.SetString(key, JsonConvert.SerializeObject(data));
+
+                var keyCurrentRepairId = "currentRepairId";
+                var dataCurrentRepairId = model.RepairId;
+                HttpContext.Session.SetString(keyCurrentRepairId, JsonConvert.SerializeObject(dataCurrentRepairId));
             }
 
             if (saparepartId != null && quantity != null)
