@@ -107,12 +107,29 @@ namespace PhoneService.App.Controllers
         public async Task<IActionResult> UpdateRepair(int? repairId, int? saparepartId, int? quantity)
         {
             RepairDetailsResponse repair = new RepairDetailsResponse();
+
             if (repairId != null)
             {
                 repair = await _repairService.GetRepairByIdAsync(repairId.Value);
+                var key = "currentRepairId";
+                var data = repairId.Value;
+                HttpContext.Session.SetString(key, JsonConvert.SerializeObject(data));
             }
 
             RepairUpdateRequest model = new RepairUpdateRequest();
+
+            var result = HttpContext.Session.GetString("repairUpdateRequest");
+
+            if (result != null)
+            {
+                var data = JsonConvert.DeserializeObject<RepairUpdateRequest>(result);
+                var currentRepairId = HttpContext.Session.GetString("currentRepairId");
+
+                if (data.RepairId != int.Parse(currentRepairId))
+                {
+                    HttpContext.Session.Clear();
+                }
+            }
 
             var str = HttpContext.Session.GetString("repairUpdateRequest");
 
@@ -163,15 +180,24 @@ namespace PhoneService.App.Controllers
                 var key = "repairUpdateRequest";
                 var data = model;
                 HttpContext.Session.SetString(key, JsonConvert.SerializeObject(data));
+
+                var keyCurrentRepairId = "currentRepairId";
+                var dataCurrentRepairId = model.RepairId;
+                HttpContext.Session.SetString(keyCurrentRepairId, JsonConvert.SerializeObject(dataCurrentRepairId));
             }
 
             if (saparepartId != null && quantity != null)
             {
+                var repairCurrentData = await _repairService.GetRepairByIdAsync(int.Parse(HttpContext.Session.GetString("currentRepairId")));
+
                 var newRepairItem = new RepairItemAddRequest()
                 {
                     RepairId = model.RepairId,
                     SaparePartId = saparepartId.Value,
-                    Quantity = quantity.Value
+                    Quantity = quantity.Value,
+                    Name = repairCurrentData.SapareParts.Where(x => x.SaparePartId == saparepartId).Select(y => y.Name).First(),
+                    ReferenceNumber = repairCurrentData.SapareParts.Where(x => x.SaparePartId == saparepartId).Select(y => y.ReferenceNumber).First(),
+                    Price = repairCurrentData.SapareParts.Where(x => x.SaparePartId == saparepartId).Select(y => y.Price).First()
                 };
 
                 if (model.RepairItems != null)
@@ -183,6 +209,7 @@ namespace PhoneService.App.Controllers
                     HttpContext.Session.SetString(key, JsonConvert.SerializeObject(data));
                 }
 
+                return RedirectToAction("UpdateRepair", "Repair", new { repairId = model.RepairId });
             }
 
             return View(model);
@@ -374,6 +401,13 @@ namespace PhoneService.App.Controllers
             await _repairService.RemoveRepairAsync(repairId);
 
             return RedirectToAction("Index", "Repair");
+        }
+
+        [HttpGet("{repairId}")]
+        public async Task<IActionResult> RepairPartsClear(int repairId)
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("UpdateRepair", "Repair", new { repairId = repairId });
         }
 
     }

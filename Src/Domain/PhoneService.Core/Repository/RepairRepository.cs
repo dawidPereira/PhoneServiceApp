@@ -71,6 +71,25 @@ namespace PhoneService.Core.Repository
             return response;
         }
 
+        public async Task<IEnumerable<Repair>> GetRepairBySearchDateAsync(DateTime? dateFrom, DateTime? dateTo, Repair repairRequest)
+        {
+            IEnumerable<Repair> repairs = _context.Set<Repair>()
+                .Include(c => c.Customer)
+                .ThenInclude(c => c.Addres)
+                .Include(c => c.Product)
+                .ThenInclude(c => c.ProductSapareParts)
+                .Include(c => c.RepairItems)
+                .ThenInclude(c => c.SaparePart)
+                .Include(c => c.RepairStatus)
+                .AsQueryable()
+                .OrderByDescending(c => c.CreateDate);
+
+            var searchResponse = await _searchFilterHealpers.SearchByContainsWithDateAsync(dateFrom, dateTo, repairs, repairRequest);
+            var response = Mapper.Map<IEnumerable<Repair>>(searchResponse);
+
+            return response;
+        }
+
         public void AddRepair(Repair repairItem) => _context.Add(repairItem);
 
         public void UpdateRepair(Repair repairItem) => _context.Update(repairItem);

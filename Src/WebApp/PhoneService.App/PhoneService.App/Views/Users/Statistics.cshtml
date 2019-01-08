@@ -1,0 +1,40 @@
+﻿@model PhoneService.Core.Models.Other.Statistics
+
+<div class="row">
+    <div class="col">@await Component.InvokeAsync("RepairSearchStatisticsComponent")</div>
+</div>
+
+<h1>Statystyki</h1>
+
+<section class="home-stats d-flex flex-wrap">
+    <div class="col-4">
+        <article class="home-stats__item">
+            <span class="home-stats__item-number">@Model.New</span>
+            Przyjęta
+        </article>
+    </div>
+    <div class="col-4">
+        <article class="home-stats__item">
+            <span class="home-stats__item-number">@Model.Priced</span>
+            Wyceniona
+        </article>
+    </div>
+    <div class="col-4">
+        <article class="home-stats__item">
+            <span class="home-stats__item-number">@Model.InProgress</span>
+            W trakcie realizacji
+        </article>
+    </div>
+    <div class="col-4">
+        <article class="home-stats__item">
+            <span class="home-stats__item-number">@Model.Completed</span>
+            Zrealizowana
+        </article>
+    </div>
+    <div class="col-4">
+        <article class="home-stats__item">
+            <span class="home-stats__item-number">@Model.Rejected</span>
+            Odrzucona
+        </article>
+    </div>
+</section>

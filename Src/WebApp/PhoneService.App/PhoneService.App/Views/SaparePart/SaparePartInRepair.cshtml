@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewData["Title"] = "Błąd";
+}
+
+<h2>Błąd</h2>
+<br/>
+<p><strong>Nie można usunąć części, która jest używana obecnie w naprawie!</strong></p>
+<br/>
+<br/>
+<a class="nav-link" asp-controller="Product" asp-action="Details" 
+   asp-route-productId="@ViewBag.ProductId">Powrót do strony z częściami</a>
+
