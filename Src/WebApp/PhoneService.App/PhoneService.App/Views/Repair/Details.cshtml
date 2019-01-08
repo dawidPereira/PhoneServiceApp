@@ -23,7 +23,6 @@
         </div>
         <h5>Produkt</h5>
         <hr />
-        <p>Numer produktu: <strong>@Model.Product.ProductId</strong></p>
         <p>Producent / Model: <a asp-action="Details" asp-controller="Product" asp-route-id="@Model.Product.ProductId"><strong>@Model.Product.Producer @Model.Product.Model</strong></a></p>
         @if(@Model.Product.Description != null){
             <p class="card" title="Opis produktu">
@@ -48,7 +47,6 @@
                 <table class="table table-stripped">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Nazwa</th>
                             <th>Numer referencyjny</th>
                             <th>Cena jednostkowa</th>
@@ -64,7 +62,6 @@
                                 foreach (var item in @Model.RepairItems)
                                 {
                                     <tr>
-                                        <td>@item.SaparePart.SaparePartId</td>
                                         <td>@item.SaparePart.Name</td>
                                         <td>@item.SaparePart.ReferenceNumber</td>
                                         <td>@item.SaparePart.Price</td>

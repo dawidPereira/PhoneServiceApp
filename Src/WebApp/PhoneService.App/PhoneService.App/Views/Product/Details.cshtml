@@ -29,7 +29,6 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Nazwa</th>
                             <th>Numer referencyjny</th>
                             <th>Cena jednostkowa</th>
@@ -41,7 +40,6 @@
                         @foreach (var part in Model.SapareParts)
                         {
                             <tr>
-                                <td>@part.SaparePartId</td>
                                 <td>@part.Name</td>
                                 <td>@part.ReferenceNumber</td>
                                 <td>@part.Price.ToString("C")</td>

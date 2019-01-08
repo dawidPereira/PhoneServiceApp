@@ -5,18 +5,17 @@
     <div class="col">@await Component.InvokeAsync("RepairSearchComponent")</div>
 </div>
 <div class="row">
-        <div class="col">
-            <h2 class="float-left h3">Lista napraw</h2>
-            <p class="text-right float-right">
-                <a class="btn btn-outline-success" asp-action="AddRepair" asp-controller="Repair"><i class="fa fa-plus" aria-hidden="true"></i> Zarejestruj naprawę</a>
-            </p>
-        </div>
+    <div class="col">
+        <h2 class="float-left h3">Lista napraw</h2>
+        <p class="text-right float-right">
+            <a class="btn btn-outline-success" asp-action="AddRepair" asp-controller="Repair"><i class="fa fa-plus" aria-hidden="true"></i> Zarejestruj naprawę</a>
+        </p>
     </div>
+</div>
 <div>
     <table class="table repair-index__table">
         <thead class="tab-pane">
             <tr>
-                <th>#</th>
                 <th>Klient</th>
                 <th>Produkt</th>
                 <th>Status</th>
@@ -37,50 +36,57 @@
                 {
                     <tr>
 
-                        <td>@repair.RepairId</td>
-                        
-                        
                         <td><a asp-action="UpdateCustomer" asp-controller="Customer" asp-route-id="@repair.CustomerId" title="Edytuj">@repair.CustomerName @repair.LastName</a></td>
                         <td>@repair.Product</td>
                         <td>
-                            @if(repair.RepairId == 1){
+                            @if (repair.RepairId == 1)
+                            {
                                 repairClass = "success";
-                            }else if(repair.RepairId == 2){
+                            }
+                            else if (repair.RepairId == 2)
+                            {
                                 repairClass = "info";
                             }
-                            else if(repair.RepairId == 3){
+                            else if (repair.RepairId == 3)
+                            {
                                 repairClass = "primary";
                             }
-                            else if(repair.RepairId == 4){
+                            else if (repair.RepairId == 4)
+                            {
                                 repairClass = "dark";
                             }
-                            else if(repair.RepairId == 5){
+                            else if (repair.RepairId == 5)
+                            {
                                 repairClass = "danger";
                             }
-                            else if(repair.RepairId == 6){
+                            else if (repair.RepairId == 6)
+                            {
                                 repairClass = "secondary";
                             }
-                            else if(repair.RepairId == 7){
+                            else if (repair.RepairId == 7)
+                            {
                                 repairClass = "warning";
                             }
-                            else{
+                            else
+                            {
                                 repairClass = "light";
                             }
                             <span class="badge badge-pill badge-@repairClass">
                                 @repair.RepairStatusName
-                            </span></td>
+                            </span>
+                        </td>
                         <td>@repair.CreateDate</td>
                         <td>
                             <div class="d-inline-flex">
-                                    <a class="btn btn-link text-primary" asp-action="Details" asp-controller="Repair" asp-route-repairId="@repair.RepairId"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                    <form class="active" asp-action="RemoveRepair" method="post"
+                                <a class="btn btn-link text-primary" asp-action="Details" asp-controller="Repair" asp-route-repairId="@repair.RepairId"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <form class="active" asp-action="RemoveRepair" method="post"
                                       asp-controller="Repair" asp-route-repairId="@repair.RepairId">
                                     <button type="submit" class="btn btn-link text-danger" onclick="return confirm('Czy na pewno chcesz usunać tę naprawę?')">
-                                        <i class="fa fa-trash" aria-hidden="true"></i> 
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                    </form>
+                                </form>
                             </div>
-                                
+
                         </td>
                     </tr>
                 }
