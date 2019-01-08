@@ -45,26 +45,33 @@
 <hr />
 <div>
     <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#listItems"><i class="fa fa-plus" aria-hidden="true"></i> Dodaj część</button>
+    @if (@Model.RepairItems.Count > 0)
+    {
+        <a asp-controller="Repair" asp-action="RepairPartsClear" asp-route-repairId="@Model.RepairId" 
+           class="btn btn-outline-info float-right mr-2">
+            <i class="fa fa-trash" aria-hidden="true"></i> Wyczyść
+        </a>
+    }
     <br />
     <!-- <div style="display: none" id="listItems">
-        @await Component.InvokeAsync("RepairForSaparePartSelectComponent", new { productId = @Model.ProductId })
+        @await Component.InvokeAsync("RepairForSaparePartSelectComponent", new {productId = @Model.ProductId})
     </div> -->
     <!-- Modal -->
     <div class="modal fade" id="listItems" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Dodaj część do wyceny</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                    </div>
-                    <div class="modal-body">
-                        @await Component.InvokeAsync("RepairForSaparePartSelectComponent", new { productId = @Model.ProductId })
-                    </div>
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dodaj część do wyceny</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @await Component.InvokeAsync("RepairForSaparePartSelectComponent", new { productId = @Model.ProductId })
                 </div>
             </div>
         </div>
+    </div>
 </div>
 <div>
     <form id="form" asp-controller="Repair" asp-action="UpdateRepair" asp-route-repairId="" method="post" asp-antiforgery="true"

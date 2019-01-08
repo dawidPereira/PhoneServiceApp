@@ -397,5 +397,12 @@ namespace PhoneService.App.Controllers
             return RedirectToAction("Index", "Repair");
         }
 
+        [HttpGet("{repairId}")]
+        public async Task<IActionResult> RepairPartsClear(int repairId)
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("UpdateRepair", "Repair", new { repairId = repairId });
+        }
+
     }
 }
