@@ -15,6 +15,8 @@ namespace PhoneService.Domain.Repository
 
         Task<SaparePart> GetLatestSaparePartAsync();
 
+        Task<bool> CheckIfIsUseInRepair(int saparePartId);
+
         void AddSaparePart(SaparePart saparePart);
 
         void RemoveSaparePart(SaparePart saparePart);

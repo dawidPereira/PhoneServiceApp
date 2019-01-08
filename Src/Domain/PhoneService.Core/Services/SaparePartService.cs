@@ -104,10 +104,10 @@ namespace PhoneService.Core.Services
 
             _nullCheckMethod.CheckIfResponseIsNull(saparePart);
 
-            var productSaparePart = new ProductSaparePart()
-            {
-                SaparePartId = saparePart.SaparePartId
-            };
+            var isUseInRepair = await _unitOfWork.SapareParts.CheckIfIsUseInRepair(saparePartId);
+
+            if (isUseInRepair == true)
+                throw new ArgumentException(string.Format("{0} is use in repair.", saparePart.Name));
 
             _unitOfWork.SapareParts.RemoveSaparePart(saparePart);
             await _unitOfWork.CompleteAsync();

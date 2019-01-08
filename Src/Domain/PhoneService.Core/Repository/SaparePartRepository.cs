@@ -53,6 +53,14 @@ namespace PhoneService.Core.Repository
             return saparePart;
         }
 
+        public async Task<bool> CheckIfIsUseInRepair(int saparePartId)
+        {
+            var result = await _context.RepairItems
+                        .AnyAsync(c => c.SaparePartId == saparePartId);
+
+            return result;
+        }
+
         public void AddSaparePart(SaparePart saparePart)
         {
             _context.SapareParts.Add(saparePart);

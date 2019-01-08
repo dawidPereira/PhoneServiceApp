@@ -29,6 +29,7 @@ namespace PhoneService.Core.Repository
                             .Include(c => c.Product)
                             .Include(c => c.RepairStatus)
                             .Include(c => c.Customer)
+                            .OrderByDescending(c => c.CreateDate)
                             .ToListAsync();
 
             return repairs;
@@ -61,7 +62,8 @@ namespace PhoneService.Core.Repository
                                 .Include(c => c.RepairItems)
                                     .ThenInclude(c => c.SaparePart)
                                 .Include(c => c.RepairStatus)
-                                    .AsQueryable();
+                                    .AsQueryable()
+                                .OrderByDescending(c => c.CreateDate);
 
             var searchResponse = await _searchFilterHealpers.SearchByContainsWithDateAsync(dateFrom, dateTo, repairs, repairRequest);
             var response = Mapper.Map<IEnumerable<Repair>>(searchResponse);
