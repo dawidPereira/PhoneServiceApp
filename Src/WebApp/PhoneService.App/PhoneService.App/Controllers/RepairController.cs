@@ -204,6 +204,7 @@ namespace PhoneService.App.Controllers
                     HttpContext.Session.SetString(key, JsonConvert.SerializeObject(data));
                 }
 
+                return RedirectToAction("UpdateRepair", "Repair", new {repairId = model.RepairId});
             }
 
             return View(model);
