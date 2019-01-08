@@ -113,15 +113,22 @@ namespace PhoneService.App.Controllers
                 if (saparePartId != null && productId != null)
                 {
                     await _saparePartService.RemoveSaparePartAsync(saparePartId.Value);
-                    return RedirectToAction("Details", "Product", new { productId = productId.Value });
+                    return RedirectToAction("Details", "Product", new {productId = productId.Value});
                 }
 
                 return BadRequest();
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return RedirectToAction("SaparePartInRepair", "SaparePart", new { productId = productId });
             }
+        }
+
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> SaparePartInRepair(int productId)
+        {
+            ViewBag.ProductId = productId;
+            return View();
         }
     }
 }
