@@ -14,7 +14,6 @@
 <table class="table table-stripped">
     <thead>
         <tr>
-            <th>#</th>
             <th>Nazwa</th>
             <th>Numer referencyjny</th>
             <th>Cena jednostkowa</th>
@@ -30,12 +29,11 @@
                 foreach (var item in @Model.RepairItems)
                 {
                     <tr>
-                        <td>@item.SaparePartId</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>@item.Name</td>
+                        <td>@item.ReferenceNumber</td>
+                        <td>@item.Price</td>
                         <td>@item.Quantity</td>
-                        <td></td>
+                        <td>@(@item.Quantity * @item.Price)</td>
                     </tr>
                 }
             }

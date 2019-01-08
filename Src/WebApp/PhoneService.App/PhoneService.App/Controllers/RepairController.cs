@@ -188,11 +188,16 @@ namespace PhoneService.App.Controllers
 
             if (saparepartId != null && quantity != null)
             {
+                var repairCurrentData = await _repairService.GetRepairByIdAsync(int.Parse(HttpContext.Session.GetString("currentRepairId")));
+
                 var newRepairItem = new RepairItemAddRequest()
                 {
                     RepairId = model.RepairId,
                     SaparePartId = saparepartId.Value,
-                    Quantity = quantity.Value
+                    Quantity = quantity.Value,
+                    Name = repairCurrentData.SapareParts.Where(x => x.SaparePartId == saparepartId).Select(y => y.Name).First(),
+                    ReferenceNumber = repairCurrentData.SapareParts.Where(x => x.SaparePartId == saparepartId).Select(y => y.ReferenceNumber).First(),
+                    Price = repairCurrentData.SapareParts.Where(x => x.SaparePartId == saparepartId).Select(y => y.Price).First()
                 };
 
                 if (model.RepairItems != null)
@@ -204,7 +209,7 @@ namespace PhoneService.App.Controllers
                     HttpContext.Session.SetString(key, JsonConvert.SerializeObject(data));
                 }
 
-                return RedirectToAction("UpdateRepair", "Repair", new {repairId = model.RepairId});
+                return RedirectToAction("UpdateRepair", "Repair", new { repairId = model.RepairId });
             }
 
             return View(model);

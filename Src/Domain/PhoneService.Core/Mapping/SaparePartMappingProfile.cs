@@ -20,7 +20,7 @@ namespace PhoneService.Core.Mapping
                     Name = x.SaparePart.Name,
                     SaparePartId = x.SaparePartId,
                     ProductId = x.ProductId,
-                    ReferenceNumebr = x.SaparePart.ReferenceNumebr
+                    ReferenceNumber = x.SaparePart.ReferenceNumber
                 });
 
             CreateMap<SaparePart, SaparePartResponse>()
@@ -28,7 +28,7 @@ namespace PhoneService.Core.Mapping
                 {
                     Price = x.Price,
                     Name = x.Name,
-                    ReferenceNumebr = x.ReferenceNumebr,
+                    ReferenceNumber = x.ReferenceNumber,
                     SaparePartId = x.SaparePartId,
                     ProductId = 1
                 });
@@ -39,7 +39,7 @@ namespace PhoneService.Core.Mapping
                     Price = x.SaparePart.Price,
                     Name = x.SaparePart.Name,
                     SaparePartId = x.SaparePartId,
-                    ReferenceNumebr = x.SaparePart.ReferenceNumebr
+                    ReferenceNumber = x.SaparePart.ReferenceNumber
                 });
 
             CreateMap<SaparePartAddRequest, SaparePart>();
@@ -51,7 +51,7 @@ namespace PhoneService.Core.Mapping
                     Price = x.Price,
                     ProductId = x.ProductId,
                     SaparePartId = x.SaparePartId,
-                    ReferenceNumebr = x.ReferenceNumebr
+                    ReferenceNumber = x.ReferenceNumber
                 });
 
         }
@@ -60,7 +60,7 @@ namespace PhoneService.Core.Mapping
             saparePart.SaparePart.Name = saparePartUpdateRequest.Name;
             saparePart.SaparePart.Price = saparePartUpdateRequest.Price;
             saparePart.SaparePartId = saparePartUpdateRequest.SaparePartId;
-            saparePart.SaparePart.ReferenceNumebr = saparePartUpdateRequest.ReferenceNumebr;
+            saparePart.SaparePart.ReferenceNumber = saparePartUpdateRequest.ReferenceNumber;
 
             return saparePart;
         }
