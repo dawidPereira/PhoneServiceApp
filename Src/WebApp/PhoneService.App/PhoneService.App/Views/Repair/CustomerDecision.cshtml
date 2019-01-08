@@ -1,70 +1,84 @@
 ﻿@model PhoneService.Core.Models.Repair.RepairDetailsResponse
-
-<h2>Decyzja dotycząca naprawy: <strong>@Model.RepairId</strong></h2>
-<h5>Dla <strong>@Model.CustomerDetails.Name @Model.CustomerDetails.LastName</strong></h5>
-<h6>Zarejestrowano dnia: @Model.CreateTime.ToShortDateString()</h6>
-<hr/>
-
-<h3>Obecny status: <strong>@Model.StatusName</strong></h3>
-<hr/>
-
-<h4>Opis usterki</h4>
-<hr />
-<div>
-    <p>@Model.Description</p>
+@{
+    Layout = "~/Views/Shared/_LayoutFluid.cshtml";
+}
+<style>
+body,[role=main]{
+    margin-top:0;
+    padding-top: 15px;
+}
+</style>
+<div class="container">
+        <p class="text-center"><img src="~/images/telmax-logo.png" alt="TelMax" width="200"></p>
+        <div class="alert alert-primary" role="alert">
+                <h3 class="alert-heading">Witaj @Model.CustomerDetails.Name!</h3>
+                <p>Twoja naprawa <strong>@Model.Product.Producer @Model.Product.Model</strong> została <strong>wyceniona</strong>. Poniżej znajdziesz szczegóły naprawy i listę części wymaganych do przeprowadzenia serwisu.</p>
+                <hr>
+                <p class="mb-0">Poniżej możesz zaakceptować lub odrzucić przygotowaną przez nas wycenę.</p>
+              </div>
+              <div class="row">
+                  <div class="col-sm-6">
+                      <form asp-controller="Repair" asp-action="CustomerConfirmOrDenyRepair" method="post" asp-antiforgery="true"
+                            asp-route-repairId="@Model.RepairId" asp-route-statusId="3">
+                          <button class="btn btn-success btn-lg btn-block">
+                                  <i class="fa fa-check" aria-hidden="true"></i> Przyjmuję wycenę na kwotę: @(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price)) zł
+                          </button>
+                      </form>
+                  </div>
+                  <div class="col-sm-6">
+                      <form asp-controller="Repair" asp-action="CustomerConfirmOrDenyRepair" method="post" asp-antiforgery="true"
+                            asp-route-repairId="@Model.RepairId" asp-route-statusId="6">
+                            <button class="btn btn-danger btn-lg btn-block">
+                                  <i class="fa fa-times" aria-hidden="true"></i> Odrzucam wycenę
+                          </button>
+                      </form>
+                  </div>
+              </div>
+              <br>
+              <div class="row">
+                  <div class="col-sm-6">
+                          <h5>Szczegóły naprawy</h5>
+                          <hr>
+                          <p>Numer naprawy: <span class="badge badge-primary">#@Model.RepairId</span></p>
+                          <p>Klient: <strong>@Model.CustomerDetails.Name @Model.CustomerDetails.LastName</strong></p>
+                          <p>Zarejestrowano dnia: <strong>@Model.CreateTime</strong></p>
+                          <p>Obecny status: <span class="badge badge-primary">@Model.StatusName</s></p>
+                          <p>Opis usterki: <em>@Model.Description</em></p>
+                  </div>
+                  <div class="col-sm-6">
+                          <h5>Wycena</h5>
+                          <div>
+                                  <table class="table">
+                                      <thead>
+                                          <tr>
+                                              <th>Część</th>
+                                              <th>Cena jednostkowa</th>
+                                              <th>Ilość</th>
+                                              <th>Cena końcowa</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          @foreach (var part in @Model.RepairItems)
+                                          {
+                                              <tr>
+                                                  <td>@part.SaparePart.Name</td>
+                                                  <td>@part.SaparePart.Price</td>
+                                                  <td>@part.Quantity</td>
+                                                  <td>@(part.Quantity * part.SaparePart.Price) zł</td>
+                                              </tr>
+                                          }
+                                      </tbody>
+                                      <tfoot>
+                                          <tr>
+                                              <td></td>
+                                              <td></td>
+                                              <td>Razem do zapłaty:</td>
+                                              <td><strong>@(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price)) zł</strong></td>
+                                          </tr>
+                                      </tfoot>
+                                  </table>
+                              </div>
+                  </div>
+              </div>
 </div>
-<br />
 
-<h4>Wycena</h4>
-<hr />
-<div>
-    <table class="table table-dark">
-        <thead>
-            <tr>
-                <th>Nazwa części zamiennej</th>
-                <th>Cena jednostkowa</th>
-                <th>Ilość</th>
-                <th>Cena końcowa</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var part in @Model.RepairItems)
-            {
-                <tr>
-                    <td>@part.SaparePart.Name</td>
-                    <td>@part.SaparePart.Price</td>
-                    <td>@part.Quantity</td>
-                    <td>@(part.Quantity * part.SaparePart.Price)</td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>Razem do zapłaty:</td>
-                <td><strong>@(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price))</strong></td>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-<br />
-
-<h4>Decyzja klienta</h4>
-<hr />
-<div class="row">
-    <div class="col-sm-6">
-        <form asp-controller="Repair" asp-action="CustomerConfirmOrDenyRepair" method="post" asp-antiforgery="true"
-              asp-route-repairId="@Model.RepairId" asp-route-statusId="3">
-            <input type="submit" value="Przyjmuję wycenę na kwotę: @(Model.RepairItems.Sum(x => x.Quantity * x.SaparePart.Price)) zł" 
-                   class="btn btn-block btn-success"/>
-        </form>
-    </div>
-    <div class="col-sm-6">
-        <form asp-controller="Repair" asp-action="CustomerConfirmOrDenyRepair" method="post" asp-antiforgery="true"
-              asp-route-repairId="@Model.RepairId" asp-route-statusId="6">
-            <input type="submit" value="Odrzucam wycenę" class="btn btn-block btn-danger" />
-        </form>
-    </div>
-</div>
-<br />

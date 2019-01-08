@@ -1,26 +1,21 @@
 ﻿@using Microsoft.CodeAnalysis.Operations
 @model PhoneService.Core.Models.Product.ProductResponse
 
-<h2>Szczegóły produktu</h2>
+<h2>Szczegóły produktu <small>@Model.Producer @Model.Model <span class="badge badge-primary">#@Model.ProductId</span></small></h2>
 <br />
-
-<div class="col-sm-12">
-    <h4>Informacje podstawowe</h4>
-    <hr />
-    <div class="row">
-        <div class="col-sm-6">
-            <p>Id: <strong>@Model.ProductId</strong></p>
-            <p>Model: <strong>@Model.Model</strong></p>
-        </div>
-        <div class="col-sm-6">
-            <p>Producent: <strong>@Model.Producer</strong></p>
-            <p>Opis: <strong>@Model.Description</strong></p>
-        </div>
-        <br />
-
-        <div class="col-sm-12">
-            <h4>Lista części zamiennych</h4>
+<div class="row">
+    <div class="col-sm-4">
+            <h5>Informacje podstawowe</h5>
             <hr />
+        <p>Model: <strong>@Model.Model</strong></p>
+        <p>Producent: <strong>@Model.Producer</strong></p>
+            <p class="card"><span class="card-body" title="Opis">
+                    @Model.Description
+            </span></p>
+        <p><a asp-action="Index" asp-controller="Product"><i class="fa fa-arrow-left" aria-hidden="true"></i> Powrót do listy</a></p>
+    </div>
+    <div class="col-sm-8">
+            <h5>Lista części zamiennych</h5>
             @if (Model.SapareParts == null)
             {
                 <p>Brak części zamiennych</p>
@@ -31,13 +26,13 @@
                 {
                     <p>Brak części zamiennych</p>
                 }
-                <table class="table table-dark">
+                <table class="table">
                     <thead>
                         <tr>
-                            <th>Numer Id</th>
+                            <th>#</th>
                             <th>Nazwa</th>
                             <th>Numer referencyjny</th>
-                            <th>Cena netto</th>
+                            <th>Cena jednostkowa</th>
                             <th>Telefon</th>
                             <th></th>
                         </tr>
@@ -52,16 +47,18 @@
                                 <td>@part.Price.ToString("C")</td>
                                 <td>@Model.Producer @Model.Model</td>
                                 <td>
-                                    <p>
-                                        <a class="active" asp-action="UpdateSaparePart"
-                                           asp-controller="SaparePart" asp-route-id="@part.SaparePartId">Edytuj</a> |
-                                        <form class="active" asp-action="RemoveSaparePart" method="post"
-                                              asp-controller="SaparePart" asp-route-saparePartId="@part.SaparePartId"
-                                              asp-route-productId="@Model.ProductId">
-                                            <input type="submit" value="Usuń" class="btn btn-sm"
-                                                   onclick="return confirm('Czy na pewno chcesz usunać tę część?')" />
+                                    <div class="d-inline-flex">
+                                        <a class="btn btn-link text-warning" asp-action="UpdateSaparePart"
+                                            asp-controller="SaparePart" asp-route-saparePartId="@part.SaparePartId" asp-route-productId="@part.ProductId" 
+                                              title="Edytuj"><i class="fas fa-pen-square"></i></a>
+                                        <form asp-action="RemoveSaparePart" method="post"
+                                                asp-controller="SaparePart" asp-route-saparePartId="@part.SaparePartId"
+                                                asp-route-productId="@Model.ProductId">
+                                            <button title="Usuń" type="submit" class="btn btn-link text-danger" onclick="return confirm('Czy na pewno chcesz usunać tę część?')">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
                                         </form>
-                                    </p>
+                                    </div>
                                 </td>
                             </tr>
                         }
@@ -69,10 +66,9 @@
                     </tbody>
                 </table>
             }
+            <a class="btn btn-success float-right" asp-action="AddSaparePart" asp-controller="SaparePart" asp-route-productId="@Model.ProductId"><i class="fa fa-plus" aria-hidden="true"></i> Dodaj część</a>
         </div>
-    </div>
-</div>
-<div>
-    <a class="btn btn-block" asp-action="AddSaparePart" asp-controller="SaparePart" asp-route-productId="@Model.ProductId">Dodaj część</a>
-    <a class="btn btn-block" asp-action="Index" asp-controller="Product">Powrót do listy</a>
+    <br />
+
+    
 </div>

@@ -12,22 +12,22 @@ namespace PhoneService.Core.Services.Healpers
 {
     public class SearchFilterHealpers
     {
-        private IEnumerable<object> SearchByDateFrom(IEnumerable<object> items, object filterValue, PropertyInfo filter)
+        private IEnumerable<object> SearchByDateFrom(IEnumerable<object> items, DateTime dateFrom, PropertyInfo filter)
         {
             items = items.Where
                     (p => Convert.ToDateTime(p.GetType()
                     .GetProperty(filter.Name).GetValue(p))
-                    <= Convert.ToDateTime(filterValue));
+                    >= Convert.ToDateTime(dateFrom));
 
             return items;
         }
 
-        private IEnumerable<object> SearchByDateTo(IEnumerable<object> items, object filterValue, PropertyInfo filter)
+        private IEnumerable<object> SearchByDateTo(IEnumerable<object> items, DateTime dateTo, PropertyInfo filter)
         {
             items = items.Where
                     (p => Convert.ToDateTime(p.GetType()
                     .GetProperty(filter.Name).GetValue(p))
-                    >= Convert.ToDateTime(filterValue));
+                    <= Convert.ToDateTime(dateTo));
 
             return items;
         }
@@ -74,21 +74,10 @@ namespace PhoneService.Core.Services.Healpers
             foreach (var filter in contains.GetType().GetProperties())
             {
                 var filterValue = filter.GetValue(contains);
-                var isDateTime = filter.ToString();
 
                 if (filterValue != null)
                     if (filterValue.ToString() != 0.ToString())
                     {
-                        if (isDateTime.Contains("DateFrom"))
-                        {
-                            items = SearchByDateFrom(items, filterValue, filter);
-                        }
-
-                        if (isDateTime.Contains("DateTo"))
-                        {
-                            items = SearchByDateTo(items, filterValue, filter);
-                        }
-
                         var itemCount = filterValue.GetType().GetProperties().Count();
 
                         if (itemCount != 2)
@@ -112,6 +101,50 @@ namespace PhoneService.Core.Services.Healpers
             return response;
         }
 
+        public async Task<IEnumerable<object>> SearchByContainsWithDateAsync(DateTime? dateFrom, DateTime? dateTo, IEnumerable<object> items, object contains)
+        {
+            foreach (var filter in contains.GetType().GetProperties())
+            {
+                var filterValue = filter.GetValue(contains);
+                var propName = filter.Name;
 
+               
+                if (filterValue != null
+                        && filterValue.ToString() != 0.ToString())
+                {
+                    var itemCount = filterValue.GetType().GetProperties().Count();
+
+                    if (itemCount != 2)
+                    {
+                        foreach (var innerFilter in filterValue.GetType().GetProperties())
+                        {
+                            var innerFilterValue = innerFilter.GetValue(filterValue);
+
+                            if (innerFilterValue != null && innerFilterValue.ToString() != 0.ToString())
+                                items = SearchByInnerContains(items, innerFilterValue, filter, innerFilter);
+                        }
+                    }
+                    else
+                    {
+                        items = SearchByContains(items, filterValue, filter);
+                    }
+                }
+                else if (propName == "CreateDate")
+                {
+                    if (dateFrom != null)
+                    {
+                        items = SearchByDateFrom(items, dateFrom.Value, filter);
+                    }
+
+                    if (dateTo != null)
+                    {
+                        items = SearchByDateTo(items, dateTo.Value, filter);
+                    }
+                }
+            }
+            var response = await items.ToAsyncEnumerable().ToList();
+
+            return response;
+        }
     }
 }

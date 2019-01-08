@@ -5,19 +5,44 @@ using PhoneService.Core.Models.RepairItem;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace PhoneService.Core.Models.Repair
 {
     public class RepairSearchRequest
     {
-        public int RepairId { get; set; }
-        public string Description { get; set; }
-        public DateTime CreateTime { get => DateTime.Now; }
-        public int StatusId { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+        [StringLength(25, ErrorMessage = "Maksymalna długość zapytania to 25 znaków")]
+        public string StatusName { get; set;}
+        public IEnumerable<string> StatusList { get; set; }
+        [StringLength(25, ErrorMessage = "Maksymalna długość zapytania to 25 znaków")]
+        public string ProducerName { get; set; }
+        [StringLength(25, ErrorMessage = "Maksymalna długość zapytania to 25 znaków")]
+        public string ModelName { get; set; }
+        [StringLength(25, ErrorMessage = "Maksymalna długość zapytania to 25 znaków")]
+        public string CustomerName { get; set; }
+        [StringLength(25, ErrorMessage = "Maksymalna długość zapytania to 25 znaków")]
+        public string CustomerLastName { get; set; }
+        [StringLength(25, ErrorMessage = "Maksymalna długość zapytania to 25 znaków")]
+        public string Email { get; set; }
+        [StringLength(25, ErrorMessage = "Maksymalna długość zapytania to 25 znaków")]
+        public string PhoneNumber { get; set; }
 
-        public int CustomerId { get; set; }
-        public int ProductId { get; set; }
+        public RepairSearchRequest()
+        {
+            StatusList = new List<string>()
+            {
+                "Przyjeta",
+                "Wyceniona",
+                "W trakcie realizacji",
+                "Zrealizowana",
+                "Zakończona",
+                "Odrzucona",
+                "Zakończona bez naprawy"
+            };
+        }
 
-        public ICollection<RepairItemAddRequest> RepairItems { get; set; }
     }
 }

@@ -1,24 +1,25 @@
 ﻿@model IEnumerable<PhoneService.Core.Models.Product.ProductResponse>
 
-<div>
-    @await Component.InvokeAsync("ProductSearchComponent")
+<div class="row">
+    <div class="col">@await Component.InvokeAsync("ProductSearchComponent")</div>
 </div>
-<br />
-<div class="col-sm-12">
-    <a class="btn btn-outline-dark" asp-action="AddProduct" asp-controller="Product">Dodaj produkt</a>
+<div class="row">
+    <div class="col">
+        <h2 class="h3 float-left">Lista produktów</h2>
+        <a class="btn btn-outline-success float-right" asp-action="AddProduct" asp-controller="Product"><i class="fa fa-plus" aria-hidden="true"></i> Dodaj produkt</a>
+    </div>
 </div>
-<hr />
+<br>
 @if (@Model.Any())
 {
     <div>
-        <table class="table table-dark">
+        <table class="table">
             <thead class="tab-pane">
             <tr>
-                <th>Numer Id</th>
+                <th>#</th>
                 <th>Producent</th>
                 <th>Model</th>
                 <th>Opis</th>
-                <th></th>
                 <th></th>
             </tr>
             </thead>
@@ -32,18 +33,16 @@
                     <td>@product.Model</td>
                     <td>@product.Description</td>
                     <td>
-                        <p>
-                            <a class="active" asp-action="Details" asp-controller="Product" asp-route-id="@product.ProductId">Szczegóły</a> |
-                            <a class="active" asp-action="UpdateProduct"
-                               asp-controller="Product" asp-route-id="@product.ProductId">Edytuj</a>
-                        </p>
-                    </td>
-                    <td>
-                        <form class="active" asp-action="RemoveProduct" method="post"
+                        <div class="d-inline-flex">
+                            <a class="btn btn-link text-primary" asp-action="Details" asp-controller="Product" asp-route-id="@product.ProductId" title="Zobacz"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <a class="btn btn-link text-warning" asp-action="UpdateProduct"
+                               asp-controller="Product" asp-route-id="@product.ProductId" title="Edytuj"><i class="fas fa-pen-square"></i></a>
+                            <form class="active" asp-action="RemoveProduct" method="post"
                               asp-controller="Product" asp-route-id="@product.ProductId">
-                            <input type="submit" value="Usuń" class="btn btn-sm"
-                                   onclick="return confirm('Czy na pewno chcesz usunać ten produkt?')" />
+                            <button title="Usuń" type="submit" class="btn btn-link text-danger"
+                            onclick="return confirm('Czy na pewno chcesz usunać ten produkt?')" ><i class="fa fa-trash" aria-hidden="true"></i></button>
                         </form>
+                        </div>
                     </td>
                 </tr>
             }

@@ -31,14 +31,13 @@ namespace PhoneService.App.Controllers
                 {
                     model = await _productService.GetCustomerBySearchTermsAsync(productSearch);
                 }
-
                 return View(model);
             }
-            catch (Exception e)
+            catch (ArgumentNullException)
             {
-                return BadRequest(e.Message);
+                var emptyList = new List<ProductResponse>();
+                return View(emptyList);
             }
-
         }
 
         [HttpGet("{productId}")]
@@ -64,7 +63,7 @@ namespace PhoneService.App.Controllers
                 if (ModelState.IsValid)
                 {
                     await _productService.AddProductAsync(productAddRequest);
-                    return RedirectToAction("Index", "Customer");
+                    return RedirectToAction("Index", "Product");
                 }
 
                 return View(productAddRequest);

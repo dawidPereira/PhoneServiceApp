@@ -25,7 +25,9 @@ namespace PhoneService.Core.Repository
 
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
         {
-            var customers = await _context.Set<Customer>().ToListAsync();
+            var customers = await _context.Set<Customer>()
+                                    .OrderByDescending(c => c.CustomerId)
+                                    .ToListAsync();
             return customers;
         }
 
@@ -43,7 +45,8 @@ namespace PhoneService.Core.Repository
         {
             IEnumerable<Customer> customers = _context.Set<Customer>()
                                 .Include(c => c.Addres)
-                                .AsQueryable();
+                                .AsQueryable()
+                                .OrderByDescending(c => c.CustomerId);
 
             var searchResponse = await _searchFilterHealpers.SearchByContains(customers, customer);
             var response = Mapper.Map<IEnumerable<Customer>>(searchResponse);

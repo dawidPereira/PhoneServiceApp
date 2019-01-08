@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PhoneService.Core.Interfaces;
+using PhoneService.Core.Mapping;
 using PhoneService.Core.Models.SaparePart;
 using PhoneService.Domain;
 using PhoneService.Domain.Repository.IUnitOfWork;
@@ -15,11 +16,13 @@ namespace PhoneService.Core.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly NullCheckMethod _nullCheckMethod;
+        private readonly SaparePartMappingProfile _saparePartMappingProfile;
 
-        public SaparePartService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod)
+        public SaparePartService(IUnitOfWork unitOfWork, NullCheckMethod nullCheckMethod, SaparePartMappingProfile saparePartMappingProfile)
         {
             _unitOfWork = unitOfWork;
             _nullCheckMethod = nullCheckMethod;
+            _saparePartMappingProfile = saparePartMappingProfile;
         }
 
         public async Task<IEnumerable<SaparePartResponse>> GetAllSaparePartByProductIdAsync(int productId)
@@ -40,6 +43,18 @@ namespace PhoneService.Core.Services
             _nullCheckMethod.CheckIfRequestIsNull(saparePartId);
 
             var sapareParts = await _unitOfWork.SapareParts.GetSaparePartByIdAsync(saparePartId);
+
+            _nullCheckMethod.CheckIfResponseIsNull(sapareParts);
+
+            var _sapareParts = Mapper.Map<SaparePartResponse>(sapareParts);
+
+            return _sapareParts;
+        }
+        public async Task<SaparePartResponse> GetProductSaparePartByIdAsync(int saparePartId, int productId)
+        {
+            _nullCheckMethod.CheckIfRequestIsNull(saparePartId);
+
+            var sapareParts = await _unitOfWork.SapareParts.GetProductSaparePartByIdAsync(saparePartId, productId);
 
             _nullCheckMethod.CheckIfResponseIsNull(sapareParts);
 
@@ -71,11 +86,12 @@ namespace PhoneService.Core.Services
         {
             _nullCheckMethod.CheckIfRequestIsNull(saparePartRequest);
 
-            var saparePart = await _unitOfWork.SapareParts.GetSaparePartByIdAsync(saparePartRequest.SaparePartId);
+            var saparePart = await _unitOfWork.SapareParts.GetProductSaparePartByIdAsync(saparePartRequest.SaparePartId, saparePartRequest.ProductId);
 
             _nullCheckMethod.CheckIfResponseIsNull(saparePartRequest);
 
-            Mapper.Map(saparePartRequest, saparePart);
+            _saparePartMappingProfile.ConvertSaparePartUpdateRequestToProductSaparePart(saparePartRequest, saparePart);
+            //Mapper.Map(saparePartRequest, saparePart);
 
             await _unitOfWork.CompleteAsync();
         }
@@ -88,10 +104,10 @@ namespace PhoneService.Core.Services
 
             _nullCheckMethod.CheckIfResponseIsNull(saparePart);
 
-            var productSaparePart = new ProductSaparePart()
-            {
-                SaparePartId = saparePart.SaparePartId
-            };
+            var isUseInRepair = await _unitOfWork.SapareParts.CheckIfIsUseInRepair(saparePartId);
+
+            if (isUseInRepair == true)
+                throw new ArgumentException(string.Format("{0} is use in repair.", saparePart.Name));
 
             _unitOfWork.SapareParts.RemoveSaparePart(saparePart);
             await _unitOfWork.CompleteAsync();

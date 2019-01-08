@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using PhoneService.Domain.Entities
+@model List<PhoneService.Domain.Entities.AppUser>
+@inject UserManager<AppUser> UserManager
+
+<h2>Panel Administratora</h2>
+<hr />
+
+<div>
+    <h5 class="float-left">Lista użytkowników aplikacji</h5>
+    <p class="float-right"><a asp-controller="Users" asp-action="AddUser" class="btn btn-outline-success"><i class="fa fa-plus" aria-hidden="true"></i> Dodaj nowego użytkownika</a></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nazwa użytkownika</th>
+                <th>Email</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <a asp-controller="Users" asp-action="ChangePassword" asp-route-id="@user.Id"
+                           class="">
+                            <i class="fa fa-key" aria-hidden="true"></i> Zmień hasło
+                        </a>
+
+                    </td>
+                    <td>
+                        @if (User.Identity.Name == @user.UserName)
+                        {
+                            <span>Nie można usunąć obecnie zalogowanego użytkownika.</span>
+                        }
+                        else
+                        {
+                            <form asp-controller="Users" asp-action="DeleteUser" asp-route-id="@user.Id">
+                                <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Czy na pewno chcesz usunać tego użytkownika?')" ><i class="fa fa-times" aria-hidden="true"></i> Usuń użytkownika</button>
+                            </form>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

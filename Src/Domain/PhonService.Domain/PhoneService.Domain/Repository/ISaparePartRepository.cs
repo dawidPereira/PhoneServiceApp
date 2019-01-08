@@ -11,7 +11,11 @@ namespace PhoneService.Domain.Repository
 
         Task<SaparePart> GetSaparePartByIdAsync(int saparePartId);
 
+        Task<ProductSaparePart> GetProductSaparePartByIdAsync(int saparePartId, int productId);
+
         Task<SaparePart> GetLatestSaparePartAsync();
+
+        Task<bool> CheckIfIsUseInRepair(int saparePartId);
 
         void AddSaparePart(SaparePart saparePart);
 

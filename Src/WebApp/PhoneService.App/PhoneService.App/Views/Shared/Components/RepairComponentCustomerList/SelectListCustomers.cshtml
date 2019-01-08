@@ -1,20 +1,12 @@
 ﻿@model IEnumerable<PhoneService.Core.Models.Customer.CustomerResponse>
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="col-sm-9">
-
-        </div>
-        <div class="col-sm-3">
-            <a class="btn btn-outline-dark" asp-action="AddCustomer" asp-controller="Customer">Dodaj nowego klienta</a>
-        </div>
-    </div>
     <div>
-        <table class="table table-dark">
+        <p class="text-right"><a class="btn btn-info" asp-action="AddCustomer" asp-controller="Customer"><i class="fa fa-plus" aria-hidden="true"></i> Dodaj nowego klienta</a></p>
+        <table class="table table-striped">
             <thead class="tab-pane">
             <tr>
-                <th>Numer Id</th>
-                <th>Nazwa klienta</th>
+                <th>#</th>
+                <th>Klient</th>
                 <th>Nr tel.</th>
                 <th>E-mail</th>
                 <th>NIP</th>
@@ -31,7 +23,7 @@
                     <td>@customer.Email</td>
                     <td>@customer.TaxNum</td>
                     <td>
-                        <a class="nav-link active" asp-action="AddRepair"
+                        <a class="btn btn-outline-success" asp-action="AddRepair"
                            asp-controller="Repair" asp-route-customerId="@customer.CustomerId">Wybierz</a>
                     </td>
                 </tr>
@@ -39,4 +31,3 @@
             </tbody>
         </table>
     </div>
-</div>

@@ -25,7 +25,9 @@ namespace PhoneService.Core.Repository
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            var products = await _context.Set<Product>().ToListAsync();
+            var products = await _context.Set<Product>()
+                                  .OrderByDescending(c => c.ProductId)  
+                                  .ToListAsync();
             return products;
         }
 
@@ -41,6 +43,7 @@ namespace PhoneService.Core.Repository
         public async Task<IEnumerable<Product>> GetProductBySearchTermsAsync(Product product)
         {
             IEnumerable<Product> products = _context.Set<Product>()
+                                .OrderByDescending(c => c.ProductId)
                                 .AsQueryable();
 
             var searchResponse = await _searchFilterHealpers.SearchByContains(products, product);

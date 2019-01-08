@@ -110,7 +110,8 @@ namespace PhoneService.App
             services
                 .AddScoped<NullCheckMethod>()
                 .AddScoped<SearchFilterHealpers>()
-                .AddScoped<RepairMappingProfile>();
+                .AddScoped<RepairMappingProfile>()
+                .AddScoped<SaparePartMappingProfile>();
 
 
             //services.AddAutoMapper(

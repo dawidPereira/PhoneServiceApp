@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using PhoneService.App.AppData;
 using PhoneService.App.Controllers.Inherit;
 using PhoneService.Core.Interfaces;
 using PhoneService.Core.Models.Repair;
@@ -33,12 +34,25 @@ namespace PhoneService.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(RepairSearchRequest repairSearch)
         {
             var model = await _repairService.GetAllRepairsAsync();
 
-            return View(model);
+            try
+            {
+                if (ControllerHelperMethods.ArePropertiesNotNull(repairSearch))
+                {
+                    model = await _repairService.GetRepairBySearchTermsAsync(repairSearch);
+                }
+                return View(model);
+            }
+            catch (ArgumentNullException)
+            {
+                var emptyList = new List<RepairResponse>();
+                return View(emptyList);
+            }
         }
+
 
         [HttpGet("{repairId}")]
         public async Task<IActionResult> Details(int repairId)

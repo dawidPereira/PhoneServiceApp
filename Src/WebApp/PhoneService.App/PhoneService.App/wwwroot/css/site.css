@@ -22,6 +22,94 @@ body {
   font-size: 14px;
 }
 
+/*
+ * Content
+ */
+/* line 10, ../sass/base/_global.scss */
+[role="main"] {
+  padding: 30px;
+}
+
+/*
+ * Sidebar
+ */
+/* line 17, ../sass/base/_global.scss */
+.sidebar {
+  position: fixed;
+  top: 15px;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  /* Behind the navbar */
+  padding: 50px 0 0;
+  /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+/* line 27, ../sass/base/_global.scss */
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 50px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Scrollable contents if viewport is shorter than content. */
+}
+
+@supports (position: -webkit-sticky) or (position: sticky) {
+  /* line 36, ../sass/base/_global.scss */
+  .sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+  }
+}
+/* line 42, ../sass/base/_global.scss */
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+/* line 47, ../sass/base/_global.scss */
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #999;
+}
+
+/* line 52, ../sass/base/_global.scss */
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+/* line 57, ../sass/base/_global.scss */
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+/*
+ * Navbar
+ */
+/* line 66, ../sass/base/_global.scss */
+.navbar .form-control {
+  padding: .75rem 1rem;
+  border-width: 0;
+  border-radius: 0;
+}
+
+/* line 72, ../sass/base/_global.scss */
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* line 78, ../sass/base/_global.scss */
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
 /*body {
     padding-top: 50px;
     padding-bottom: 20px;
@@ -55,46 +143,63 @@ body {
     }
 }
 */
-/* line 1, ../sass/_header.scss */
+/* line 1, ../sass/components/_header.scss */
 .navbar-brand {
   padding-top: 0;
   padding-bottom: 0;
 }
-/* line 4, ../sass/_header.scss */
+/* line 4, ../sass/components/_header.scss */
 .navbar-brand img {
   padding-top: 5px;
   padding-bottom: 5px;
   display: block;
 }
 
-/* line 10, ../sass/_header.scss */
+/* line 10, ../sass/components/_header.scss */
 .navbar-text {
   margin-bottom: 0;
 }
 
-/* line 15, ../sass/_header.scss */
+/* line 15, ../sass/components/_header.scss */
 .sidebar .nav-link {
   padding-top: 15px;
   padding-bottom: 15px;
   transition: background-color 0.3s;
 }
-/* line 19, ../sass/_header.scss */
+/* line 19, ../sass/components/_header.scss */
 .sidebar .nav-link i {
   text-align: center;
   width: 30px;
 }
-/* line 23, ../sass/_header.scss */
+/* line 23, ../sass/components/_header.scss */
 .sidebar .nav-link.active {
   background-color: #ee1251;
   color: #fefefe;
 }
-/* line 26, ../sass/_header.scss */
+/* line 26, ../sass/components/_header.scss */
 .sidebar .nav-link.active:hover {
   background-color: #bf0e41;
 }
-/* line 30, ../sass/_header.scss */
+/* line 30, ../sass/components/_header.scss */
 .sidebar .nav-link:hover {
   background-color: #ddd;
+}
+
+/* line 1, ../sass/components/_badges.scss */
+.badge {
+  font-size: 0.85rem;
+  font-weight: normal;
+  padding: 5px 10px;
+}
+
+/* line 1, ../sass/components/_search.scss */
+.search-component {
+  padding-bottom: 40px;
+}
+
+/* line 1, ../sass/components/_forms.scss */
+input[type=number].form-control {
+  width: 60px;
 }
 
 /* VIEWS */
@@ -138,90 +243,10 @@ body {
   font-size: 140%;
 }
 
-/*
- * Sidebar
- */
-/* line 45, ../sass/home/_index.scss */
-.sidebar {
-  position: fixed;
-  top: 15px;
-  bottom: 0;
-  left: 0;
-  z-index: 100;
-  /* Behind the navbar */
-  padding: 50px 0 0;
-  /* Height of navbar */
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
-}
-
-/* line 55, ../sass/home/_index.scss */
-.sidebar-sticky {
-  position: relative;
-  top: 0;
-  height: calc(100vh - $navbar-height);
-  overflow-x: hidden;
-  overflow-y: auto;
-  /* Scrollable contents if viewport is shorter than content. */
-}
-
-@supports (position: -webkit-sticky) or (position: sticky) {
-  /* line 64, ../sass/home/_index.scss */
-  .sidebar-sticky {
-    position: -webkit-sticky;
-    position: sticky;
-  }
-}
-/* line 70, ../sass/home/_index.scss */
-.sidebar .nav-link {
-  font-weight: 500;
-  color: #333;
-}
-
-/* line 75, ../sass/home/_index.scss */
-.sidebar .nav-link .feather {
-  margin-right: 4px;
-  color: #999;
-}
-
-/* line 80, ../sass/home/_index.scss */
-.sidebar .nav-link:hover .feather,
-.sidebar .nav-link.active .feather {
-  color: inherit;
-}
-
-/* line 85, ../sass/home/_index.scss */
-.sidebar-heading {
-  font-size: .75rem;
-  text-transform: uppercase;
-}
-
-/*
- * Content
- */
-/* line 94, ../sass/home/_index.scss */
-[role="main"] {
-  padding-top: 15px;
-}
-
-/*
- * Navbar
- */
-/* line 102, ../sass/home/_index.scss */
-.navbar .form-control {
-  padding: .75rem 1rem;
-  border-width: 0;
-  border-radius: 0;
-}
-
-/* line 108, ../sass/home/_index.scss */
-.form-control-dark {
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-/* line 114, ../sass/home/_index.scss */
-.form-control-dark:focus {
-  border-color: transparent;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+/* line 3, ../sass/repair/_index.scss */
+.repair-index__table .badge {
+  display: block;
+  width: 180px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }

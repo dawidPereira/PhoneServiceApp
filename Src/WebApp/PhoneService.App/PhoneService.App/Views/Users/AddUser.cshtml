@@ -1,0 +1,46 @@
+﻿@using PhoneService.App.DTO.Users
+@model PhoneService.App.DTO.Users.UserAdminForCreateDto
+
+<h2>Utwórz nowego użytkownika</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddUser" asp-controller="Users" method="post" asp-antiforgery="true">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label for="">Nazwa Użytkownika</label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="">Hasło</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="">Potwierdź hasło</label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="">Uprawnienia</label>
+                <select asp-for="RoleName" asp-items="Html.GetEnumSelectList<Roles>()" class="form-control">
+                    <option selected="selected" value="">-- Wybierz uprawnienia --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-lg"><i class="fas fa-save"></i> Dodaj użytkownika</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Users"><i class="fa fa-arrow-left" aria-hidden="true"></i> Powrót</a>
+</div>

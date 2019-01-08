@@ -1,40 +1,47 @@
 ﻿@model PhoneService.Core.Models.Customer.CustomerSearchRequest
 
+<p class="h5"><i class="fa fa-search" aria-hidden="true"></i> Wyszukiwarka</p>
+<hr>
 <form class="row" asp-controller="Customer" asp-action="Index" method="get">
     <div class="col-sm-4">
         <div class="form-group">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
+            <!-- <label asp-for="Name" class="control-label"></label> -->
+            <input asp-for="Name" class=" form-control form-control-sm" placeholder="Imię" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="LastName" class="control-label"></label>
-            <input asp-for="LastName" class="form-control" />
+            <!-- <label asp-for="LastName" class="control-label"></label> -->
+            <input asp-for="LastName" class=" form-control form-control-sm" placeholder="Nazwisko" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="form-group">
-            <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" />
+            <!-- <label asp-for="Email" class="control-label"></label> -->
+            <input asp-for="Email" class=" form-control form-control-sm" placeholder="Adres e-mail" />
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="PhoneNum" class="control-label"></label>
-            <input asp-for="PhoneNum" class="form-control" />
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label asp-for="TaxNum" class="control-label"></label>
-            <input asp-for="TaxNum" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="City" class="control-label"></label>
-            <input asp-for="City" class="form-control" />
+            <!-- <label asp-for="PhoneNum" class="control-label"></label> -->
+            <input asp-for="PhoneNum" class=" form-control form-control-sm" placeholder="Numer tel." />
+            <span asp-validation-for="PhoneNum" class="text-danger"></span>
         </div>
     </div>
-    <div class="col-sm-12">
-        <input type="submit" value="Szukaj" class="btn btn-block" />
+    <div class="col-sm-3">
+        <div class="form-group">
+            <!-- <label asp-for="TaxNum" class="control-label"></label> -->
+            <input asp-for="TaxNum" class=" form-control form-control-sm" placeholder="NIP" />
+            <span asp-validation-for="TaxNum" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <!-- <label asp-for="City" class="control-label"></label> -->
+            <input asp-for="City" class=" form-control form-control-sm" placeholder="Miasto" />
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
     </div>
-    
+    <div class="col">
+        <button type="submit" value="Szukaj" class="btn btn-block btn-primary btn-sm" ><i class="fa fa-search" aria-hidden="true"></i> Szukaj</button>
+    </div>
 </form>
 
 
