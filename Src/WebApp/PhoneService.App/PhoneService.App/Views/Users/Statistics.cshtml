@@ -1,40 +1,123 @@
 ﻿@model PhoneService.Core.Models.Other.Statistics
-
+<link rel="stylesheet" href="~/css/chartist.min.css">
 <div class="row">
     <div class="col">@await Component.InvokeAsync("RepairSearchStatisticsComponent")</div>
 </div>
 
-<h1>Statystyki</h1>
 
-<section class="home-stats d-flex flex-wrap">
-    <div class="col-4">
-        <article class="home-stats__item">
-            <span class="home-stats__item-number">@Model.New</span>
-            Przyjęta
-        </article>
-    </div>
-    <div class="col-4">
-        <article class="home-stats__item">
-            <span class="home-stats__item-number">@Model.Priced</span>
-            Wyceniona
-        </article>
-    </div>
-    <div class="col-4">
-        <article class="home-stats__item">
-            <span class="home-stats__item-number">@Model.InProgress</span>
-            W trakcie realizacji
-        </article>
-    </div>
-    <div class="col-4">
-        <article class="home-stats__item">
-            <span class="home-stats__item-number">@Model.Completed</span>
-            Zrealizowana
-        </article>
-    </div>
-    <div class="col-4">
-        <article class="home-stats__item">
-            <span class="home-stats__item-number">@Model.Rejected</span>
-            Odrzucona
-        </article>
-    </div>
-</section>
+<div class="row">
+        <div class="col-sm-6">
+                <h5>Statusy napraw</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Ilość</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(@Model.New > 0){
+                            <tr>
+                                    <td>Przyjęta</td>
+                                    <td>@Model.New</td>
+                            </tr>
+                        }
+                        @if(@Model.Priced > 0){
+                            <tr>
+                                    <td>Wyceniona</td>
+                                    <td>@Model.Priced</td>
+                            </tr>
+                        }
+                        @if(@Model.InProgress > 0){
+                            <tr>
+                                    <td>W trakcie realizacji</td>
+                                    <td>@Model.InProgress</td>
+                            </tr>
+                        }
+                        @if(@Model.Completed > 0){
+                            <tr>
+                                    <td>Zrealizowana</td>
+                                    <td>@Model.Completed</td>
+                            </tr>
+                        }
+                        @if(@Model.Rejected > 0){
+                            <tr>
+                                    <td>Odrzucona</td>
+                                    <td>@Model.Rejected</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                    <div class="ct-chart ct-perfect-fourth" style="margin-top: -15px;"></div>
+            </div>
+</div>
+<script src="~/js/chartist.min.js"></script>
+<script>
+    (function initCharts(){
+        var data = {
+            labels: [],
+            series: []
+        };
+        var statuses = [
+            {
+                label: 'Przyjęta',
+                value: parseInt('@Model.New')
+
+            },
+            {
+                label: 'Wyceniona',
+                value: parseInt('@Model.Priced')
+
+            },
+            {
+                label: 'W trakcie realizacji',
+                value: parseInt('@Model.InProgress')
+
+            },
+            {
+                label: 'Zrealizowana',
+                value: parseInt('@Model.Completed')
+
+            },
+            {
+                label: 'Odrzucona',
+                value: parseInt('@Model.Rejected')
+
+            },
+        ];
+        //exclude 0 values from chart
+        statuses.forEach(function(el) {
+            if(el.value > 0){
+                (data.labels).push(el.label);
+                (data.series).push(el.value);
+            }
+        });
+
+        var options = {
+        labelInterpolationFnc: function(value) {
+            return Math.round(value / data.series.reduce(sum) * 100) + '%';
+        },
+        // width: 500,
+        // height: 500,
+        };
+
+        var responsiveOptions = [
+        ['screen and (min-width: 640px)', {
+            chartPadding: 50,
+            labelOffset: 50,
+            labelDirection: 'explode',
+            labelInterpolationFnc: function(value) {
+                return value + " - " + Math.round(statuses.find(status => status.label === value).value / data.series.reduce((a,b) => a + b, 0) * 100) + '%';
+            }
+        }],
+        ['screen and (min-width: 1024px)', {
+            labelOffset: 20,
+            chartPadding: 40
+        }]
+        ];
+
+        new Chartist.Pie('.ct-chart', data, options, responsiveOptions);
+    })();
+</script>
