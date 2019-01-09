@@ -5,7 +5,6 @@
         <table class="table table-striped">
             <thead class="tab-pane">
             <tr>
-                <th>#</th>
                 <th>Klient</th>
                 <th>Nr tel.</th>
                 <th>E-mail</th>
@@ -17,7 +16,6 @@
             @foreach (var customer in Model)
             {
                 <tr>
-                    <td>@customer.CustomerId</td>
                     <td>@customer.Name @customer.LastName</td>
                     <td>@customer.PhoneNum</td>
                     <td>@customer.Email</td>

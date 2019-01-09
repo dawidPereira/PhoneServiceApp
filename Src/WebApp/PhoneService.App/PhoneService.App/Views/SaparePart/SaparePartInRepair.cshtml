@@ -3,11 +3,10 @@
     ViewData["Title"] = "Błąd";
 }
 
-<h2>Błąd</h2>
+<h2>Wystapił błąd</h2>
 <br/>
-<p><strong>Nie można usunąć części, która jest używana obecnie w naprawie!</strong></p>
-<br/>
+<p class="alert alert-warning"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <strong>Nie można usunąć części, która jest używana obecnie w naprawie!</strong></p>
 <br/>
 <a class="nav-link" asp-controller="Product" asp-action="Details" 
-   asp-route-productId="@ViewBag.ProductId">Powrót do strony z częściami</a>
+   asp-route-productId="@ViewBag.ProductId"><i class="fa fa-arrow-left" aria-hidden="true"></i> Powrót do strony z częściami</a>
 

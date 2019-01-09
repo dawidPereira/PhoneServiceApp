@@ -3,26 +3,30 @@
 <section class="search-component search-component--repair">
     <p class="h5"><i class="fa fa-search"></i> Wyszukiwarka</p>
     <hr>
-    <form class="row" asp-controller="Users" asp-action="Statistics" method="get">
+    <form class="row form form-inline" asp-controller="Users" asp-action="Statistics" method="get">
         <div class="col-sm-2 col-xs-12">
             <div class="form-group input-group-sm">
-                <!-- <label asp-for="DateFrom" class="control-label"></label> -->
-                <input type="date" asp-for="DateFrom" class="form-control" placeholder="Data od" min="1979-12-31" max="2099-12-31"/>
+                <label for="">Od&nbsp;&nbsp;&nbsp;</label>
+                 <input type="date" asp-for="DateFrom" class="form-control" placeholder="Data od" min="1979-12-31" max="2099-12-31"/>
                 <span asp-validation-for="DateFrom" class="text-danger"></span>
             </div>
-            <div class="form-group input-group-sm">
-                <!-- <label asp-for="DateTo" class="control-label"></label> -->
-                <input type="date" asp-for="DateTo" class="form-control" placeholder="Data do" min="1979-12-31" max="2099-12-31"/>
-                <span asp-validation-for="DateTo" class="text-danger"></span>
-            </div>
+        </div>
+        <div class="col-sm-2 col-xs-12">
+                <div class="form-group input-group-sm">
+                        <label for="">Do&nbsp;&nbsp;&nbsp;</label>
+                         <input type="date" asp-for="DateTo" class="form-control" placeholder="Data do" min="1979-12-31" max="2099-12-31"/>
+                        <span asp-validation-for="DateTo" class="text-danger"></span>
+                    </div>
         </div>
         <div class="col-sm-2 col-xs-12">
             <div class="form-group">
                 <button type="submit" value="Szukaj" class="btn btn-block btn-primary btn-sm"><i class="fa fa-search" aria-hidden="true"></i> Szukaj</button>
             </div>
-            <div class="form-group">
-                <a asp-controller="Users" asp-action="Statistics" class="btn btn-block btn-outline-info btn-sm">Wyczyść filtry</a>
-            </div> 
+        </div>
+        <div class="col-sm-2 col-xs-12">
+                <div class="form-group">
+                        <a asp-controller="Users" asp-action="Statistics" class="btn btn-block btn-outline-info btn-sm">Wyczyść filtry</a>
+                    </div> 
         </div>
     </form>
 </section>
