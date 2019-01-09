@@ -10,8 +10,8 @@ using PhoneService.Persistance;
 namespace PhoneService.App.Migrations
 {
     [DbContext(typeof(PhoneServiceDbContext))]
-    [Migration("20190108185959_Init")]
-    partial class Init
+    [Migration("20190109093511_Init with seed")]
+    partial class Initwithseed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -149,11 +149,18 @@ namespace PhoneService.App.Migrations
                     b.ToTable("Customers");
 
                     b.HasData(
-                        new { CustomerId = 1, Email = "pereiradawid@example.com", LastName = "Pereira", Name = "Dawid", PhoneNum = "123456789", TaxNum = "987654321" },
-                        new { CustomerId = 2, Email = "maksymilainmatula@example.com", LastName = "Matuła", Name = "Maksymilian", PhoneNum = "123456789", TaxNum = "987654321" },
-                        new { CustomerId = 3, Email = "miloszwinnicki@example.com", LastName = "Winnicki", Name = "Miłosz", PhoneNum = "123456789", TaxNum = "987654321" },
-                        new { CustomerId = 4, Email = "rafalpasek@example.com", LastName = "Pasek", Name = "Rafał", PhoneNum = "123456789", TaxNum = "987654321" },
-                        new { CustomerId = 5, Email = "grzegorzwojcik@example.com", LastName = "Wójcik", Name = "Grzegorz", PhoneNum = "123456789", TaxNum = "987654321" }
+                        new { CustomerId = 1, Email = "pereiradawid@example.com", LastName = "Pereira", Name = "Dawid", PhoneNum = "781 361 182", TaxNum = "91032298349" },
+                        new { CustomerId = 2, Email = "maksymilainmatula@example.com", LastName = "Matuła", Name = "Maksymilian", PhoneNum = "685 432 234", TaxNum = "89022338243" },
+                        new { CustomerId = 3, Email = "miloszwinnicki@example.com", LastName = "Winnicki", Name = "Miłosz", PhoneNum = "783 234 432", TaxNum = "88113029383" },
+                        new { CustomerId = 4, Email = "rafalpasek@example.com", LastName = "Pasek", Name = "Rafał", PhoneNum = "984 343 234", TaxNum = "94022829304" },
+                        new { CustomerId = 5, Email = "grzegorzwojcik@example.com", LastName = "Wójcik", Name = "Grzegorz", PhoneNum = "745 543 321", TaxNum = "90010129348" },
+                        new { CustomerId = 6, Email = "zbigniewwolski@example.com", LastName = "Wolski", Name = "Zbigniew", PhoneNum = "500 433 333", TaxNum = "70071429378" },
+                        new { CustomerId = 7, Email = "tomaszbrzyski@example.com", LastName = "Brzyski", Name = "Tomasz", PhoneNum = "678 432 342", TaxNum = "66052229304" },
+                        new { CustomerId = 8, Email = "monikazawadzka@example.com", LastName = "Zawadzka", Name = "Monika", PhoneNum = "787 438 282", TaxNum = "99011039456" },
+                        new { CustomerId = 9, Email = "zofiawlodarczyk@example.com", LastName = "Włodarczyk", Name = "Zofia", PhoneNum = "378 392 234", TaxNum = "51031993845" },
+                        new { CustomerId = 10, Email = "nataliabudzinska@example.com", LastName = "Brudzińska", Name = "Natalia", PhoneNum = "878 984 774", TaxNum = "87083095743" },
+                        new { CustomerId = 11, Email = "emanuelmazowiecki@example.com", LastName = "Mazowiecki", Name = "Emanuel", PhoneNum = "577 573 572", TaxNum = "98070574834" },
+                        new { CustomerId = 12, Email = "ewelinadobkowska@example.com", LastName = "Dobkowska", Name = "Ewelina", PhoneNum = "675 584 994", TaxNum = "65091138596" }
                     );
                 });
 
@@ -179,11 +186,18 @@ namespace PhoneService.App.Migrations
                     b.ToTable("CustomerAddres");
 
                     b.HasData(
-                        new { CustomerAddresId = 1, City = "Przeworsk", CustomerId = 1, PostCode = "37-200" },
-                        new { CustomerAddresId = 2, City = "Dąbrowa Górnicza", CustomerId = 2, PostCode = "43-204" },
-                        new { CustomerAddresId = 3, City = "Rzeszów", CustomerId = 3, PostCode = "35-356" },
-                        new { CustomerAddresId = 4, City = "Sosnowiec", CustomerId = 4, PostCode = "30-300" },
-                        new { CustomerAddresId = 5, City = "Żwirki i Muchomorki", CustomerId = 5, PostCode = "11-222" }
+                        new { CustomerAddresId = 1, Adress = "Maćkówka 155", City = "Przeworsk", CustomerId = 1, PostCode = "37-200" },
+                        new { CustomerAddresId = 2, Adress = "Zawiła 12", City = "Dąbrowa Górnicza", CustomerId = 2, PostCode = "43-204" },
+                        new { CustomerAddresId = 3, Adress = "Przy Torze 3", City = "Rzeszów", CustomerId = 3, PostCode = "35-356" },
+                        new { CustomerAddresId = 4, Adress = "Zaczernie 23", City = "Sosnowiec", CustomerId = 4, PostCode = "30-300" },
+                        new { CustomerAddresId = 5, Adress = "1000-lecia 89", City = "Żwirki i Muchomorki", CustomerId = 5, PostCode = "11-222" },
+                        new { CustomerAddresId = 6, Adress = "Powstańców Warszawy 56", City = "Rzeszów", CustomerId = 6, PostCode = "25-567" },
+                        new { CustomerAddresId = 7, Adress = "Tadeusza Kościuszki 558", City = "Rzeszów", CustomerId = 7, PostCode = "45 -432" },
+                        new { CustomerAddresId = 8, Adress = "Wesoła 11", City = "Łańcut", CustomerId = 8, PostCode = "94-675" },
+                        new { CustomerAddresId = 9, Adress = "Zarzecze 87", City = "Tarnów", CustomerId = 9, PostCode = "65-987" },
+                        new { CustomerAddresId = 10, Adress = "Osiedle Spokojna Dolina 23", City = "Jarosław", CustomerId = 10, PostCode = "45-342" },
+                        new { CustomerAddresId = 11, Adress = "Kolorowa 93", City = "Przemyśl", CustomerId = 11, PostCode = "43-432" },
+                        new { CustomerAddresId = 12, Adress = "Podgórze 9", City = "Rzeszów", CustomerId = 12, PostCode = "21-765" }
                     );
                 });
 
@@ -299,9 +313,14 @@ namespace PhoneService.App.Migrations
                     b.HasData(
                         new { ProductId = 1, Description = "Nie wiem po co nam opis produktu", Model = "S8", Producer = "Samsung" },
                         new { ProductId = 2, Description = "Mam wrażenie, że trzeba usunąć opis", Model = "3310", Producer = "Nokia" },
-                        new { ProductId = 3, Description = "Przepraszam czy to pomyłka", Model = "Lepszy", Producer = "Xiaomi" },
-                        new { ProductId = 4, Description = "Policja? - Proszę przyjechać na facebooka", Model = "XXX", Producer = "Apple" },
-                        new { ProductId = 5, Description = "Co jam ma tu wpisać ?", Model = "Ericson Sony", Producer = "Sony Ericson" }
+                        new { ProductId = 3, Description = "Przepraszam czy to pomyłka", Model = "Mi 8", Producer = "Xiaomi" },
+                        new { ProductId = 4, Description = "Policja? - Proszę przyjechać na facebooka", Model = "4A", Producer = "Redmi" },
+                        new { ProductId = 5, Description = "Policja? - Proszę przyjechać na facebooka", Model = "P20", Producer = "Huwawei" },
+                        new { ProductId = 6, Description = "Policja? - Proszę przyjechać na facebooka", Model = "Xperia 10", Producer = "Sony" },
+                        new { ProductId = 7, Description = "Policja? - Proszę przyjechać na facebooka", Model = "X1", Producer = "PocoPhone" },
+                        new { ProductId = 8, Description = "Policja? - Proszę przyjechać na facebooka", Model = "Desire 10", Producer = "HTC" },
+                        new { ProductId = 9, Description = "Policja? - Proszę przyjechać na facebooka", Model = "X", Producer = "Apple" },
+                        new { ProductId = 10, Description = "Co jam ma tu wpisać ?", Model = "SE6", Producer = "Sony Ericson" }
                     );
                 });
 
@@ -320,14 +339,64 @@ namespace PhoneService.App.Migrations
                     b.HasData(
                         new { ProductId = 1, SaparePartId = 1 },
                         new { ProductId = 1, SaparePartId = 3 },
-                        new { ProductId = 2, SaparePartId = 5 },
+                        new { ProductId = 1, SaparePartId = 5 },
+                        new { ProductId = 1, SaparePartId = 7 },
+                        new { ProductId = 1, SaparePartId = 9 },
+                        new { ProductId = 1, SaparePartId = 10 },
                         new { ProductId = 2, SaparePartId = 2 },
-                        new { ProductId = 3, SaparePartId = 3 },
+                        new { ProductId = 2, SaparePartId = 4 },
+                        new { ProductId = 2, SaparePartId = 6 },
+                        new { ProductId = 2, SaparePartId = 8 },
+                        new { ProductId = 2, SaparePartId = 9 },
+                        new { ProductId = 2, SaparePartId = 10 },
+                        new { ProductId = 3, SaparePartId = 2 },
                         new { ProductId = 3, SaparePartId = 4 },
-                        new { ProductId = 4, SaparePartId = 1 },
+                        new { ProductId = 3, SaparePartId = 6 },
+                        new { ProductId = 3, SaparePartId = 8 },
+                        new { ProductId = 3, SaparePartId = 9 },
+                        new { ProductId = 3, SaparePartId = 10 },
                         new { ProductId = 4, SaparePartId = 2 },
-                        new { ProductId = 5, SaparePartId = 4 },
-                        new { ProductId = 5, SaparePartId = 3 }
+                        new { ProductId = 4, SaparePartId = 4 },
+                        new { ProductId = 4, SaparePartId = 6 },
+                        new { ProductId = 4, SaparePartId = 8 },
+                        new { ProductId = 4, SaparePartId = 9 },
+                        new { ProductId = 4, SaparePartId = 10 },
+                        new { ProductId = 5, SaparePartId = 1 },
+                        new { ProductId = 5, SaparePartId = 3 },
+                        new { ProductId = 5, SaparePartId = 5 },
+                        new { ProductId = 5, SaparePartId = 7 },
+                        new { ProductId = 5, SaparePartId = 9 },
+                        new { ProductId = 5, SaparePartId = 10 },
+                        new { ProductId = 6, SaparePartId = 2 },
+                        new { ProductId = 6, SaparePartId = 4 },
+                        new { ProductId = 6, SaparePartId = 6 },
+                        new { ProductId = 6, SaparePartId = 8 },
+                        new { ProductId = 6, SaparePartId = 9 },
+                        new { ProductId = 6, SaparePartId = 10 },
+                        new { ProductId = 7, SaparePartId = 1 },
+                        new { ProductId = 7, SaparePartId = 3 },
+                        new { ProductId = 7, SaparePartId = 5 },
+                        new { ProductId = 7, SaparePartId = 7 },
+                        new { ProductId = 7, SaparePartId = 9 },
+                        new { ProductId = 7, SaparePartId = 10 },
+                        new { ProductId = 8, SaparePartId = 2 },
+                        new { ProductId = 8, SaparePartId = 4 },
+                        new { ProductId = 8, SaparePartId = 6 },
+                        new { ProductId = 8, SaparePartId = 8 },
+                        new { ProductId = 8, SaparePartId = 9 },
+                        new { ProductId = 8, SaparePartId = 10 },
+                        new { ProductId = 9, SaparePartId = 1 },
+                        new { ProductId = 9, SaparePartId = 3 },
+                        new { ProductId = 9, SaparePartId = 5 },
+                        new { ProductId = 9, SaparePartId = 7 },
+                        new { ProductId = 9, SaparePartId = 9 },
+                        new { ProductId = 9, SaparePartId = 10 },
+                        new { ProductId = 10, SaparePartId = 2 },
+                        new { ProductId = 10, SaparePartId = 4 },
+                        new { ProductId = 10, SaparePartId = 6 },
+                        new { ProductId = 10, SaparePartId = 8 },
+                        new { ProductId = 10, SaparePartId = 9 },
+                        new { ProductId = 10, SaparePartId = 10 }
                     );
                 });
 
@@ -358,14 +427,14 @@ namespace PhoneService.App.Migrations
                     b.ToTable("Repairs");
 
                     b.HasData(
-                        new { RepairId = 1, CreateDate = new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), CustomerId = 1, Description = "Tutaj powinien być jakiś opis naprawy", ProductId = 1, RepairStatusId = 1 },
-                        new { RepairId = 2, CreateDate = new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), CustomerId = 1, Description = "Opis z produktu dodamu tutaj", ProductId = 5, RepairStatusId = 2 },
-                        new { RepairId = 3, CreateDate = new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), CustomerId = 2, Description = "Klient nie może dodzwonić się do nikogo - nie opłacił abonamentu", ProductId = 2, RepairStatusId = 3 },
-                        new { RepairId = 4, CreateDate = new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), CustomerId = 3, Description = "Klientowi nie działa klawiatura", ProductId = 3, RepairStatusId = 4 },
-                        new { RepairId = 5, CreateDate = new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), CustomerId = 3, Description = "Popsuty głośnik", ProductId = 4, RepairStatusId = 5 },
-                        new { RepairId = 6, CreateDate = new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), CustomerId = 4, Description = "Klient przyniusł zalany telefon w skarpecie z ryżem", ProductId = 1, RepairStatusId = 6 },
-                        new { RepairId = 7, CreateDate = new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), CustomerId = 5, Description = "Coś nie diała", ProductId = 2, RepairStatusId = 2 },
-                        new { RepairId = 8, CreateDate = new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), CustomerId = 5, Description = "Pan nie był zadowolony", ProductId = 5, RepairStatusId = 6 }
+                        new { RepairId = 1, CreateDate = new DateTime(2019, 1, 9, 9, 35, 10, 435, DateTimeKind.Utc), CustomerId = 1, Description = "Klient zgłasza problem z krótkim czasem pracy telefonu", ProductId = 1, RepairStatusId = 1 },
+                        new { RepairId = 2, CreateDate = new DateTime(2019, 1, 9, 9, 35, 10, 435, DateTimeKind.Utc), CustomerId = 1, Description = "Po aktualizacji systemu, telefon znacznie spowolnił. Pojawiają się błędy graficzne, a telefon się przegrzewa", ProductId = 5, RepairStatusId = 1 },
+                        new { RepairId = 3, CreateDate = new DateTime(2019, 1, 9, 9, 35, 10, 435, DateTimeKind.Utc), CustomerId = 2, Description = "Klient nie może dodzwonić się do nikogo", ProductId = 2, RepairStatusId = 1 },
+                        new { RepairId = 4, CreateDate = new DateTime(2019, 1, 9, 9, 35, 10, 435, DateTimeKind.Utc), CustomerId = 3, Description = "Klientowi nie działa klawiatura", ProductId = 3, RepairStatusId = 1 },
+                        new { RepairId = 5, CreateDate = new DateTime(2019, 1, 9, 9, 35, 10, 435, DateTimeKind.Utc), CustomerId = 3, Description = "Popsuty głośnik", ProductId = 4, RepairStatusId = 1 },
+                        new { RepairId = 6, CreateDate = new DateTime(2019, 1, 9, 9, 35, 10, 435, DateTimeKind.Utc), CustomerId = 4, Description = "Telefon został zalany przez klienta. Po zdarzeniu przestał działać wyświetlacz oraz głośnik", ProductId = 1, RepairStatusId = 1 },
+                        new { RepairId = 7, CreateDate = new DateTime(2019, 1, 9, 9, 35, 10, 435, DateTimeKind.Utc), CustomerId = 5, Description = "Klient serwisował telefon u konkurencji, naprawa nie odniosła pozytynego skutku. Zgłosił sie do nas z prośba o rozwiązanie problemu z niedziałajacą baterią, oraz z prosbą o personalizację etiu.", ProductId = 2, RepairStatusId = 1 },
+                        new { RepairId = 8, CreateDate = new DateTime(2019, 1, 9, 9, 35, 10, 435, DateTimeKind.Utc), CustomerId = 5, Description = "Klient prosi o szybki czas realizacji", ProductId = 5, RepairStatusId = 1 }
                     );
                 });
 
@@ -424,11 +493,16 @@ namespace PhoneService.App.Migrations
                     b.ToTable("SapareParts");
 
                     b.HasData(
-                        new { SaparePartId = 1, Name = "Dioda W34", Price = 12m, ReferenceNumber = "253FG32" },
-                        new { SaparePartId = 2, Name = "Tranzystor BX11", Price = 13m, ReferenceNumber = "2352s32" },
-                        new { SaparePartId = 3, Name = "Wyświetlacz uniwersalny", Price = 18m, ReferenceNumber = "23XX32" },
-                        new { SaparePartId = 4, Name = "O co to za śróbka", Price = 16m, ReferenceNumber = "5DS352" },
-                        new { SaparePartId = 5, Name = "Klawiatura 3310", Price = 12m, ReferenceNumber = "2344ty32" }
+                        new { SaparePartId = 1, Name = "Wyświetlacz 5,5 cala", Price = 150m, ReferenceNumber = "253FG32" },
+                        new { SaparePartId = 2, Name = "Wyświetlacz 6,5 cala", Price = 220m, ReferenceNumber = "2352s32" },
+                        new { SaparePartId = 3, Name = "Powłoka ochronna 5,5 cala", Price = 18m, ReferenceNumber = "23XX32" },
+                        new { SaparePartId = 4, Name = "Powłoka ochronna 6,5 cala", Price = 22m, ReferenceNumber = "5DS352" },
+                        new { SaparePartId = 5, Name = "Bateria 2200 mAh", Price = 180m, ReferenceNumber = "5DS352" },
+                        new { SaparePartId = 6, Name = "Bateria 3000 mAh", Price = 275m, ReferenceNumber = "5DS352" },
+                        new { SaparePartId = 7, Name = "Pokrowiec ochronny 5,5 cala", Price = 29m, ReferenceNumber = "5DS352" },
+                        new { SaparePartId = 8, Name = "Pokrowiec ochronny 6,5 cala", Price = 49m, ReferenceNumber = "5DS352" },
+                        new { SaparePartId = 9, Name = "Ładowarka", Price = 49m, ReferenceNumber = "5DS352" },
+                        new { SaparePartId = 10, Name = "Spersonalizowane Etui", Price = 149m, ReferenceNumber = "5DS352" }
                     );
                 });
 
