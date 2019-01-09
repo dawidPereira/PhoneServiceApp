@@ -3,9 +3,11 @@
 <br />
 <h5>Opis usterki</h5>
 <hr />
-<p class="card"><span class="card-body">
+<p class="card">
+    <span class="card-body">
         @Model.Description
-</span></p>
+    </span>
+</p>
 
 <br />
 <h5>Wycena usterki i zarządzanie naprawą</h5>
@@ -45,7 +47,7 @@
     <button type="button" class="btn btn-info float-right" data-toggle="modal" data-target="#listItems"><i class="fa fa-plus" aria-hidden="true"></i> Dodaj część</button>
     @if (@Model.RepairItems.Count > 0)
     {
-        <a asp-controller="Repair" asp-action="RepairPartsClear" asp-route-repairId="@Model.RepairId" 
+        <a asp-controller="Repair" asp-action="RepairPartsClear" asp-route-repairId="@Model.RepairId"
            class="btn btn-outline-info float-right mr-2">
             <i class="fa fa-trash" aria-hidden="true"></i> Wyczyść
         </a>
