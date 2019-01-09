@@ -65,6 +65,32 @@ namespace PhoneService.App.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmailSubjects",
+                columns: table => new
+                {
+                    EmailSubjectId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Subject = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailSubjects", x => x.EmailSubjectId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmailTemplates",
+                columns: table => new
+                {
+                    EmailTemplateId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TemplateName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailTemplates", x => x.EmailTemplateId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -99,7 +125,7 @@ namespace PhoneService.App.Migrations
                     SaparePartId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    ReferenceNumebr = table.Column<string>(nullable: true),
+                    ReferenceNumber = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
@@ -242,7 +268,7 @@ namespace PhoneService.App.Migrations
                     RepairId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
-                    CreateDate = table.Column<DateTime>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: true),
                     RepairStatusId = table.Column<int>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: false)
@@ -332,15 +358,39 @@ namespace PhoneService.App.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "EmailSubjects",
+                columns: new[] { "EmailSubjectId", "Subject" },
+                values: new object[,]
+                {
+                    { 6, "Twoje konto zostało zarejestrowane" },
+                    { 5, "Zarejestrowaliśmy Twoją naprawę" },
+                    { 4, "Twój telefon jest gotowy do odbioru" },
+                    { 2, "Twoja naprawa została przekazana do realizacji" },
+                    { 1, "Twoja naprawa została wyceniona" },
+                    { 3, "Status Twojej naprawy został zmieniony" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmailTemplates",
+                columns: new[] { "EmailTemplateId", "TemplateName" },
+                values: new object[,]
+                {
+                    { 1, "StatusChangeTemplate.html" },
+                    { 2, "CustomerDecisionTemplate.html" },
+                    { 3, "RepairAddTemplate.html" },
+                    { 4, "CustomerCreateTemplate.html" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "ProductId", "Description", "Model", "Producer" },
                 values: new object[,]
                 {
+                    { 5, "Co jam ma tu wpisać ?", "Ericson Sony", "Sony Ericson" },
+                    { 4, "Policja? - Proszę przyjechać na facebooka", "XXX", "Apple" },
                     { 1, "Nie wiem po co nam opis produktu", "S8", "Samsung" },
                     { 2, "Mam wrażenie, że trzeba usunąć opis", "3310", "Nokia" },
-                    { 3, "Przepraszam czy to pomyłka", "Lepszy", "Xiaomi" },
-                    { 4, "Policja? - Proszę przyjechać na facebooka", "XXX", "Apple" },
-                    { 5, "Co jam ma tu wpisać ?", "Ericson Sony", "Sony Ericson" }
+                    { 3, "Przepraszam czy to pomyłka", "Lepszy", "Xiaomi" }
                 });
 
             migrationBuilder.InsertData(
@@ -348,24 +398,25 @@ namespace PhoneService.App.Migrations
                 columns: new[] { "RepairStatusId", "Name" },
                 values: new object[,]
                 {
-                    { 6, "Będziesz Pan zadowolony" },
-                    { 5, "Odrzucona" },
-                    { 4, "Zrealizowana" },
                     { 1, "Przyjeta" },
                     { 2, "Wyceniona" },
-                    { 3, "W trakcie realizacji" }
+                    { 3, "W trakcie realizacji" },
+                    { 4, "Zrealizowana" },
+                    { 5, "Zakończona" },
+                    { 6, "Odrzucona" },
+                    { 7, "Zakończona bez naprawy" }
                 });
 
             migrationBuilder.InsertData(
                 table: "SapareParts",
-                columns: new[] { "SaparePartId", "Name", "Price", "ReferenceNumebr" },
+                columns: new[] { "SaparePartId", "Name", "Price", "ReferenceNumber" },
                 values: new object[,]
                 {
-                    { 4, "O co to za śróbka", 10m, null },
-                    { 1, "Dioda W34", 10m, null },
-                    { 2, "Tranzystor BX11", 10m, null },
-                    { 3, "Wyświetlacz uniwersalny", 10m, null },
-                    { 5, "Klawiatura 3310", 10m, null }
+                    { 4, "O co to za śróbka", 16m, "5DS352" },
+                    { 1, "Dioda W34", 12m, "253FG32" },
+                    { 2, "Tranzystor BX11", 13m, "2352s32" },
+                    { 3, "Wyświetlacz uniwersalny", 18m, "23XX32" },
+                    { 5, "Klawiatura 3310", 12m, "2344ty32" }
                 });
 
             migrationBuilder.InsertData(
@@ -402,32 +453,14 @@ namespace PhoneService.App.Migrations
                 columns: new[] { "RepairId", "CreateDate", "CustomerId", "Description", "ProductId", "RepairStatusId" },
                 values: new object[,]
                 {
-                    { 5, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 3, "Popsuty głośnik", 4, 5 },
-                    { 4, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 3, "Klientowi nie działa klawiatura", 3, 4 },
-                    { 3, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 2, "Klient nie może dodzwonić się do nikogo - nie opłacił abonamentu", 2, 3 },
-                    { 7, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 5, "Coś nie diała", 2, 2 },
-                    { 2, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 1, "Opis z produktu dodamu tutaj", 5, 2 },
-                    { 1, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 1, "Tutaj powinien być jakiś opis naprawy", 1, 1 },
-                    { 8, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 5, "Pan nie był zadowolony", 5, 6 },
-                    { 6, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 4, "Klient przyniusł zalany telefon w skarpecie z ryżem", 1, 6 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "RepairItems",
-                columns: new[] { "RepairId", "SaparePartId", "Quantity" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 1, 2, 2 },
-                    { 2, 3, 1 },
-                    { 2, 2, 2 },
-                    { 2, 1, 1 },
-                    { 3, 4, 2 },
-                    { 3, 3, 3 },
-                    { 4, 5, 1 },
-                    { 4, 4, 1 },
-                    { 5, 1, 1 },
-                    { 5, 5, 10 }
+                    { 5, new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), 3, "Popsuty głośnik", 4, 5 },
+                    { 4, new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), 3, "Klientowi nie działa klawiatura", 3, 4 },
+                    { 3, new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), 2, "Klient nie może dodzwonić się do nikogo - nie opłacił abonamentu", 2, 3 },
+                    { 7, new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), 5, "Coś nie diała", 2, 2 },
+                    { 2, new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), 1, "Opis z produktu dodamu tutaj", 5, 2 },
+                    { 1, new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), 1, "Tutaj powinien być jakiś opis naprawy", 1, 1 },
+                    { 8, new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), 5, "Pan nie był zadowolony", 5, 6 },
+                    { 6, new DateTime(2019, 1, 8, 18, 59, 58, 958, DateTimeKind.Utc), 4, "Klient przyniusł zalany telefon w skarpecie z ryżem", 1, 6 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -520,6 +553,12 @@ namespace PhoneService.App.Migrations
 
             migrationBuilder.DropTable(
                 name: "CustomerAddres");
+
+            migrationBuilder.DropTable(
+                name: "EmailSubjects");
+
+            migrationBuilder.DropTable(
+                name: "EmailTemplates");
 
             migrationBuilder.DropTable(
                 name: "ProductSapareParts");

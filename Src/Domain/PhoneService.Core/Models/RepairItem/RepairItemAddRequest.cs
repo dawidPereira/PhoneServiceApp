@@ -15,5 +15,9 @@ namespace PhoneService.Core.Models.RepairItem
 
         [Required(ErrorMessage = "Ilość jest wymagana")]
         public int Quantity { get; set; }
+
+        public string Name { get; set; }
+        public string ReferenceNumber { get; set; }
+        public decimal Price { get; set; }
     }
 }

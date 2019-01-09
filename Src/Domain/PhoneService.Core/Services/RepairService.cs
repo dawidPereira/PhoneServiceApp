@@ -9,6 +9,7 @@ using PhoneService.Domain.Repository.IUnitOfWork;
 using PhoneService.Infrastructure.Common;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -134,6 +135,25 @@ namespace PhoneService.Core.Services
             statisticsData.InProgress = await _unitOfWork.Repairs.GetInProgressRepairStatusCountAsync();
             statisticsData.Completed = await _unitOfWork.Repairs.GetCompletedRepairStatusCountAsync();
             statisticsData.Rejected = await _unitOfWork.Repairs.GetRejectedRepairStatusCountAsync();
+
+            return statisticsData;
+        }
+
+        public async Task<Statistics> GetRepairStatusCountBySearchAsync(RepairSearchRequest searchStatistics)
+        {
+            var searchFilter = new Repair();
+
+            searchFilter = _repairMappingProfile.ConvertRepairSearchRequestToRepair(searchStatistics, searchFilter);
+
+            var repair = await _unitOfWork.Repairs.GetRepairBySearchDateAsync(searchStatistics.DateFrom, searchStatistics.DateTo, searchFilter);
+
+            var statisticsData = new Statistics();
+
+            statisticsData.New = repair.Count(x => x.RepairStatusId == 1);
+            statisticsData.Priced = repair.Count(x => x.RepairStatusId == 2);
+            statisticsData.InProgress = repair.Count(x => x.RepairStatusId == 3);
+            statisticsData.Completed = repair.Count(x => x.RepairStatusId == 5);
+            statisticsData.Rejected = repair.Count(x => x.RepairStatusId == 7);
 
             return statisticsData;
         }

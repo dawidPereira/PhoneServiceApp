@@ -17,6 +17,7 @@ namespace PhoneService.Core.Mapping
                 {
                     SaparePart = Mapper.Map<SaparePartResponse>(x.SaparePart),
                     Quantity = x.Quantity
+                    
                 });
             CreateMap<RepairItemAddRequest, RepairItem>();
         }

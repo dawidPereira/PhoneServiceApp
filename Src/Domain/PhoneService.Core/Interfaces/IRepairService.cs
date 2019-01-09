@@ -25,5 +25,8 @@ namespace PhoneService.Core.Interfaces
         Task RemoveRepairAsync(int repairId);
 
         Task<Statistics> GetRepairStatusCountAsync();
+
+        Task<Statistics> GetRepairStatusCountBySearchAsync(RepairSearchRequest searchRequest);
+
     }
 }

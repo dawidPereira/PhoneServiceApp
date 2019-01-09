@@ -1,6 +1,7 @@
 ﻿@{
     var rv = ViewContext.RouteData.Values;
     string page = $"{rv["controller"]}".ToLowerInvariant();
+    string action = $"{rv["action"]}".ToLowerInvariant();
 }
 <!DOCTYPE html>
 <html>
@@ -56,7 +57,8 @@
                         <li class="nav-item">
                             <a class='nav-link @(page == "home" ?  "active" : "")' asp-action="Index" asp-controller="Home">
                                 <i class="fa fa-home"></i>
-                                Strona Główna</a>
+                                Strona Główna
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class='nav-link @(page == "repair" ?  "active" : "")' asp-action="Index" asp-controller="Repair">
@@ -79,9 +81,15 @@
                         @if (User.IsInRole("appmaster"))
                         {
                             <li class="nav-item">
-                                <a class='nav-link @(page == "users" ?  "active" : "")' asp-action="Index" asp-controller="Users">
+                                <a class='nav-link @(page + "/" + action == "users/index" ?  "active" : "")' asp-action="Index" asp-controller="Users">
                                     <i class="fa fa-users" aria-hidden="true"></i>
                                     Użytkownicy
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class='nav-link @(page + "/" + action == "users/statistics" ?  "active" : "")' asp-action="Statistics" asp-controller="Users">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    Statystyki
                                 </a>
                             </li>
                         }

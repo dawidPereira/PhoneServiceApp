@@ -16,7 +16,6 @@
         <table class="table">
             <thead class="tab-pane">
             <tr>
-                <th>#</th>
                 <th>Producent</th>
                 <th>Model</th>
                 <th>Opis</th>
@@ -27,8 +26,6 @@
             @foreach (var product in Model)
             {
                 <tr>
-
-                    <td>@product.ProductId</td>
                     <td>@product.Producer</td>
                     <td>@product.Model</td>
                     <td>@product.Description</td>
