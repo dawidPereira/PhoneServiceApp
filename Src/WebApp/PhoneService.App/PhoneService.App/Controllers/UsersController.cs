@@ -10,6 +10,8 @@ using PhoneService.App.AppData;
 using PhoneService.App.Controllers.Inherit;
 using PhoneService.App.DTO.Account;
 using PhoneService.App.DTO.Users;
+using PhoneService.Core.Interfaces;
+using PhoneService.Core.Models.Repair;
 using PhoneService.Domain.Entities;
 
 namespace PhoneService.App.Controllers
@@ -20,11 +22,13 @@ namespace PhoneService.App.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IRepairService _repairService;
 
-        public UsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public UsersController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IRepairService repairService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _repairService = repairService;
         }
 
         [HttpGet]
@@ -147,6 +151,19 @@ namespace PhoneService.App.Controllers
             }
 
             return BadRequest("Błąd podczas usuwania Użytkownika");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Statistics(RepairSearchRequest searchStatistics)
+        {
+            var statistics = await _repairService.GetRepairStatusCountAsync();
+
+            if (searchStatistics.ArePropertiesNotNull())
+            {
+                statistics = await _repairService.GetRepairStatusCountBySearchAsync(searchStatistics);
+            }
+
+            return View(statistics);
         }
     }
 }

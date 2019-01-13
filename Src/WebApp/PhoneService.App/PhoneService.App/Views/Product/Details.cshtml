@@ -1,7 +1,7 @@
 ﻿@using Microsoft.CodeAnalysis.Operations
 @model PhoneService.Core.Models.Product.ProductResponse
 
-<h2>Szczegóły produktu <small>@Model.Producer @Model.Model <span class="badge badge-primary">#@Model.ProductId</span></small></h2>
+<h2>Szczegóły produktu <br/><small><strong>@Model.Producer @Model.Model </strong></small></h2>
 <br />
 <div class="row">
     <div class="col-sm-4">
@@ -29,11 +29,9 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Nazwa</th>
                             <th>Numer referencyjny</th>
                             <th>Cena jednostkowa</th>
-                            <th>Telefon</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -41,11 +39,9 @@
                         @foreach (var part in Model.SapareParts)
                         {
                             <tr>
-                                <td>@part.SaparePartId</td>
                                 <td>@part.Name</td>
-                                <td>@part.ReferenceNumebr</td>
+                                <td>@part.ReferenceNumber</td>
                                 <td>@part.Price.ToString("C")</td>
-                                <td>@Model.Producer @Model.Model</td>
                                 <td>
                                     <div class="d-inline-flex">
                                         <a class="btn btn-link text-warning" asp-action="UpdateSaparePart"

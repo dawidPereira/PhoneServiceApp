@@ -8,7 +8,7 @@ namespace PhoneService.Core.Models.SaparePart
     {
         public int SaparePartId { get; set; }
         public string Name { get; set; }
-        public string ReferenceNumebr { get; set; }
+        public string ReferenceNumber { get; set; }
         public decimal Price { get; set; }
         public int ProductId { get; set; }
     }

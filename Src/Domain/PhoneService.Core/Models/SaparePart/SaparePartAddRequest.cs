@@ -12,7 +12,7 @@ namespace PhoneService.Core.Models.SaparePart
         public string Name { get; set; }
 
         [StringLength(50, ErrorMessage = "Numer Referencyjny może mieć maksymalnie 50 znaków")]
-        public string ReferenceNumebr { get; set; }
+        public string ReferenceNumber { get; set; }
 
         [Required(ErrorMessage = "Cena jest wymagana")]
         [Range(1 , 99999, ErrorMessage ="Cena musi zawierać się w przedziale od 0 do 99999 zł")]

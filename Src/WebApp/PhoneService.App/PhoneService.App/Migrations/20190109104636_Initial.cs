@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PhoneService.App.Migrations
 {
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,6 +65,32 @@ namespace PhoneService.App.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmailSubjects",
+                columns: table => new
+                {
+                    EmailSubjectId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Subject = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailSubjects", x => x.EmailSubjectId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmailTemplates",
+                columns: table => new
+                {
+                    EmailTemplateId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TemplateName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailTemplates", x => x.EmailTemplateId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -99,7 +125,7 @@ namespace PhoneService.App.Migrations
                     SaparePartId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    ReferenceNumebr = table.Column<string>(nullable: true),
+                    ReferenceNumber = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
@@ -242,7 +268,7 @@ namespace PhoneService.App.Migrations
                     RepairId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
-                    CreateDate = table.Column<DateTime>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: true),
                     RepairStatusId = table.Column<int>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: false)
@@ -324,11 +350,42 @@ namespace PhoneService.App.Migrations
                 columns: new[] { "CustomerId", "Email", "LastName", "Name", "PhoneNum", "TaxNum" },
                 values: new object[,]
                 {
-                    { 1, "pereiradawid@example.com", "Pereira", "Dawid", "123456789", "987654321" },
-                    { 2, "maksymilainmatula@example.com", "Matuła", "Maksymilian", "123456789", "987654321" },
-                    { 3, "miloszwinnicki@example.com", "Winnicki", "Miłosz", "123456789", "987654321" },
-                    { 4, "rafalpasek@example.com", "Pasek", "Rafał", "123456789", "987654321" },
-                    { 5, "grzegorzwojcik@example.com", "Wójcik", "Grzegorz", "123456789", "987654321" }
+                    { 1, "pereiradawid@example.com", "Pereira", "Dawid", "781 361 182", "91032298349" },
+                    { 2, "maksymilainmatula@example.com", "Matuła", "Maksymilian", "685 432 234", "89022338243" },
+                    { 3, "miloszwinnicki@example.com", "Winnicki", "Miłosz", "783 234 432", "88113029383" },
+                    { 4, "rafalpasek@example.com", "Pasek", "Rafał", "984 343 234", "94022829304" },
+                    { 5, "grzegorzwojcik@example.com", "Wójcik", "Grzegorz", "745 543 321", "90010129348" },
+                    { 6, "zbigniewwolski@example.com", "Wolski", "Zbigniew", "500 433 333", "70071429378" },
+                    { 7, "tomaszbrzyski@example.com", "Brzyski", "Tomasz", "678 432 342", "66052229304" },
+                    { 8, "monikazawadzka@example.com", "Zawadzka", "Monika", "787 438 282", "99011039456" },
+                    { 9, "zofiawlodarczyk@example.com", "Włodarczyk", "Zofia", "378 392 234", "51031993845" },
+                    { 10, "nataliabudzinska@example.com", "Brudzińska", "Natalia", "878 984 774", "87083095743" },
+                    { 11, "emanuelmazowiecki@example.com", "Mazowiecki", "Emanuel", "577 573 572", "98070574834" },
+                    { 12, "ewelinadobkowska@example.com", "Dobkowska", "Ewelina", "675 584 994", "65091138596" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmailSubjects",
+                columns: new[] { "EmailSubjectId", "Subject" },
+                values: new object[,]
+                {
+                    { 6, "Twoje konto zostało zarejestrowane" },
+                    { 5, "Zarejestrowaliśmy Twoją naprawę" },
+                    { 4, "Twój telefon jest gotowy do odbioru" },
+                    { 2, "Twoja naprawa została przekazana do realizacji" },
+                    { 1, "Twoja naprawa została wyceniona" },
+                    { 3, "Status Twojej naprawy został zmieniony" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EmailTemplates",
+                columns: new[] { "EmailTemplateId", "TemplateName" },
+                values: new object[,]
+                {
+                    { 1, "StatusChangeTemplate.html" },
+                    { 2, "CustomerDecisionTemplate.html" },
+                    { 3, "RepairAddTemplate.html" },
+                    { 4, "CustomerCreateTemplate.html" }
                 });
 
             migrationBuilder.InsertData(
@@ -336,11 +393,16 @@ namespace PhoneService.App.Migrations
                 columns: new[] { "ProductId", "Description", "Model", "Producer" },
                 values: new object[,]
                 {
-                    { 1, "Nie wiem po co nam opis produktu", "S8", "Samsung" },
+                    { 7, "Policja? - Proszę przyjechać na facebooka", "X1", "PocoPhone" },
+                    { 10, "Co jam ma tu wpisać ?", "SE6", "Sony Ericson" },
+                    { 9, "Policja? - Proszę przyjechać na facebooka", "X", "Apple" },
+                    { 8, "Policja? - Proszę przyjechać na facebooka", "Desire 10", "HTC" },
+                    { 6, "Policja? - Proszę przyjechać na facebooka", "Xperia 10", "Sony" },
+                    { 3, "Przepraszam czy to pomyłka", "Mi 8", "Xiaomi" },
+                    { 4, "Policja? - Proszę przyjechać na facebooka", "4A", "Redmi" },
+                    { 5, "Policja? - Proszę przyjechać na facebooka", "P20", "Huwawei" },
                     { 2, "Mam wrażenie, że trzeba usunąć opis", "3310", "Nokia" },
-                    { 3, "Przepraszam czy to pomyłka", "Lepszy", "Xiaomi" },
-                    { 4, "Policja? - Proszę przyjechać na facebooka", "XXX", "Apple" },
-                    { 5, "Co jam ma tu wpisać ?", "Ericson Sony", "Sony Ericson" }
+                    { 1, "Nie wiem po co nam opis produktu", "S8", "Samsung" }
                 });
 
             migrationBuilder.InsertData(
@@ -348,24 +410,30 @@ namespace PhoneService.App.Migrations
                 columns: new[] { "RepairStatusId", "Name" },
                 values: new object[,]
                 {
-                    { 6, "Będziesz Pan zadowolony" },
-                    { 5, "Odrzucona" },
+                    { 6, "Odrzucona" },
+                    { 5, "Zakończona" },
                     { 4, "Zrealizowana" },
-                    { 1, "Przyjeta" },
+                    { 7, "Zakończona bez naprawy" },
                     { 2, "Wyceniona" },
+                    { 1, "Przyjeta" },
                     { 3, "W trakcie realizacji" }
                 });
 
             migrationBuilder.InsertData(
                 table: "SapareParts",
-                columns: new[] { "SaparePartId", "Name", "Price", "ReferenceNumebr" },
+                columns: new[] { "SaparePartId", "Name", "Price", "ReferenceNumber" },
                 values: new object[,]
                 {
-                    { 4, "O co to za śróbka", 10m, null },
-                    { 1, "Dioda W34", 10m, null },
-                    { 2, "Tranzystor BX11", 10m, null },
-                    { 3, "Wyświetlacz uniwersalny", 10m, null },
-                    { 5, "Klawiatura 3310", 10m, null }
+                    { 9, "Ładowarka", 49m, "5DS352" },
+                    { 1, "Wyświetlacz 5,5 cala", 150m, "253FG32" },
+                    { 2, "Wyświetlacz 6,5 cala", 220m, "2352s32" },
+                    { 3, "Powłoka ochronna 5,5 cala", 18m, "23XX32" },
+                    { 4, "Powłoka ochronna 6,5 cala", 22m, "5DS352" },
+                    { 5, "Bateria 2200 mAh", 180m, "5DS352" },
+                    { 6, "Bateria 3000 mAh", 275m, "5DS352" },
+                    { 7, "Pokrowiec ochronny 5,5 cala", 29m, "5DS352" },
+                    { 8, "Pokrowiec ochronny 6,5 cala", 49m, "5DS352" },
+                    { 10, "Spersonalizowane Etui", 149m, "5DS352" }
                 });
 
             migrationBuilder.InsertData(
@@ -373,11 +441,18 @@ namespace PhoneService.App.Migrations
                 columns: new[] { "CustomerAddresId", "Adress", "City", "CustomerId", "PostCode" },
                 values: new object[,]
                 {
-                    { 1, null, "Przeworsk", 1, "37-200" },
-                    { 2, null, "Dąbrowa Górnicza", 2, "43-204" },
-                    { 3, null, "Rzeszów", 3, "35-356" },
-                    { 4, null, "Sosnowiec", 4, "30-300" },
-                    { 5, null, "Żwirki i Muchomorki", 5, "11-222" }
+                    { 1, "Maćkówka 155", "Przeworsk", 1, "37-200" },
+                    { 12, "Podgórze 9", "Rzeszów", 12, "21-765" },
+                    { 11, "Kolorowa 93", "Przemyśl", 11, "43-432" },
+                    { 10, "Osiedle Spokojna Dolina 23", "Jarosław", 10, "45-342" },
+                    { 8, "Wesoła 11", "Łańcut", 8, "94-675" },
+                    { 7, "Tadeusza Kościuszki 558", "Rzeszów", 7, "45 -432" },
+                    { 9, "Zarzecze 87", "Tarnów", 9, "65-987" },
+                    { 5, "1000-lecia 89", "Żwirki i Muchomorki", 5, "11-222" },
+                    { 4, "Zaczernie 23", "Sosnowiec", 4, "30-300" },
+                    { 3, "Przy Torze 3", "Rzeszów", 3, "35-356" },
+                    { 2, "Zawiła 12", "Dąbrowa Górnicza", 2, "43-204" },
+                    { 6, "Powstańców Warszawy 56", "Rzeszów", 6, "25-567" }
                 });
 
             migrationBuilder.InsertData(
@@ -385,16 +460,66 @@ namespace PhoneService.App.Migrations
                 columns: new[] { "ProductId", "SaparePartId" },
                 values: new object[,]
                 {
-                    { 3, 4 },
-                    { 5, 3 },
-                    { 3, 3 },
-                    { 1, 3 },
-                    { 4, 2 },
-                    { 2, 2 },
-                    { 4, 1 },
+                    { 3, 8 },
+                    { 10, 8 },
+                    { 8, 8 },
+                    { 6, 8 },
+                    { 4, 8 },
+                    { 2, 8 },
+                    { 8, 6 },
+                    { 7, 7 },
+                    { 5, 7 },
+                    { 1, 7 },
+                    { 10, 6 },
+                    { 1, 9 },
+                    { 6, 6 },
+                    { 9, 7 },
+                    { 2, 9 },
+                    { 8, 9 },
+                    { 4, 9 },
+                    { 8, 10 },
+                    { 7, 10 },
+                    { 6, 10 },
+                    { 5, 10 },
+                    { 4, 10 },
+                    { 3, 10 },
+                    { 3, 9 },
+                    { 2, 10 },
+                    { 10, 9 },
+                    { 9, 9 },
+                    { 4, 6 },
+                    { 7, 9 },
+                    { 6, 9 },
+                    { 5, 9 },
+                    { 1, 10 },
+                    { 3, 6 },
+                    { 10, 4 },
+                    { 9, 5 },
                     { 1, 1 },
-                    { 2, 5 },
-                    { 5, 4 }
+                    { 5, 1 },
+                    { 7, 1 },
+                    { 9, 1 },
+                    { 2, 2 },
+                    { 3, 2 },
+                    { 4, 2 },
+                    { 2, 6 },
+                    { 8, 2 },
+                    { 10, 2 },
+                    { 1, 3 },
+                    { 6, 2 },
+                    { 7, 3 },
+                    { 5, 3 },
+                    { 5, 5 },
+                    { 1, 5 },
+                    { 9, 10 },
+                    { 8, 4 },
+                    { 7, 5 },
+                    { 4, 4 },
+                    { 3, 4 },
+                    { 2, 4 },
+                    { 9, 3 },
+                    { 6, 4 },
+                    { 10, 10 }
                 });
 
             migrationBuilder.InsertData(
@@ -402,32 +527,14 @@ namespace PhoneService.App.Migrations
                 columns: new[] { "RepairId", "CreateDate", "CustomerId", "Description", "ProductId", "RepairStatusId" },
                 values: new object[,]
                 {
-                    { 5, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 3, "Popsuty głośnik", 4, 5 },
-                    { 4, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 3, "Klientowi nie działa klawiatura", 3, 4 },
-                    { 3, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 2, "Klient nie może dodzwonić się do nikogo - nie opłacił abonamentu", 2, 3 },
-                    { 7, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 5, "Coś nie diała", 2, 2 },
-                    { 2, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 1, "Opis z produktu dodamu tutaj", 5, 2 },
-                    { 1, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 1, "Tutaj powinien być jakiś opis naprawy", 1, 1 },
-                    { 8, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 5, "Pan nie był zadowolony", 5, 6 },
-                    { 6, new DateTime(2018, 12, 16, 21, 29, 8, 837, DateTimeKind.Utc), 4, "Klient przyniusł zalany telefon w skarpecie z ryżem", 1, 6 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "RepairItems",
-                columns: new[] { "RepairId", "SaparePartId", "Quantity" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 1, 2, 2 },
-                    { 2, 3, 1 },
-                    { 2, 2, 2 },
-                    { 2, 1, 1 },
-                    { 3, 4, 2 },
-                    { 3, 3, 3 },
-                    { 4, 5, 1 },
-                    { 4, 4, 1 },
-                    { 5, 1, 1 },
-                    { 5, 5, 10 }
+                    { 8, new DateTime(2019, 1, 9, 10, 46, 36, 145, DateTimeKind.Utc), 5, "Klient prosi o szybki czas realizacji", 5, 1 },
+                    { 7, new DateTime(2019, 1, 9, 10, 46, 36, 145, DateTimeKind.Utc), 5, "Klient serwisował telefon u konkurencji, naprawa nie odniosła pozytynego skutku. Zgłosił sie do nas z prośba o rozwiązanie problemu z niedziałajacą baterią, oraz z prosbą o personalizację etiu.", 2, 1 },
+                    { 6, new DateTime(2019, 1, 9, 10, 46, 36, 145, DateTimeKind.Utc), 4, "Telefon został zalany przez klienta. Po zdarzeniu przestał działać wyświetlacz oraz głośnik", 1, 1 },
+                    { 5, new DateTime(2019, 1, 9, 10, 46, 36, 145, DateTimeKind.Utc), 3, "Popsuty głośnik", 4, 1 },
+                    { 4, new DateTime(2019, 1, 9, 10, 46, 36, 145, DateTimeKind.Utc), 3, "Klientowi nie działa klawiatura", 3, 1 },
+                    { 3, new DateTime(2019, 1, 9, 10, 46, 36, 145, DateTimeKind.Utc), 2, "Klient nie może dodzwonić się do nikogo", 2, 1 },
+                    { 2, new DateTime(2019, 1, 9, 10, 46, 36, 145, DateTimeKind.Utc), 1, "Po aktualizacji systemu, telefon znacznie spowolnił. Pojawiają się błędy graficzne, a telefon się przegrzewa", 5, 1 },
+                    { 1, new DateTime(2019, 1, 9, 10, 46, 36, 145, DateTimeKind.Utc), 1, "Klient zgłasza problem z krótkim czasem pracy telefonu", 1, 1 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -520,6 +627,12 @@ namespace PhoneService.App.Migrations
 
             migrationBuilder.DropTable(
                 name: "CustomerAddres");
+
+            migrationBuilder.DropTable(
+                name: "EmailSubjects");
+
+            migrationBuilder.DropTable(
+                name: "EmailTemplates");
 
             migrationBuilder.DropTable(
                 name: "ProductSapareParts");
